@@ -101,8 +101,10 @@ int main(int argc, char *argv[])
 	if(iflag)
 	{
 		printf("\n	---- CALCULATING MOMENT OF INERTIA TENSOR ----\n");
-		double *diagonals=malloc(field->ndims);
-		diagonals=moment_of_inertia(GRID,CoM);	
+		double *matrix=malloc(6*sizeof(double));
+		matrix=moment_of_inertia(GRID,CoM);	
+		double *evalues=malloc(field->ndims*sizeof(double));
+		evalues=eigenvalues(matrix);
 	}
 
 	printf("\n	---- END OF PROGRAM REACHED ----\n\n");

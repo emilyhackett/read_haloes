@@ -113,8 +113,12 @@ extern void	bin_histogram(float ***,float,float,float);
 // Functions are in momentofinertia.c
 
 extern double 	*moment_of_inertia(float ***,float *);
-	/* Returns the diagonals of the moment of inertia tensor */
+	/* Returns the elements of the moment of inertia tensor in the form
+	 *	I11, I22, I33, I21, I31, I32
+	 * */
 
+extern double 	*eigenvalues(double *);
+	/* Returns the 3 eigenvlaues of the simplified moment of inertia matrix */
 
 
 //// MATHS FUNCTIONS ////
