@@ -6,3 +6,5 @@
 *.txt
 #Ignore final completed file
 read
+#Ignore swp files (i.e. files open in mvim)
+*.swp
