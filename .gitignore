@@ -1,0 +1,8 @@
+#Ignore all object files
+*.o
+#Ignore all output files
+*.ps
+*.ND
+*.txt
+#Ignore final completed file
+read
