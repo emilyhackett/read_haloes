@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#include "myendian.h"
 
 // Define global variables required for structure and functions
 
@@ -14,7 +15,7 @@
 #define FLAG_NDNODE_OUT      (1<<1)
 #define FLAG_NDNODE_INFINITE (1<<2)
 
-// Define global structure for NDskel
+////////////////////	GLOBAL STRUCTURES FOR ND SKELETONS	////////////////////
 
 struct NDskl_seg_str {
 	int nodes[2];	/* Index of the nodes at the extremity of the arc, segment
@@ -77,12 +78,12 @@ typedef struct NDskel_str {
 } NDskel;
 
 
+////////////////////	READ ND SKELETON INTO A NDSKEL STRUCTURE	////////////////////	
 void readNDskeleton(char *filename)
 {
 	printf("Reading ND skeleton structure from file %s\n",filename);
 
 	FILE *fp;
-
 	fp=fopen(filename,"r");
 	if(fp==NULL)
 	{
@@ -92,25 +93,24 @@ void readNDskeleton(char *filename)
 		printf("%s opened for reading\n",filename);
 	}
 	
-	
+
+	int i,j;
+      	char tag[NDSKEL_DATA_STR_SIZE];
+      	char dummy[160];
+       	int swap=0;
+      
+	// Define structure to read in to
+	NDskel *skl;
+
+	skl=calloc(1,sizeof(NDskel));
+	memset(tag,0,16*sizeof(char));
 
 
 	fclose(fp);
 }
 
 
-NDskel *createNDskel(void)
-{
-	NDskel	*skl;
-	skl=calloc(1,sizeof(NDskel));
-
-	
-
-	
-
-	return skl;
-}
-
+////////////////////	MAIN FUNCTION TO TAKE IN FILE AS COMMAND ARGUMENT ////////////////////	
 
 int main(int argc, char *argv[])
 {
