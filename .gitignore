@@ -6,6 +6,7 @@
 *.txt
 #Ignore final completed file
 read
+readNDskel
 #Ignore swp files (i.e. files open in mvim)
 *.swp
 # Ignore very large files for easier data transfer
