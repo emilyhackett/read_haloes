@@ -105,6 +105,7 @@ int main(int argc, char *argv[])
 		matrix=moment_of_inertia(GRID,CoM);	
 		double *evalues=malloc(field->ndims*sizeof(double));
 		evalues=eigenvalues(matrix);
+		evalue_characteristics(evalues);
 	}
 
 	printf("\n	---- END OF PROGRAM REACHED ----\n\n");

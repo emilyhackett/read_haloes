@@ -120,6 +120,10 @@ extern double 	*moment_of_inertia(float ***,float *);
 extern double 	*eigenvalues(double *);
 	/* Returns the 3 eigenvlaues of the simplified moment of inertia matrix */
 
+extern void	evalue_characteristics(double *);
+	/* Prints out characteristics of the moment of inertia tensor evalues
+	 * such as sphericity and triaxiality */
+
 
 //// MATHS FUNCTIONS ////
 // Functions are in functions.c
@@ -131,6 +135,7 @@ extern float	*centre_of_mass(float ***);
 extern float	radcentre(int,int,int,float,float,float);	
 	/* Small function which returns the distance of a point from CoM */
 
-
+extern int	cmpfunc(const void *,const void *);
+	/* Function that compares to values to do a sort */
 
 

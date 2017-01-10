@@ -117,4 +117,14 @@ float radcentre(int x,int y,int z,float xCoM,float yCoM,float zCoM)
 	return radius;
 }
 
+///////// COMPARE FUNCTION TO SORT DOUBLES	/////////
+int cmpfunc(const void *x,const void *y)
+{
+	double xx=*(double*)x;
+	double yy=*(double*)y;
+	if(xx<yy) return 1;
+	if(xx>yy) return -1;
+	return 0;
+}
+
 //// END ////

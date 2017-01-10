@@ -57,15 +57,15 @@ double *eigenvalues(double *matrix)
 	double trace=matrix[0]+matrix[1]+matrix[2];
 	printf("	trace	= %.2f\n",trace);
 	double q=trace/3;
-	printf("	q	= %.2f\n",q);	
+	//printf("	q	= %.2f\n",q);	
 
 	// Define the following values:
 	double p1=matrix[3]*matrix[3]+matrix[4]*matrix[4]+matrix[5]*matrix[5];
-	printf("	p1	= %.2f\n",p1);
+	//printf("	p1	= %.2f\n",p1);
 	double p2=(matrix[0]-trace)*(matrix[0]-trace)+(matrix[1]-trace)*(matrix[1]-trace)+(matrix[2]-trace)*(matrix[2]-trace)+2*p1;
-	printf("	p2	= %.2f\n",p2);
+	//printf("	p2	= %.2f\n",p2);
 	double p=sqrt(p2/6);
-	printf("	p	= %.2f\n",p);
+	//printf("	p	= %.2f\n",p);
 
 	// Define simplified symmetric matrix in same style as matrix passed to function
 	double *B=malloc(6*sizeof(double));
@@ -73,26 +73,23 @@ double *eigenvalues(double *matrix)
 	for(int i=0;i<3;i++)
 	{
 		I[i]=1;
-		printf("I[%i]=%.2f\n",i,I[i]);
 	}
 	for(int i=3;i<6;i++)
 	{
 		I[i]=0;
-		printf("I[%i]=%.2f\n",i,I[i]);
 	}
 
 	for(int i=0;i<6;i++)
 	{
 		B[i]=(1/p)*(matrix[i]-q*I[i]);
-		printf("B[%i]=%.2f\n",i,B[i]);
 	}
 
 	// Calculate determinant of matrix B
 	double detB=B[0]*B[1]*B[2]+2*B[3]*B[5]*B[4]-B[4]*B[1]*B[4]-B[3]*B[3]*B[2]-B[0]*B[5]*B[5];
-	printf("	detB	= %.2f\n",detB);
+	printf("	detB	= %.8f\n",detB);
 
 	double r=detB/2;
-	printf("	r	= %.2f\n",r);
+	//printf("	r	= %.2f\n",r);
 
 	// Check for different r values
 	double phi;
@@ -107,23 +104,49 @@ double *eigenvalues(double *matrix)
 	else {
 		phi=acos(r)/3;
 	}
-	printf("	phi	= %.2f\n",phi);	
+	//printf("	phi	= %.2f\n",phi);	
 
 
 	double e1=q+2*p*cos(phi);
-	printf("e1	= %.2f\n",e1);
+	printf("	e1	= %.2f\n",e1);
 	
 	double e3=q+2*p*cos(phi+(2*pi/3));
-	printf("e3	= %.2f\n",e3);
+	printf("	e3	= %.2f\n",e3);
 
 	double e2=3*q - e1-e3;
-	printf("e2	= %.2f\n",e2);
+	printf("	e2	= %.2f\n",e2);
 	
-
 	evalues[0]=e1;
 	evalues[1]=e2;
 	evalues[2]=e3;
 	
+	qsort(evalues,3,sizeof(double),cmpfunc);
+	printf("After sort, eigenvalues returned from function are:\n");
+	printf("evalues[0]	= %.2f\n",evalues[0]);
+	printf("evalues[1]	= %.2f\n",evalues[1]);
+	printf("evalues[2]	= %.2f\n",evalues[2]);	
+
 	return evalues;
+}
+
+//////////////////////////	PRINT OUT SPHERICITY ETC. FROM E'VALUES	//////////////////////////
+
+void evalue_characteristics(double *evalues)
+{
+
+	printf("	Determining physical characteristics from eigenvalues:\n");
+	
+	double l1=evalues[0];
+	double l2=evalues[1];
+	double l3=evalues[2];
+	
+	// Define the sphericity, S of the halo:
+	double S=l3/l1;
+	printf("sphericity, S	= %.2f\n",S);
+
+
+	// Define the triaxiality, T of the halo:
+	double T=(l1*l1-l2*l2)/(l1*l1-l3*l3);
+	printf("triaxiality, T	= %.2f\n",T);
 }
 
