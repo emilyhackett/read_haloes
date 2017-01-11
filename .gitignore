@@ -9,6 +9,7 @@
 read
 readNDskel
 a.out
+backread
 #Ignore swp files (i.e. files open in mvim)
 *.swp
 *.gch
