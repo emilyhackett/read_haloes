@@ -21,6 +21,9 @@ void read_header(FILE *fp)
 		exit(EXIT_FAILURE);
 	}
 	
+//	Change this line in order to feed to delaunay_3D
+//	field->dims[0]=field->ndims;
+
 	for(int i=0;i<field->ndims;i++)
 	{
 		field->dims[i]=buffer[i];
