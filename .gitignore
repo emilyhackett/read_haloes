@@ -4,6 +4,7 @@
 *.ps
 *.ND
 *.txt
+*ASCI
 #Ignore final completed file
 read
 readNDskel

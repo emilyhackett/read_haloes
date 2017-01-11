@@ -5,7 +5,6 @@
 #include <math.h>
 
 #include "myendian.h"
-#include "mystring.h"
 #include "global.h"
 
 // Define global variables required for structure and functions
