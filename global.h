@@ -44,66 +44,130 @@
  #  The fact that you are presently reading this means that you have had
  #  knowledge of the CeCILL and CeCILL-C licenses and that you accept its terms.
 */
-#ifndef __ND_SKELETON_H__
-#define __ND_SKELETON_H__
-
-#ifdef __cplusplus
-extern "C" {
+#ifdef GLOBAL_DEFINITION
+#define GLOBAL
+#else 
+#define GLOBAL extern
 #endif
 
-#define NDSKEL_DATA_STR_SIZE 20
-#define NDSKEL_TAG "NDSKEL"
-#define NDSKEL_ASCII_TAG "ANDSKEL"
-#define NDSKEL_MAX_DIMS 20
-
-#define FLAG_NDNODE_BOUNDARY (1<<0)
-#define FLAG_NDNODE_OUT      (1<<1)
-#define FLAG_NDNODE_INFINITE (1<<2)
-
-  /* 
-#define FLAG_NDSKL_SAD      (1<<0)
-#define FLAG_NDSKL_MIN      (1<<1)
-#define FLAG_NDSKL_MAX      (1<<2)
-#define FLAG_NDSKL_MINMAX   (1<<3)
-#define FLAG_NDSKL_BIF      (1<<4)
-#define FLAG_NDSKL_FAKE_SAD (1<<5)
-#define FLAG_NDSKL_LOOP     (1<<31)
-  */
-
-  int NDskel_SegDataIndex(NDskel *skl, const char *name);
-  int NDskel_NodeDataIndex(NDskel *skl, const char *name);
-  
-  int NDskel_realloc(NDskel *skl,int nsegs,int nnodes,int nsegalloc,int nnodealloc, int delta);
-  int NDskel_SetNNextInNode(NDskl_node *node,int nnodes);
-  NDskel *Copy_NDskel(NDskel *skl);
-  NDskel *Create_NDskel(int *dims,int ndims,double *x0, double *delta,const char *comment,int nnodes,int nsegs);
-  int Save_NDskel(NDskel *skl,const char *filename);
-  int Save_ASCIIskel(NDskel *skl,const char *filename);
-  int IsNDskeleton(const char *filename);
-  NDskel *Load_NDskelHeader(const char *filename);
-  NDskel *Load_NDskel(const char *filename);
-  int Free_NDskeleton(NDskel **skl);
-  int NDskelCheckSanity(NDskel *skl,int periodic);
-  NDskel *NDskel_Subregion(NDskel *skl_p, double margin, int **seglist, long *nsegs, int inplace);
-  
-  double ComputeSegLen(NDskel *skl, NDskl_seg* seg);
-  double ComputeDistFromPrev(NDskel *skl, NDskl_seg* seg);
-  double ComputeDistToNext(NDskel *skl, NDskl_seg* seg);
-  double ComputeDistToSaddle(NDskel *skl, NDskl_seg* seg_p);
-  int SortNDskelSegments(NDskel *skl,char *nodefieldname,int periodic);
-  
-  long getNDskelFilTab(NDskel *skl, NDskl_seg ***filTab, int **filSize);
-  long getNDskelFilTabInfo(NDskel *skl, NDskl_seg **filTab, int nFil, char ***dataName, double ***data);
-  void freeNDskelFilTab(NDskl_seg ***filTab, int **filSize);
-  void freeNDskelFilTabInfo(char ***dataName, double ***data, int nData, int nFil);
-  int printNDskelStat(NDskel *skl, int dec);
-
-#ifdef HAVE_CFITS_IO
-  int Save_FITSskel(NDskel *skl,const char *filename, long *naxes_p);
+#ifndef VERSION_STR
+#define STRINGIFY1(x)  #x
+#define STRINGIFY(x)  STRINGIFY1(x)
+#define VERSION_STR STRINGIFY(VER_MAJOR) "." STRINGIFY(VER_MINOR) "." STRINGIFY(VER_BUILD) 
 #endif
 
-#ifdef __cplusplus
-}
+#ifndef VALUE_TAG
+#define VALUE_TAG "field_value"
 #endif
 
+#ifndef MASS_TAG
+#define MASS_TAG "mass"
 #endif
+
+#ifndef PARENT_TAG
+#define PARENT_TAG "parent_index"
+#endif
+
+#ifndef PARENT_LOG_TAG
+#define PARENT_LOG_TAG "parent_log_index"
+#endif
+
+#ifndef PERSISTENCE_PAIR_TAG
+#define PERSISTENCE_PAIR_TAG "persistence_pair"
+#endif
+
+#ifndef PERSISTENCE_TAG
+#define PERSISTENCE_TAG "persistence"
+#endif
+
+#ifndef PERSISTENCE_RATIO_TAG
+#define PERSISTENCE_RATIO_TAG "persistence_ratio"
+#endif
+
+#ifndef PERSISTENCE_NSIG_TAG
+#define PERSISTENCE_NSIG_TAG "persistence_nsigmas"
+#endif
+
+#ifndef ROBUSTNESS_TAG
+#define ROBUSTNESS_TAG "robustness"
+#endif
+
+#ifndef ROBUSTNESS_RATIO_TAG
+#define ROBUSTNESS_RATIO_TAG "robustness_ratio"
+#endif
+
+#ifndef ARC_ID_TAG
+#define ARC_ID_TAG "arc_id"
+#endif
+
+#ifndef FILAMENT_ID_TAG
+#define FILAMENT_ID_TAG "filament_id"
+#endif
+        
+#ifndef ORIENTATION_TAG
+#define ORIENTATION_TAG "orientation"
+#endif
+
+#ifndef TYPE_TAG
+#define TYPE_TAG "type"
+#endif
+
+#ifndef INDEX_TAG
+#define INDEX_TAG "index"
+#endif
+
+#ifndef TRUE_INDEX_TAG
+#define TRUE_INDEX_TAG "true_index"
+#endif
+
+#ifndef CELL_TAG
+#define CELL_TAG "cell"
+#endif
+
+#ifndef BOUNDARY_TAG
+#define BOUNDARY_TAG "boundary"
+#endif
+
+#ifndef DELAUNAY_TESSELATION_TAG
+#define DELAUNAY_TESSELATION_TAG "delaunay_tesselation"
+#endif
+
+#ifndef CRITICAL_INDEX_TAG
+#define CRITICAL_INDEX_TAG "critical_index"
+#endif
+
+#ifndef LENGTH_TAG
+#define LENGTH_TAG "length"
+#endif
+
+#ifndef LOG_TAG
+#define LOG_TAG(tag) "log_" tag
+#endif
+
+#ifndef UP_TAG
+#define UP_TAG(tag) "up_" tag
+#endif
+
+#ifndef DOWN_TAG
+#define DOWN_TAG(tag) "down_" tag
+#endif
+
+#ifndef SEG_P1_TAG
+#define SEG_P1_TAG(tag) tag "_p1"
+#endif
+
+#ifndef SEG_P2_TAG
+#define SEG_P2_TAG(tag) tag "_p2"
+#endif
+
+
+#ifndef SOURCE_TAG
+#define SOURCE_TAG(tag) "source_" tag
+#endif
+
+GLOBAL int verbose;
+GLOBAL int debug_dump;
+GLOBAL int glob_num_threads;
+GLOBAL int glob_num_omp_threads;
+
+#undef GLOBAL
