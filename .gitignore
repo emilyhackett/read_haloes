@@ -7,7 +7,9 @@
 #Ignore final completed file
 read
 readNDskel
+a.out
 #Ignore swp files (i.e. files open in mvim)
 *.swp
+*.gch
 # Ignore very large files for easier data transfer
 eg2D.*

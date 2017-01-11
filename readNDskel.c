@@ -1,8 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 
 #include "myendian.h"
+#include "NDskeleton.h"
 
 // Define global variables required for structure and functions
 
@@ -98,6 +100,7 @@ void readNDskeleton(char *filename)
       	char tag[NDSKEL_DATA_STR_SIZE];
       	char dummy[160];
        	int swap=0;
+	int index;
       
 	// Define structure to read in to
 	NDskel *skl;
@@ -105,6 +108,195 @@ void readNDskeleton(char *filename)
 	skl=calloc(1,sizeof(NDskel));
 	memset(tag,0,16*sizeof(char));
 
+	fread_sw(&i,sizeof(int),1,fp,swap);	// DUMMY
+	if(i!=16) swap=1-swap;
+	
+	fread_sw(tag,sizeof(char),16,fp,swap);
+	printf("tag	= %s\n",tag);
+	fread_sw(&i,sizeof(int),1,fp,swap);	// DUMMY
+
+	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
+	fread_sw(skl->comment,sizeof(char),80,fp,swap);
+	printf("comment	= %s\n",skl->comment);
+	
+	fread_sw(&skl->ndims,sizeof(int),1,fp,swap);
+	printf("ndims	= %i\n",skl->ndims);
+	
+
+	// Allocate room based on ndims
+	skl->dims=malloc(skl->ndims*sizeof(int));
+	skl->x0=malloc(skl->ndims*sizeof(double));
+	skl->delta=malloc(skl->ndims*sizeof(double));
+	
+	// Read in dummy variables after allocated dimensions
+	fread_sw(skl->dims,sizeof(int),skl->ndims,fp,swap);
+	if (skl->ndims<NDSKEL_MAX_DIMS) 
+	{
+		fread_sw(dummy,sizeof(int),NDSKEL_MAX_DIMS-skl->ndims,fp,swap);
+	}
+      	fread_sw(skl->x0,sizeof(double),skl->ndims,fp,swap);
+      	if (skl->ndims<NDSKEL_MAX_DIMS) 
+	{
+		fread_sw(dummy,sizeof(double),NDSKEL_MAX_DIMS-skl->ndims,fp,swap);
+	}
+      	fread_sw(skl->delta,sizeof(double),skl->ndims,fp,swap);
+      	if (skl->ndims<NDSKEL_MAX_DIMS) 
+	{
+		fread_sw(dummy,sizeof(double),NDSKEL_MAX_DIMS-skl->ndims,fp,swap);
+	}
+	// Print out dims, x0 and delta to check
+	for(int i=0;i<skl->ndims;i++)
+	{
+		printf("dims[%i] = %i,	x0[%i] = %.2f,	delta[%i] = %.2f\n",i,skl->dims[i],i,
+				skl->x0[i],i,skl->delta[i]);
+	}
+
+	fread_sw(&skl->nsegs,sizeof(int),1,fp,swap);
+	printf("nsegs	= %i\n",skl->nsegs);
+      	fread_sw(&skl->nnodes,sizeof(int),1,fp,swap);
+	printf("nnodes	= %i\n",skl->nnodes);
+      	fread_sw(&skl->nsegdata,sizeof(int),1,fp,swap);
+	printf("nsegdata	= %i\n",skl->nsegdata);
+      	fread_sw(&skl->nnodedata,sizeof(int),1,fp,swap);
+	printf("nnodedata	= %i\n",skl->nnodedata);
+      	fread_sw(&j,sizeof(int),1,fp,swap);
+
+
+	// Clear and assign data for segment and node data info
+	skl->segdata_info = calloc(skl->nsegdata,sizeof(char *));
+      	skl->nodedata_info = calloc(skl->nnodedata,sizeof(char *));
+ 
+      	if (skl->nsegdata)	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
+	
+      	for (i=0;i<skl->nsegdata;i++)
+    	{
+	  	skl->segdata_info[i]=calloc(NDSKEL_DATA_STR_SIZE,sizeof(char));
+	  	fread_sw(skl->segdata_info[i],sizeof(char),NDSKEL_DATA_STR_SIZE,fp,swap);
+		printf(" segdata_info[%i]	= %s\n",i,skl->segdata_info[i]);
+    	}
+	
+	// Read in two dummy variables
+      	if (skl->nsegdata)	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
+      	if (skl->nnodedata)	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
+	
+      	for (i=0;i<skl->nnodedata;i++)
+    	{
+	  	skl->nodedata_info[i]=calloc(NDSKEL_DATA_STR_SIZE,sizeof(char));
+	  	fread_sw(skl->nodedata_info[i],sizeof(char),NDSKEL_DATA_STR_SIZE,fp,swap);
+		printf(" nodedata_info[%i]	= %s\n",i,skl->nodedata_info[i]);
+    	}
+      
+	if (skl->nnodedata)	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
+	
+	// Assign memory for segment positions
+	skl->segpos = malloc((long)sizeof(float)*skl->nsegs*2*skl->ndims);
+
+	
+       	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
+      	fread_sw(skl->segpos,sizeof(float),skl->nsegs*2*skl->ndims,fp,swap);
+	printf("segpos read in, total of %i\n",skl->nsegs*2*skl->ndims);
+//	for(int i=0;i<skl->nsegs;i++)
+//	{
+//		printf("	%.2f\n",skl->segpos[i]);
+//	}
+      	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
+  
+	// Assign memory for node positions
+      	skl->nodepos = malloc((long)sizeof(float)*skl->nnodes*skl->ndims);
+      	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
+      	fread_sw(skl->nodepos,sizeof(float),skl->nnodes*skl->ndims,fp,swap);
+	printf("nodepos	read in, total of %i\n",skl->nnodes*skl->ndims);
+//	for(int i=0;i<skl->nnodes;i++)
+//	{
+//		printf("	%.2f\n",skl->nodepos[i]);
+//	}
+	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
+
+	// Assign memory for segment data
+      	skl->segdata = malloc((long)sizeof(double)*skl->nsegs*skl->nsegdata);
+      	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
+      	fread_sw(skl->segdata,sizeof(double),skl->nsegs*skl->nsegdata,fp,swap);
+//	printf("segdata	= %s\n",skl->segdata);
+      	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
+
+	// Assign memory for node data
+      	skl->nodedata = malloc((long)sizeof(double)*skl->nnodes*skl->nnodedata);
+      	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
+      	fread_sw(skl->nodedata,sizeof(double),skl->nnodes*skl->nnodedata,fp,swap);
+      	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
+
+	// Assign memory for Node and Seg
+      	skl->Node = malloc((long)sizeof(NDskl_node)*skl->nnodes);      
+	skl->Seg = malloc((long)sizeof(NDskl_seg)*skl->nsegs);
+
+	// Initialise node and seg lists;
+      	NDskl_node *node;
+      	NDskl_seg *seg;
+
+	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
+
+	// Index over all nodes and read in data      
+	for(i=0;i<skl->nnodes;i++)
+    	{
+		// Initialise array of nodes 
+	  	node = &skl->Node[i];
+	  	fread_sw(&index,sizeof(int),1,fp,swap);	
+	  	node->pos = &skl->nodepos[(long)index*skl->ndims];
+	  	if (skl->nnodedata) node->data = &skl->nodedata[(long)index*skl->nnodedata];
+	  	else node->data=NULL;
+	  	fread_sw(&node->flags,sizeof(int),1,fp,swap);
+	  	fread_sw(&node->nnext,sizeof(int),1,fp,swap);
+	  	fread_sw(&node->type,sizeof(int),1,fp,swap);
+	   	fread_sw(&node->index,sizeof(int),1,fp,swap);
+
+		// Allocate memory for next node
+	  	node->nsegs=malloc(sizeof(int)*node->nnext);
+	  	node->Next=malloc(sizeof(NDskl_node *)*node->nnext);
+	  	node->Seg=malloc(sizeof(NDskl_seg *)*node->nnext);
+	  	fread_sw(node->nsegs,sizeof(int),node->nnext,fp,swap);
+	  	for (j=0;j<node->nnext;j++)
+		{
+	      		fread_sw(&index,sizeof(int),1,fp,swap);
+	      		if (index>=0) node->Next[j] = &skl->Node[index];
+	      		else node->Next[j] =NULL;
+
+	      		fread_sw(&index,sizeof(int),1,fp,swap);
+
+	     		if (index>=0) node->Seg[j] = &skl->Seg[index];
+	     		else node->Seg[j] =NULL;
+		}
+    	}
+	printf("node array read\n");
+
+      	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
+      	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
+      
+	for(i=0;i<skl->nsegs;i++)
+    	{
+		// Initialise array of segments
+	  	seg = &skl->Seg[i];
+	  	fread_sw(&index,sizeof(int),1,fp,swap);
+	  	seg->pos = &skl->segpos[(long)index*2*skl->ndims];
+	 	if (skl->nsegdata) seg->data = &skl->segdata[(long)index*skl->nsegdata];
+	  	else seg->data = NULL;
+	  	fread_sw(seg->nodes,sizeof(int),2,fp,swap);
+	  	fread_sw(&seg->flags,sizeof(int),1,fp,swap);
+	  	fread_sw(&seg->index,sizeof(int),1,fp,swap);
+      
+	  	fread_sw(&index,sizeof(int),1,fp,swap);
+	  	if (index<0) seg->Next=NULL;
+	  	else seg->Next = &skl->Seg[index];
+      
+	  	fread_sw(&index,sizeof(int),1,fp,swap);
+	  	if (index<0) seg->Prev=NULL;
+	  	else seg->Prev = &skl->Seg[index];
+    
+    	}
+      	printf("seg array read\n");
+
+	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
+
+	printf("%s read COMPLETED\n",filename);
 
 	fclose(fp);
 }
@@ -121,6 +313,8 @@ int main(int argc, char *argv[])
 	else {
 		fprintf(stderr,"Usage: %s file\n",argv[0]);
 	}
+
+	printf("---- END OF PROGRAM REACHED ----\n");
 
 	return 0;
 }
