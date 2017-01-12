@@ -84,7 +84,7 @@ typedef struct NDskel_str {
 
 
 ////////////////////	DEFINE FUNCTIONS IN readNDskel.c	////////////////////
-
+/*
 extern char	*strReplace(char *,char *,const char *, const char *);
 extern int 	NDskel_SegDataIndex(NDskel *,const char *);
 extern int 	getDataFieldID(NDskel *,int, const char *);
@@ -96,6 +96,6 @@ extern double	ComputeDistToNext(NDskel *,NDskl_seg *);
 extern double	ComputeDistFromPrev(NDskel *,NDskl_seg *);
 extern int	NDskelCheckSanity(NDskel *,int);
 extern int	Save_ASCIIskel(NDskel *,const char *);
-
+*/
 ////////////////////	DEFINE FUNCTIONS IN visualise.c	////////////////////
 

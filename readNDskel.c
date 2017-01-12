@@ -1,3 +1,6 @@
+#include "readNDskel.h"
+
+#define FLATTEN	1
 
 ///////////////////	STRING REPLACE (FROM MYSTRING.C)	////////////////////
 
@@ -240,7 +243,7 @@ NDskel *readNDskeleton(char *filename)
 	
        	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
       	fread_sw(skl->segpos,sizeof(float),skl->nsegs*2*skl->ndims,fp,swap);
-	printf("segpos read in, total of %i\n",skl->nsegs*2*skl->ndims);
+	printf("segpos read in, total of %i with %iD each\n",skl->nsegs,skl->ndims);
 //	for(int i=0;i<skl->nsegs;i++)
 //	{
 //		printf("	%.2f\n",skl->segpos[i]);
@@ -251,7 +254,7 @@ NDskel *readNDskeleton(char *filename)
       	skl->nodepos = malloc((long)sizeof(float)*skl->nnodes*skl->ndims);
       	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
       	fread_sw(skl->nodepos,sizeof(float),skl->nnodes*skl->ndims,fp,swap);
-	printf("nodepos	read in, total of %i\n",skl->nnodes*skl->ndims);
+	printf("nodepos	read in, total of %i with %iD each\n",skl->nnodes,skl->ndims);
 //	for(int i=0;i<skl->nnodes;i++)
 //	{
 //		printf("	%.2f\n",skl->nodepos[i]);
@@ -768,8 +771,6 @@ int Save_ASCIIskel(NDskel *skl,const char *filename)
       
       for (j=0;j<node->nnext;j++)
 	fprintf(f," %d %ld\n",node->Next[j]->index,(long)filTab[i][j]);
-      
-      //fprintf(f,"\n");
     }
 
   for (i=0;i<skl->nnodes;i++) free(filTab[i]);
@@ -871,6 +872,45 @@ int Save_ASCIIskel(NDskel *skl,const char *filename)
   return 0;
 }
 
+
+////////////////////	FLATTEN 3D SKELETON TO 2D ////////////////////
+
+// Require function that takes a 3D NDskel (i.e. set of nodes and filaments
+// and flattens it to a 2D representation:
+// 
+// Takes params NDskel (i.e. the entire skeleton read from a mse program) and
+// the two dimensions that are required (default 0 and 1 i.e. x and y)
+
+
+void FlattenSkl(NDskel *skl)
+{
+	printf("Reading and flattening %i segments ...\n",skl->nsegs);
+	
+	float *segments[2];
+
+	int j=0;
+	
+	for(int i=0;i<skl->nsegs;i++)
+	{	
+		segments[i]=malloc(2*sizeof(skl->segpos[0]));
+				
+		segments[i][0]=skl->segpos[j];
+			j++;
+		segments[i][1]=skl->segpos[j];
+			j++;
+		// Skip third value
+			j++;
+		if(j>skl->nsegs*skl->ndims)
+		{
+			printf("ERROR: Reached end of segpos list\n");
+			break;
+		}
+	}
+	
+	printf("j = %i\n",j);
+	printf("nsegs*ndims = %i\n",skl->nsegs*skl->ndims);
+}
+
 ////////////////////	MAIN FUNCTION TO TAKE IN FILE AS COMMAND ARGUMENT ////////////////////
 
 int main(int argc, char *argv[])
@@ -889,17 +929,21 @@ int main(int argc, char *argv[])
 	}
 	
 	printf("	--------------------------------------------\n");
-	printf(" $ NDskelCheckSanity(skl,periodicity=0)\n");
 	NDskelCheckSanity(skl,0);
 
 	if(argc>2)
 	{
 		printf("	--------------------------------------------\n");
-		printf(" $ Save_ASCIIskel(skl,%s)\n",argv[2]);
 		Save_ASCIIskel(skl,argv[2]);
 	}	
 	
-	printf("	--------- END OF PROGRAM REACHED ---------\n\n");
+	if(FLATTEN)
+	{
+		printf("	--------------------------------------------\n");
+		FlattenSkl(skl);
+	}	
+
+	printf("	---------- END OF PROGRAM REACHED ----------\n\n");
 
 	return 0;
 }
