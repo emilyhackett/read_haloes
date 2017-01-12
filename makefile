@@ -24,4 +24,4 @@ args.o: args.c read.h
 	cc -c args.c
 
 clean:
-	rm -f main main.o readfile.o plotting.o createNDfield.o functions.o momentofinertia.o
+	rm -f read main.o readfile.o plotting.o createNDfield.o functions.o momentofinertia.o

@@ -1,4 +1,4 @@
-#include "readNDskel.h"
+#include "readSkel.h"
 
 ///////////////////	STRING REPLACE (FROM MYSTRING.C)	////////////////////
 
@@ -869,44 +869,4 @@ int Save_ASCIIskel(NDskel *skl,const char *filename)
 	printf(" done.\n");
   return 0;
 }
-
-
-////////////////////	FLATTEN 3D SKELETON TO 2D ////////////////////
-
-// Require function that takes a 3D NDskel (i.e. set of nodes and filaments
-// and flattens it to a 2D representation:
-// 
-// Takes params NDskel (i.e. the entire skeleton read from a mse program) and
-// the two dimensions that are required (default 0 and 1 i.e. x and y)
-
-
-void FlattenSkl(NDskel *skl)
-{
-	printf("Reading and flattening %i segments ...\n",skl->nsegs);
-	
-	float *segments[2];
-
-	int j=0;
-	
-	for(int i=0;i<skl->nsegs;i++)
-	{	
-		segments[i]=malloc(2*sizeof(skl->segpos[0]));
-				
-		segments[i][0]=skl->segpos[j];
-			j++;
-		segments[i][1]=skl->segpos[j];
-			j++;
-		// Skip third value
-			j++;
-		if(j>skl->nsegs*skl->ndims)
-		{
-			printf("ERROR: Reached end of segpos list\n");
-			break;
-		}
-	}
-	
-	printf("j = %i\n",j);
-	printf("nsegs*ndims = %i\n",skl->nsegs*skl->ndims);
-}
-
 

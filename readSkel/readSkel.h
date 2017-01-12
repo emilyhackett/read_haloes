@@ -4,9 +4,6 @@
 #include <string.h>
 #include <math.h>
 
-#include "myendian.h"
-#include "global.h"
-
 // Define global variables required for structure and functions
 
 #define NDSKEL_DATA_STR_SIZE 20
@@ -83,13 +80,13 @@ typedef struct NDskel_str {
 
 
 
-////////////////////	DEFINE FUNCTIONS IN readNDskel.c	////////////////////
+////////////////////	DEFINE FUNCTIONS IN "readNDskel.c"	////////////////////
 
 extern char	*strReplace(char *,char *,const char *, const char *);
 extern int 	NDskel_SegDataIndex(NDskel *,const char *);
 extern int 	getDataFieldID(NDskel *,int, const char *);
-extern void	freeNDskelFilTab(NDskl_seg ***,int ***);
-extern long	getNDskelFilTab(NDskel *,NDskl_seg ***,int ***);
+extern void	freeNDskelFilTab(NDskl_seg ***,int **);
+extern long	getNDskelFilTab(NDskel *,NDskl_seg ***,int **);
 extern NDskel	*readNDskeleton(char *);
 extern double	ComputeSegLen(NDskel *,NDskl_seg *);
 extern double	ComputeDistToNext(NDskel *,NDskl_seg *);
@@ -97,5 +94,174 @@ extern double	ComputeDistFromPrev(NDskel *,NDskl_seg *);
 extern int	NDskelCheckSanity(NDskel *,int);
 extern int	Save_ASCIIskel(NDskel *,const char *);
 
-////////////////////	DEFINE FUNCTIONS IN visualise.c	////////////////////
+////////////////////	DEFINE FUNCTIONS IN "flattenSkel.c"	////////////////////
 
+extern void	FlattenSkl(NDskel *);
+
+////////////////////	DEFINE FUNCTIONS IN "plotSkel.c"	////////////////////
+
+extern void	PlotNodes(NDskel *,char *,char *);
+
+////////////////////	HEADER FILE FOR "myendian.h"	////////////////////
+
+#ifndef __ENDIAN_SWAP
+#define __ENDIAN_SWAP
+
+#include <stdio.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+int fread_sw(void *,size_t,size_t,FILE *,int);
+size_t freadBE(void *ptr, size_t size, size_t nmemb, FILE *stream);
+size_t fwriteBE(const void *ptr, size_t size, size_t nmemb,FILE *stream);
+
+
+int swapI(int);
+float swapF(float);
+double swapD(double);
+void Dswap2B(void*);
+void Dswap4B(void*);
+void Dswap8B(void*);
+void Dswap2BArr(void*,size_t);
+void Dswap4BArr(void*,size_t);
+void Dswap8BArr(void*,size_t);
+
+#ifdef __cplusplus
+}
+#endif
+
+
+#endif
+
+////////////////////	HEADER FILE FOR "global.h"	////////////////////
+
+#ifdef GLOBAL_DEFINITION
+#define GLOBAL
+#else 
+#define GLOBAL extern
+#endif
+
+#ifndef VERSION_STR
+#define STRINGIFY1(x)  #x
+#define STRINGIFY(x)  STRINGIFY1(x)
+#define VERSION_STR STRINGIFY(VER_MAJOR) "." STRINGIFY(VER_MINOR) "." STRINGIFY(VER_BUILD) 
+#endif
+
+#ifndef VALUE_TAG
+#define VALUE_TAG "field_value"
+#endif
+
+#ifndef MASS_TAG
+#define MASS_TAG "mass"
+#endif
+
+#ifndef PARENT_TAG
+#define PARENT_TAG "parent_index"
+#endif
+
+#ifndef PARENT_LOG_TAG
+#define PARENT_LOG_TAG "parent_log_index"
+#endif
+
+#ifndef PERSISTENCE_PAIR_TAG
+#define PERSISTENCE_PAIR_TAG "persistence_pair"
+#endif
+
+#ifndef PERSISTENCE_TAG
+#define PERSISTENCE_TAG "persistence"
+#endif
+
+#ifndef PERSISTENCE_RATIO_TAG
+#define PERSISTENCE_RATIO_TAG "persistence_ratio"
+#endif
+
+#ifndef PERSISTENCE_NSIG_TAG
+#define PERSISTENCE_NSIG_TAG "persistence_nsigmas"
+#endif
+
+#ifndef ROBUSTNESS_TAG
+#define ROBUSTNESS_TAG "robustness"
+#endif
+
+#ifndef ROBUSTNESS_RATIO_TAG
+#define ROBUSTNESS_RATIO_TAG "robustness_ratio"
+#endif
+
+#ifndef ARC_ID_TAG
+#define ARC_ID_TAG "arc_id"
+#endif
+
+#ifndef FILAMENT_ID_TAG
+#define FILAMENT_ID_TAG "filament_id"
+#endif
+        
+#ifndef ORIENTATION_TAG
+#define ORIENTATION_TAG "orientation"
+#endif
+
+#ifndef TYPE_TAG
+#define TYPE_TAG "type"
+#endif
+
+#ifndef INDEX_TAG
+#define INDEX_TAG "index"
+#endif
+
+#ifndef TRUE_INDEX_TAG
+#define TRUE_INDEX_TAG "true_index"
+#endif
+
+#ifndef CELL_TAG
+#define CELL_TAG "cell"
+#endif
+
+#ifndef BOUNDARY_TAG
+#define BOUNDARY_TAG "boundary"
+#endif
+
+#ifndef DELAUNAY_TESSELATION_TAG
+#define DELAUNAY_TESSELATION_TAG "delaunay_tesselation"
+#endif
+
+#ifndef CRITICAL_INDEX_TAG
+#define CRITICAL_INDEX_TAG "critical_index"
+#endif
+
+#ifndef LENGTH_TAG
+#define LENGTH_TAG "length"
+#endif
+
+#ifndef LOG_TAG
+#define LOG_TAG(tag) "log_" tag
+#endif
+
+#ifndef UP_TAG
+#define UP_TAG(tag) "up_" tag
+#endif
+
+#ifndef DOWN_TAG
+#define DOWN_TAG(tag) "down_" tag
+#endif
+
+#ifndef SEG_P1_TAG
+#define SEG_P1_TAG(tag) tag "_p1"
+#endif
+
+#ifndef SEG_P2_TAG
+#define SEG_P2_TAG(tag) tag "_p2"
+#endif
+
+
+#ifndef SOURCE_TAG
+#define SOURCE_TAG(tag) "source_" tag
+#endif
+
+GLOBAL int verbose;
+GLOBAL int debug_dump;
+GLOBAL int glob_num_threads;
+GLOBAL int glob_num_omp_threads;
+
+#undef GLOBAL

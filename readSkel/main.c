@@ -1,8 +1,7 @@
-#include "readNDskel.h"
+#include "readSkel.h"
 
-#define FLATTEN 1
-
-
+#define FLATTEN 0
+#define PLOTNODES 0
 
 ////////////////////	MAIN FUNCTION TO TAKE IN FILE AS COMMAND ARGUMENT ////////////////////
 
@@ -35,6 +34,13 @@ int main(int argc, char *argv[])
 		printf("	--------------------------------------------\n");
 		FlattenSkl(skl);
 	}	
+
+	if(PLOTNODES)
+	{
+		printf("	--------------------------------------------\n");
+		PlotNodes(skl,"nodepos","nodeplot.ps");
+	}
+	
 
 	printf("	---------- END OF PROGRAM REACHED ----------\n\n");
 
