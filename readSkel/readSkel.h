@@ -101,6 +101,9 @@ extern void	FlattenSkl(NDskel *);
 ////////////////////	DEFINE FUNCTIONS IN "plotSkel.c"	////////////////////
 
 extern void	PlotNodes(NDskel *,char *,char *);
+extern void	PlotSegs(NDskel *,char *,char *);
+extern void	MakePlotFile(NDskel *,char *);
+extern void	NodeFieldVals(NDskel *,char *);
 
 ////////////////////	HEADER FILE FOR "myendian.h"	////////////////////
 

@@ -2,6 +2,7 @@
 
 #define FLATTEN 0
 #define PLOTNODES 0
+#define PLOTSEGS 0
 
 ////////////////////	MAIN FUNCTION TO TAKE IN FILE AS COMMAND ARGUMENT ////////////////////
 
@@ -20,7 +21,6 @@ int main(int argc, char *argv[])
 		fprintf(stderr,"Usage: %s file\n",argv[0]);
 	}
 	
-	printf("	--------------------------------------------\n");
 	NDskelCheckSanity(skl,0);
 
 	if(argc>2)
@@ -41,7 +41,16 @@ int main(int argc, char *argv[])
 		PlotNodes(skl,"nodepos","nodeplot.ps");
 	}
 	
+	if(PLOTSEGS)
+	{
+		printf("	--------------------------------------------\n");
+		PlotSegs(skl,"segpos","segplot.ps");
+	}
 
+//	MakePlotFile(skl,"CP_data");
+
+	NodeFieldVals(skl,"NodeData");
+	
 	printf("	---------- END OF PROGRAM REACHED ----------\n\n");
 
 	return 0;
