@@ -10,8 +10,9 @@
 
 int main(int argc, char *argv[])
 {
+	
 	printf("\n");
-	printf("	--------------------------------------------\n");
+	printf("	---------- READING .NDskl FILE ----------\n");
 	// Define NDskeleton
 	NDskel	*skl;
 	
@@ -27,37 +28,37 @@ int main(int argc, char *argv[])
 
 	if(argc>2)
 	{
-		printf("	--------------------------------------------\n");
+		printf("	---------- SAVING ASCII SKELETON ----------\n");
 		Save_ASCIIskel(skl,argv[2]);
 	}	
 	
 	if(FLATTEN)
 	{
-		printf("	--------------------------------------------\n");
+		printf("	---------- FLATTENING TO 2D SKELETON ----------\n");
 		FlattenSkl(skl);
 	}	
 
 	if(PLOTNODES)
 	{
-		printf("	--------------------------------------------\n");
+		printf("	---------- PLOTTING NODE POSITIONS ----------\n");
 		PlotNodePos(skl,"nodepos.dat","nodeplot.ps",1);
 	}
 	
 	if(PLOTSEGS)
 	{
-		printf("	--------------------------------------------\n");
+		printf("	---------- PLOTTING SEGMENT POSITIONS ----------\n");
 		PlotSegPos(skl,"segpos.dat","segplot.ps",1);
 	}
 
 	if(PLOTNODEFIELDS)
 	{
-		printf("	--------------------------------------------\n");
+		printf("	---------- WRITING NODE FIELD VALUES ----------\n");
 		ListNodeFieldVals(skl,"nodefieldvals.dat");
 	}
 
 	if(PLOTSEGFIELDS)
 	{
-		printf("	--------------------------------------------\n");
+		printf("	---------- WRITING SEGMENT FIELD VALUES ----------\n");
 		ListSegFieldVals(skl,"segfieldvals.dat");
 	}
 

@@ -5,6 +5,8 @@
 *.ND
 *.txt
 *ASCI
+seg*
+node*
 #Ignore final completed file
 read
 readNDskel

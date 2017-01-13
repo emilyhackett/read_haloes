@@ -290,9 +290,11 @@ void	ListNodeFieldVals(NDskel *skl,char *datafile)
 		oldNext=next;
 	}
 
-  	for (i=0;i<skl->nnodedata;i++)	
-	    	fprintf(fp,"%s\n",skl->nodedata_info[i]);	// Names of fields to file
-      	for (i=0;i<skl->nnodes;i++)
+//  	for (i=0;i<skl->nnodedata;i++)	
+//	    	fprintf(fp,"%s	",skl->nodedata_info[i]);	// Names of fields to file
+//      	fprintf(fp,"\n");
+	
+	for (i=0;i<skl->nnodes;i++)
     	{	  
 	  	for (j=0;j<skl->nnodedata-1;j++)
 			fprintf(fp,"%.7g	",skl->Node[i].data[j]);	// Field values to file
@@ -419,9 +421,10 @@ void	ListSegFieldVals(NDskel *skl,char *datafile)
 	  	else continue;       
     	}
 
-      	for (i=0;i<skl->nsegdata;i++)	
-	    	fprintf(fp,"%s	",skl->segdata_info[i]);	// Names of fields to file
-
+//      	for (i=0;i<skl->nsegdata;i++)	
+//	    	fprintf(fp,"%s	",skl->segdata_info[i]);	// Names of fields to file
+//	fprintf(fp,"\n");
+	
 	// Print field values for 2*nsegs to file
 	int nsegdata=j;
       	for (i=0;i<nfil;i++)
@@ -429,7 +432,7 @@ void	ListSegFieldVals(NDskel *skl,char *datafile)
 	  	NDskl_seg *seg=filSegTab[i];
             
 	  	for (l=0;l<nsegdata-1;l++)
-			fprintf(fp,"%.7g ",seg->data[pid[2*l]]);
+			fprintf(fp,"%.7g	",seg->data[pid[2*l]]);
 	  	fprintf(fp,"%.7g\n",seg->data[pid[2*l]]);
 		
 	  	if (seg->Next!=NULL)
@@ -437,13 +440,13 @@ void	ListSegFieldVals(NDskel *skl,char *datafile)
 	      		do {	    
 		    		seg=seg->Next;
 		    		for (l=0;l<nsegdata-1;l++)
-			  		fprintf(fp,"%.7g ",seg->data[pid[2*l]]);
+			  		fprintf(fp,"%.7g	",seg->data[pid[2*l]]);
 		    		fprintf(fp,"%.7g\n",seg->data[pid[2*l]]);
 	      		} while(seg->Next!=NULL);
 		}
 
 	  	for (l=0;l<nsegdata-1;l++)
-			fprintf(fp,"%.7g ",seg->data[pid[2*l+1]]);
+			fprintf(fp,"%.7g	",seg->data[pid[2*l+1]]);
 	  	fprintf(fp,"%.7g\n",seg->data[pid[2*l+1]]);
     	}
 

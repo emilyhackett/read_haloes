@@ -96,7 +96,8 @@ extern int	Save_ASCIIskel(NDskel *,const char *);
 
 ////////////////////	DEFINE FUNCTIONS IN "flattenSkel.c"	////////////////////
 
-extern void	FlattenSkl(NDskel *);
+extern float	*TrimDimension(float *,int);
+extern NDskel	*FlattenSkl(NDskel *);
 
 ////////////////////	DEFINE FUNCTIONS IN "plotSkel.c"	////////////////////
 
@@ -118,11 +119,9 @@ extern void	ListSegFieldVals(NDskel *,char *);
 extern "C" {
 #endif
 
-
 int fread_sw(void *,size_t,size_t,FILE *,int);
 size_t freadBE(void *ptr, size_t size, size_t nmemb, FILE *stream);
 size_t fwriteBE(const void *ptr, size_t size, size_t nmemb,FILE *stream);
-
 
 int swapI(int);
 float swapF(float);
