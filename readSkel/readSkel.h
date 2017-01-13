@@ -112,6 +112,12 @@ extern void	PlotSegPos(NDskel *,char *,char *,int);
 extern void	ListNodeFieldVals(NDskel *,char *);
 extern void	ListSegFieldVals(NDskel *,char *);
 
+////////////////////	DEFINE FUNCTIONS IN "arrayCheck.c"	////////////////////
+
+extern void	ListSegArray(NDskel *,char *);
+extern void	ExampleSegment(NDskel *,int);
+extern void	ExampleNode(NDskel *,int);
+
 ////////////////////	HEADER FILE FOR "myendian.h"	////////////////////
 
 #ifndef __ENDIAN_SWAP
