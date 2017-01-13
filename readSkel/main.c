@@ -4,13 +4,13 @@
 
 #define FLATTEN		0	// Take a 3D skeleton and flatten to 2D position by ignoring z coords
 
-#define PLOTNODES	0	// Output node pos to file and save 2D list plot to .ps file
+#define PLOTNODES	1	// Output node pos to file and save 2D list plot to .ps file
 #define PLOTSEGS	0	// Output seg pos to file and save 2D list plot to .ps file
 
 #define PLOTNODEFIELDS	0	// Ouptut all node field data to .dat file
 #define PLOTSEGFIELDS	0	// Output all seg field data to .dat file
 
-#define NODEDATA	1	// Output all node data (position and field values) to .dat file
+#define NODEDATA	0	// Output all node data (position and field values) to .dat file
 
 ////////////////////	MAIN FUNCTION TO TAKE IN FILE AS COMMAND ARGUMENT ////////////////////
 
@@ -51,6 +51,11 @@ int main(int argc, char *argv[])
 	{
 		printf("	---------- PLOTTING NODE POSITIONS ----------\n");
 		PlotNodePos(skl,"nodepos.dat","nodeplot.ps",1);
+		for(int i=0;i<100;i++)
+		{
+			printf("%f\n",skl->nodepos[i]);
+		}
+
 	}
 	
 	if(PLOTSEGS && !EXAMPLE)
@@ -74,11 +79,7 @@ int main(int argc, char *argv[])
 	if(NODEDATA && !EXAMPLE)
 	{
 		printf("	---------- WRITING NODE DATA TO FILE ----------\n");
-		//NodeData(skl,"NodePosField.dat");
-		for(int i=0;i<100;i++)
-		{
-			printf("%f\n",skl->nodepos[i]);
-		}
+		NodeData(skl,"NodePosField.dat");
 	}
 	
 	if(EXAMPLE)

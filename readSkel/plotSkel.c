@@ -65,12 +65,12 @@ void ListNodePos(NDskel *skl,char *datafile)
 	// Index over all nodes and turn long list into 2D array of coordinates
 	for(int i=1;i<=skl->nnodes*skl->ndims;i++)
 	{
-		if((i%2)==1)
+		if((i%4)==1)
 		{
 			fprintf(fp,"%f		",skl->nodepos[i]);
 			x++;
 		}
-		if((i%2)==0)
+		if((i%4)==3)
 		{
 			fprintf(fp,"%f\n",skl->nodepos[i]);
 			y++;
