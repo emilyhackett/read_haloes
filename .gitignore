@@ -8,7 +8,6 @@
 seg*
 node*
 #Ignore final completed file
-read
 readSkel
 a.out
 backread
