@@ -9,7 +9,7 @@ seg*
 node*
 #Ignore final completed file
 read
-readNDskel
+readSkel
 a.out
 backread
 #Ignore swp files (i.e. files open in mvim)

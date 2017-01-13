@@ -101,10 +101,14 @@ extern NDskel	*FlattenSkl(NDskel *);
 
 ////////////////////	DEFINE FUNCTIONS IN "plotSkel.c"	////////////////////
 
+extern void	NodeData(NDskel *,char *);
+
 extern void	ListNodePos(NDskel *,char *);
 extern void	ListSegPos(NDskel *,char *);
+
 extern void	PlotNodePos(NDskel *,char *,char *,int);
 extern void	PlotSegPos(NDskel *,char *,char *,int);
+
 extern void	ListNodeFieldVals(NDskel *,char *);
 extern void	ListSegFieldVals(NDskel *,char *);
 

@@ -1,5 +1,34 @@
 #include "readSkel.h"	
 
+////////////////////	EXPORT ALL NODE DATA (POSITION AND FIELD) TO COLUMN TEXT	////////////////////
+
+void NodeData(NDskel *skl,char *datafile)
+{
+	FILE *fp;
+	fp=fopen(datafile,"w");
+	printf("File %s opened for node data write\n",datafile);
+
+	int pos=0;
+
+	for(int i=0;i<skl->nnodes;i++)		// Index over all nodes (n lines in file)
+	{
+		for(int j=0;j<skl->ndims;j++)
+		{
+			fprintf(fp,"%f,",skl->nodepos[pos]);
+			pos++;
+		}
+		  
+	  	for (int k=0;k<skl->nnodedata;k++)
+		{
+			fprintf(fp,"%.7g,",skl->Node[i].data[k]);	// Field values to file
+		}
+	
+		fprintf(fp,"\n");	// Print new line for each node
+    	}
+	
+	fclose(fp);
+}
+
 ////////////////////	EXPORT NODE POSITION DATA TO COLUMN TEXT	////////////////////
 
 // Save column data list of node positions
