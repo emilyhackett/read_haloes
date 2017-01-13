@@ -23,8 +23,8 @@ void read_header(FILE *fp)
 	
 //	Change this line in order to feed to delaunay_3D
 //	field->dims[0]=field->ndims;
-
-	for(int i=0;i<field->ndims;i++)
+	int i;
+	for(i=0;i<field->ndims;i++)
 	{
 		field->dims[i]=buffer[i];
 		printf("field->dims[%i]	= %i\n",i,field->dims[i]);

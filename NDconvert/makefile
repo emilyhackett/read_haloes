@@ -9,3 +9,6 @@ readfile.o: readfile.c makeNDfile.h
 
 createNDfield.o: createNDfield.c makeNDfile.h
 	gcc -c createNDfield.c
+
+clean: 
+	rm makeND main.o readfile.o createNDfield.o
