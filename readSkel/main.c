@@ -1,8 +1,10 @@
 #include "readSkel.h"
 
 #define FLATTEN 0
-#define PLOTNODES 0
-#define PLOTSEGS 0
+#define PLOTNODES 1
+#define PLOTSEGS 1
+#define PLOTNODEFIELDS 1
+#define PLOTSEGFIELDS 1
 
 ////////////////////	MAIN FUNCTION TO TAKE IN FILE AS COMMAND ARGUMENT ////////////////////
 
@@ -38,19 +40,27 @@ int main(int argc, char *argv[])
 	if(PLOTNODES)
 	{
 		printf("	--------------------------------------------\n");
-		PlotNodes(skl,"nodepos","nodeplot.ps");
+		PlotNodePos(skl,"nodepos.dat","nodeplot.ps",1);
 	}
 	
 	if(PLOTSEGS)
 	{
 		printf("	--------------------------------------------\n");
-		PlotSegs(skl,"segpos","segplot.ps");
+		PlotSegPos(skl,"segpos.dat","segplot.ps",1);
 	}
 
-//	MakePlotFile(skl,"CP_data");
+	if(PLOTNODEFIELDS)
+	{
+		printf("	--------------------------------------------\n");
+		ListNodeFieldVals(skl,"nodefieldvals.dat");
+	}
 
-	NodeFieldVals(skl,"NodeData");
-	
+	if(PLOTSEGFIELDS)
+	{
+		printf("	--------------------------------------------\n");
+		ListSegFieldVals(skl,"segfieldvals.dat");
+	}
+
 	printf("	---------- END OF PROGRAM REACHED ----------\n\n");
 
 	return 0;

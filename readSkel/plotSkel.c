@@ -1,9 +1,9 @@
 #include "readSkel.h"	
 
-////////////////////	PLOT NODES FROM  NODEPOS LIST IN SKL	////////////////////
+////////////////////	EXPORT NODE POSITION DATA TO COLUMN TEXT	////////////////////
 
-// Save plot of node positions
-void PlotNodes(NDskel *skl,char *datafile,char *plotfile)
+// Save column data list of node positions
+void ListNodePos(NDskel *skl,char *datafile)
 {
 	if(skl->ndims!=2)
 	{
@@ -11,11 +11,7 @@ void PlotNodes(NDskel *skl,char *datafile,char *plotfile)
 		exit(EXIT_FAILURE);
 	}
 
-	// Define temporary file for gnuplot commands
-	FILE *tmp;
-	tmp=fopen("temp","w");
-
-	// Define  file for critical points
+	// Define  file for node positions
 	FILE *fp;
 	fp=fopen(datafile,"w");
 	printf("File %s opened for critical point data write\n",datafile);
@@ -40,7 +36,6 @@ void PlotNodes(NDskel *skl,char *datafile,char *plotfile)
 	// Index over all nodes and turn long list into 2D array of coordinates
 	for(int i=1;i<=skl->nnodes*skl->ndims;i++)
 	{
-//		printf("skl->nodepos[%i]	= %f\n",i,skl->nodepos[i]);
 		if((i%2)==1)
 		{
 			fprintf(fp,"%f		",skl->nodepos[i]);
@@ -57,215 +52,175 @@ void PlotNodes(NDskel *skl,char *datafile,char *plotfile)
 	printf(" x	y\n");
 	fclose(fp);
 	printf("File %s closed\n",datafile);
-
-	// Define gnuplot commands
-	printf(" --- GNUplot COMMANDS ---\n");
-	
-	// Initial conditions
-//	char *settings="set size square 1,1\nset tmargin 2\n";	
-//	fputs(settings,tmp);
-//	printf("%s",settings);
-	
-	// Outputs
-	char output[BUFSIZ];
-	sprintf(output,"set term postscript color\nset output '%s'\n",plotfile);
-	fputs(output,tmp);
-	printf("%s",output);
-
-	// Plot commands 
-	char title[BUFSIZ];
-	sprintf(title,"set title 'Point plot for skeleton nodes from file %s with xy values'\n",datafile);
-	fputs(title,tmp);
-	printf("%s",title);
-
-	char plotcom[BUFSIZ];
-	sprintf(plotcom,"plot '%s' using 1:2 with points pointsize 1 pointtype 7\n",datafile);
-	fputs(plotcom,tmp);	
-	printf("%s",plotcom);
-
-	fclose(tmp);
-	system("gnuplot -p 'temp'");
-	remove("temp");
-
-	printf("%i node point plots saved to file %s\n",skl->nnodes,plotfile);
-
 }
 
-////////////////////	PLOT SEGS FROM SEGPOS LIST IN SKL	////////////////////
+////////////////////	EXPORT SEG POSITION DATA TO COLUMN TEXT	////////////////////
 
-void	PlotSegs(NDskel *skl,char *datafile, char *plotfile)
+void ListSegPos(NDskel *skl,char *datafile)
 {
+	// Save column data list of segment positions, aimed to be used 
+
 	if(skl->ndims!=2)
 	{
 		printf("ERROR: Can only plot 2D skeleton\n");
 		exit(EXIT_FAILURE);
 	}
 
-}
-
-////////////////////	EXTRACT PLOTTING DATA FROM NDSKEL	////////////////////
-
-void	MakePlotFile(NDskel *skl,char *datafile)
-{
-	int i,j,k;
-
+	// Define  file for node positions
 	FILE *fp;
 	fp=fopen(datafile,"w");
-	if(fp==NULL)
+	printf("File %s opened for critical point data write\n",datafile);
+
+	// Define counter for x and y position values
+	int x=0;
+	int y=0;
+
+	float *xpos;
+	xpos=malloc(sizeof(float)*skl->nsegs*2);
+		if(xpos==NULL)
+		{
+			fprintf(stderr,"xpos malloc failed\n");
+		}
+	float *ypos;
+	ypos=malloc(sizeof(float)*skl->nsegs*2);
+		if(ypos==NULL)
+		{
+			fprintf(stderr,"ypos malloc failed\n");
+		}
+
+	// Index over all segment start/end positions and write to two columns in file
+	for(int i=1;i<=skl->nsegs*2*skl->ndims;i++)
 	{
-		printf("ERROR opening %s file for data write\n",datafile);
+		if((i%2)==1)
+		{
+			fprintf(fp,"%f		",skl->segpos[i]);
+			x++;
+		}
+		if((i%2)==0)
+		{
+			fprintf(fp,"%f\n",skl->segpos[i]);
+			y++;
+		}
+	}
+	
+	printf("%i x positions read, %i y positions read to file %s in form\n",x,y,datafile);
+	printf(" x	y\n");
+	fclose(fp);
+	printf("File %s closed\n",datafile);
+}
+////////////////////	PLOT NODE POSITIONS TO POSTSCRIPT FILE	////////////////////
+
+void	PlotNodePos(NDskel *skl,char *datafile, char *plotfile, int print)
+{
+	// This function will take the datafile name as an argument, call the ListNodePos function 
+	// to fill the datafile with values, then create a temporary gnuplot script to run.
+	// Note: If print is non-zero, will print out the GNUplot commands to terminal, else
+	// will simply save them to temp file then delete them
+
+	if(skl->ndims!=2)
+	{
+		printf("ERROR: Can only plot 2D skeleton\n");
 		exit(EXIT_FAILURE);
 	}
 
-	int nodeDenId=getDataFieldID(skl,0,VALUE_TAG);
-	int nodePairId=getDataFieldID(skl,0,PERSISTENCE_PAIR_TAG);
+	ListNodePos(skl,datafile);
 
-	long **filTab=NULL;
-	int *filSegCount=NULL;
-	NDskl_seg **filSegTab=NULL;
-
-	int nfil=getNDskelFilTab(skl,&filSegTab,&filSegCount);
-
-	filTab=(long**)calloc(skl->nnodes,sizeof(long*));
-	for(i=0;i<skl->nnodes;i++)	// Index over all nodes in the skeleton
-	{
-		if(skl->Node[i].nnext)
-		{
-			filTab[i]=(long*)calloc(skl->Node[i].nnext,sizeof(long));
-		}
-		else {
-			filTab[i]=NULL;
-		}
-	}
-
-	NDskl_node *oldNode=NULL;
-	NDskl_node *oldNext=NULL;
-	int jNext=-1;
-	int jNode=-1;
+	// Define temporary file for gnuplot commands
+	FILE *tmp;
+	tmp=fopen("temp","w");
 	
-	for(i=0;i<nfil;i++)
-	{
-		NDskl_node *node=&skl->Node[filSegTab[i]->nodes[0]];
-		NDskl_node *next=&skl->Node[filSegTab[i]->nodes[1]];
-		
-		if((node == oldNode) && (next==oldNext))
-		{
-			jNode++;
-			jNext++;
-		}
-		else {
-			jNode=0;
-			jNext=0;
-		}
+	if(print)	printf(" --- GNUplot COMMANDS ---\n");
+	
+	// Set outputs
+	char output[BUFSIZ];
+	sprintf(output,"set term postscript color\nset output '%s'\n",plotfile);
+	fputs(output,tmp);
+	if(print)	printf("%s",output);
 
-		for(;jNode<node->nnext;jNode++)
-		{
-			if(node->Next[jNode]==next)	break;
-		}
+	// Plot commands
+	char title[BUFSIZ];
+	sprintf(title,"set title 'Point plot for skeleton nodes from file %s with xy values'\n",datafile);
+	fputs(title,tmp);
+	if(print)	printf("%s",title);
+	
+	char plotcom[BUFSIZ];
+	sprintf(plotcom,"plot '%s' using 1:2 with points pointsize 1 pointtype 7\n",datafile);
+	fputs(plotcom,tmp);	
+	if(print)	printf("%s",plotcom);
 
-		if(jNode==node->nnext)
-		{
-			fprintf(stderr,"ERROR in saving skeleton - invalid file!\n");
-		}
-		filTab[node->index][jNode]=i;
-			
-		for(;jNext<next->nnext;jNext++)
-		{
-			if(next->Next[jNext]==node)	break;
-		}
+	// Close temp file before running commands through system
+	fclose(tmp);
+	system("gnuplot -p 'temp'");
+	
+	// Remove temp file - comment out for trouble shooting
+	remove("temp");
 
-		if(jNext==next->nnext)
-		{
-			fprintf(stderr,"ERROR in saving skeleton - invalid file!\n");
-		}
-		filTab[next->index][jNext]=i;
-		oldNode=node;
-		oldNext=next;
-	}
- 
-	// Index over all nodes and write to file
-      	for (i=0;i<skl->nnodes;i++)
-    	{
-	  	NDskl_node *node=&(skl->Node[i]);
-      
-//	  	fprintf(fp,"%d",node->type);		// Print node type to file
-		
-//	  	for (j=0;j<skl->ndims;j++) fprintf(fp," %g",node->pos[j]);
-//		fprintf(fp,"\n");
-
-//	  	if (nodeDenId>=0) fprintf(fp," %g",node->data[nodeDenId]);	// Print 
-//	  	else fprintf(fp," 0");
-
-//	  	if (nodePairId>=0) fprintf(fp," %d",(int)(node->data[nodePairId]));
-//	  	else fprintf(f," %d",(int)i);
-
-	  	int boundary=0;
-	  	if (node->flags&FLAG_NDNODE_INFINITE) boundary=3;
-	  	else if (node->flags&FLAG_NDNODE_OUT) boundary=2;
-	  	else if (node->flags&FLAG_NDNODE_BOUNDARY) boundary=1;
-	  
-//		fprintf(f," %d\n",boundary);
-//	  	fprintf(f," %d\n",node->nnext);
-      
-//	  	for (j=0;j<node->nnext;j++)
-//			fprintf(fp," %d %ld\n",node->Next[j]->index,(long)filTab[i][j]);
-    	}
-
-      	for (i=0;i<skl->nnodes;i++) free(filTab[i]);
-      	free(filTab);
-
-	// Print filament data to file
-	 
-       	for (i=0;i<nfil;i++)
-	{
-	  	NDskl_seg *seg=filSegTab[i];
-	  	NDskl_node *node=&skl->Node[seg->nodes[0]];
-	  	NDskl_node *next=&skl->Node[seg->nodes[1]];
-     
-		// Print to file index of CP1, index of CP2 and number of sampling points
-//	  	fprintf(fp,"%ld %ld %ld\n",(long)node->index,(long)next->index,(long)filSegCount[i]+1);
-	  	for (j=0;j<skl->ndims;j++) 
-		{
-			// Print the position of sampling point for each dimension
-			fprintf(fp," %g",node->pos[j]);
-		}
-			fprintf(fp,"\n");
-	  	if (seg->Next!=NULL)
-		{
-	      		seg=seg->Next;
-	      		do {	    
-		    		for (j=0;j<skl->ndims;j++) 
-				{
-			  		fprintf(fp," %g",seg->pos[j]);
-				}
-				fprintf(fp,"\n");
-		    		seg=seg->Next;
-	      		} while(seg!=NULL);
-		}
-	  	for (j=0;j<skl->ndims;j++) 
-		{
-			fprintf(fp," %g",next->pos[j]);
-		}
-			fprintf(fp,"\n");
-    	}
-
-
-	fclose(fp);
-
-	printf("Critical points written to file %s\n",datafile);
+	printf("%i node points plotted in %s\n",skl->nnodes,plotfile);
 }
 
-////////////////////	WRITE COLUMN DATA FILE WITH NODE POSITIONS AND FIELD VALUES	////////////////////
+////////////////////	PLOT SEG POSITIONS TO POSTSCRIPT FILE	////////////////////
 
-void	NodeFieldVals(NDskel *skl,char *datafile)
+void	PlotSegPos(NDskel *skl,char *datafile, char *plotfile, int print)
 {
+	// This function will take the datafile name as an argument, call the ListSegPos function 
+	// to fill the datafile with values, then create a temporary gnuplot script to run.
+	// Note: If print is non-zero, will print out the GNUplot commands to terminal, else
+	// will simply save them to temp file then delete them
+
+	if(skl->ndims!=2)
+	{
+		printf("ERROR: Can only plot 2D skeleton\n");
+		exit(EXIT_FAILURE);
+	}
+
+	ListSegPos(skl,datafile);
+
+	// Define temporary file for gnuplot commands
+	FILE *tmp;
+	tmp=fopen("temp","w");
+	
+	if(print)	printf(" --- GNUplot COMMANDS ---\n");
+	
+	// Set outputs
+	char output[BUFSIZ];
+	sprintf(output,"set term postscript color\nset output '%s'\n",plotfile);
+	fputs(output,tmp);
+	if(print)	printf("%s",output);
+
+	// Plot commands
+	char title[BUFSIZ];
+	sprintf(title,"set title 'Point plot for skeleton nodes from file %s with xy values'\n",datafile);
+	fputs(title,tmp);
+	if(print)	printf("%s",title);
+	
+	char plotcom[BUFSIZ];
+	sprintf(plotcom,"plot '%s' using 1:2 with points pointsize 1 pointtype 7\n",datafile);
+	fputs(plotcom,tmp);	
+	if(print)	printf("%s",plotcom);
+
+	// Close temp file before running commands through system
+	fclose(tmp);
+	system("gnuplot -p 'temp'");
+	
+	// Remove temp file - comment out for trouble shooting
+	remove("temp");
+
+	printf("%i node points plotted in %s\n",skl->nnodes,plotfile);
+}
+
+////////////////////	WRITE COLUMN DATA FILE WITH NODE FIELD VALUES	////////////////////
+
+void	ListNodeFieldVals(NDskel *skl,char *datafile)
+{
+	// Prints node field names at the start of the file and then 
+	// all values for each node in columns in a txt file
 	int i,j,l;
 
 	FILE *fp;
 	fp=fopen(datafile,"w");
 	if(fp==NULL)
 	{
-		printf("ERROR opening %s file for data write\n",datafile);
+		printf("ERROR opening %s file for node field data write\n",datafile);
 		exit(EXIT_FAILURE);
 	}
 
@@ -335,33 +290,108 @@ void	NodeFieldVals(NDskel *skl,char *datafile)
 		oldNext=next;
 	}
 
-/*	// Beginning of data section for critical points (nodes?)
-//	fprintf(fp,"%d\n",skl->nnodedata);	// Number of fields associated to CP
-//      	for (i=0;i<skl->nnodedata;i++)	
-//	    	fprintf(fp,"%s\n",skl->nodedata_info[i]);	// Names of fields
+  	for (i=0;i<skl->nnodedata;i++)	
+	    	fprintf(fp,"%s\n",skl->nodedata_info[i]);	// Names of fields to file
       	for (i=0;i<skl->nnodes;i++)
     	{	  
 	  	for (j=0;j<skl->nnodedata-1;j++)
-			fprintf(fp,"%.7g	",skl->Node[i].data[j]);
-	  	fprintf(fp,"%.7g\n",skl->Node[i].data[j]);
+			fprintf(fp,"%.7g	",skl->Node[i].data[j]);	// Field values to file
+	  	fprintf(fp,"%.7g\n",skl->Node[i].data[j]);			// Print new line for each node
     	}
 
 	printf("Critical point data fields written to file %s in order:\n",datafile);
 	
       	for (i=0;i<skl->nnodedata;i++)	
-	    	printf("%s	",skl->nodedata_info[i]);	// Names of fields
+	    	printf("%s	",skl->nodedata_info[i]);	// Names of fields to screen
 	printf("\n");
-*/
 
+
+	fclose(fp);
+}
+
+////////////////////	WRITE COLUMN DATA FILE WITH SEGMENT FIELD VALUES	////////////////////
+
+void	ListSegFieldVals(NDskel *skl,char *datafile)
+{
+	// Prints segment field names at the start of the file and then 
+	// all values for each node in columns in a txt file
+	int i,j,l;
+
+	FILE *fp;
+	fp=fopen(datafile,"w");
+	if(fp==NULL)
+	{
+		printf("ERROR opening %s file for node field data write\n",datafile);
+		exit(EXIT_FAILURE);
+	}
+
+	int nodeDenId=getDataFieldID(skl,0,VALUE_TAG);
+	int nodePairId=getDataFieldID(skl,0,PERSISTENCE_PAIR_TAG);
+
+	long **filTab=NULL;
+	int *filSegCount=NULL;
+	NDskl_seg **filSegTab=NULL;
+
+	int nfil=getNDskelFilTab(skl,&filSegTab,&filSegCount);
+
+	filTab=(long**)calloc(skl->nnodes,sizeof(long*));
+	for(i=0;i<skl->nnodes;i++)	// Index over all nodes in the skeleton
+	{
+		if(skl->Node[i].nnext)
+		{
+			filTab[i]=(long*)calloc(skl->Node[i].nnext,sizeof(long));
+		}
+		else {
+			filTab[i]=NULL;
+		}
+	}
+
+	NDskl_node *oldNode=NULL;
+	NDskl_node *oldNext=NULL;
+	int jNext=-1;
+	int jNode=-1;
+	
+	for(i=0;i<nfil;i++)
+	{
+		NDskl_node *node=&skl->Node[filSegTab[i]->nodes[0]];
+		NDskl_node *next=&skl->Node[filSegTab[i]->nodes[1]];
+		
+		if((node == oldNode) && (next==oldNext))
+		{
+			jNode++;
+			jNext++;
+		}
+		else {
+			jNode=0;
+			jNext=0;
+		}
+
+		for(;jNode<node->nnext;jNode++)
+		{
+			if(node->Next[jNode]==next)	break;
+		}
+
+		if(jNode==node->nnext)
+		{
+			fprintf(stderr,"ERROR in saving skeleton - invalid file!\n");
+		}
+		filTab[node->index][jNode]=i;
+			
+		for(;jNext<next->nnext;jNext++)
+		{
+			if(next->Next[jNext]==node)	break;
+		}
+
+		if(jNext==next->nnext)
+		{
+			fprintf(stderr,"ERROR in saving skeleton - invalid file!\n");
+		}
+		filTab[next->index][jNext]=i;
+		oldNode=node;
+		oldNext=next;
+	}
 
 	// Beginning of data section for filaments
-	printf("Filament data fields written to file %s in order:\n",datafile);
-	
-      	for (i=0;i<skl->nsegdata;i++)	
-	    	printf("%s	",skl->segdata_info[i]);	// Names of fields
-	printf("\n");
-	
-	
 	int pid[skl->nsegdata*2];
       	char tmp[skl->nsegdata][255];
       	for (i=0,j=0;i<skl->nsegdata;i++)
@@ -389,8 +419,11 @@ void	NodeFieldVals(NDskel *skl,char *datafile)
 	  	else continue;       
     	}
 
-	int nsegdata=j;
+      	for (i=0;i<skl->nsegdata;i++)	
+	    	fprintf(fp,"%s	",skl->segdata_info[i]);	// Names of fields to file
 
+	// Print field values for 2*nsegs to file
+	int nsegdata=j;
       	for (i=0;i<nfil;i++)
     	{
 	  	NDskl_seg *seg=filSegTab[i];
@@ -412,8 +445,16 @@ void	NodeFieldVals(NDskel *skl,char *datafile)
 	  	for (l=0;l<nsegdata-1;l++)
 			fprintf(fp,"%.7g ",seg->data[pid[2*l+1]]);
 	  	fprintf(fp,"%.7g\n",seg->data[pid[2*l+1]]);
-    	}	
+    	}
+
+	printf("Filament data fields written to file %s in order:\n",datafile);
+      	for (i=0;i<skl->nsegdata;i++)	
+	    	printf("%s	",skl->segdata_info[i]);	// Names of fields to screen
+	printf("\n");
+
+	fclose(fp);	
 }
+
 
 
 
