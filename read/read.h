@@ -124,6 +124,10 @@ extern void	evalue_characteristics(double *);
 	/* Prints out characteristics of the moment of inertia tensor evalues
 	 * such as sphericity and triaxiality */
 
+double trace(double *);
+double twobytwos(double *);
+double det(double *);
+double *neweigenvalues(double *);
 
 //// MATHS FUNCTIONS ////
 // Functions are in functions.c

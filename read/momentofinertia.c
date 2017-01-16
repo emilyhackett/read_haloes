@@ -27,9 +27,9 @@ double *moment_of_inertia(float ***GRID,float *CoM)
 		}
 	}
 	
-	printf("I11	I12	I13	->	%.2f	%.2f	%.2f\n",I[1][1],I[1][2],I[1][3]);
-	printf("I21	I22	I23	->	%.2f	%.2f	%.2f\n",I[2][1],I[2][2],I[2][3]);
-	printf("I31	I32	I33	->	%.2f	%.2f	%.2f\n",I[3][1],I[3][2],I[3][3]);
+	printf("I11	I12	I13	->	%.2f		%.2f		%.2f\n",I[1][1],I[1][2],I[1][3]);
+	printf("I21	I22	I23	->	%.2f		%.2f		%.2f\n",I[2][1],I[2][2],I[2][3]);
+	printf("I31	I32	I33	->	%.2f		%.2f		%.2f\n",I[3][1],I[3][2],I[3][3]);
 
 	matrix[0]=I[1][1];
 	matrix[1]=I[2][2];
@@ -149,4 +149,3 @@ void evalue_characteristics(double *evalues)
 	double T=(l1*l1-l2*l2)/(l1*l1-l3*l3);
 	printf("triaxiality, T	= %.2f\n",T);
 }
-

@@ -51,10 +51,10 @@ int main(int argc, char *argv[])
 	{
 		printf("	---------- PLOTTING NODE POSITIONS ----------\n");
 		PlotNodePos(skl,"nodepos.dat","nodeplot.ps",1);
-		for(int i=0;i<100;i++)
-		{
-			printf("%f\n",skl->nodepos[i]);
-		}
+//		for(int i=0;i<100;i++)
+//		{
+//			printf("%f\n",skl->nodepos[i]);
+//		}
 
 	}
 	
