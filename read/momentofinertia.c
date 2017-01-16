@@ -7,12 +7,17 @@ double *moment_of_inertia(float ***GRID,float *CoM)
 	double *matrix=malloc(6*sizeof(double));
 	
 	double I[field->ndims+1][field->ndims+1];
+	
+	int xmid=(int)field->dims[0]/2;
+	int ymid=(int)field->dims[1]/2;
+	int zmid=(int)field->dims[2]/2;
+//	printf("xmid	= %i, ymid	= %i, zmid	= %i\n",xmid,ymid,zmid);
 
-	for(int x=0;x<field->dims[0];x++)
+	for(int x=(xmid-radius);x<(xmid+radius);x++)
 	{
-		for(int y=0;y<field->dims[1];y++)
+		for(int y=(ymid-radius);y<(ymid+radius);y++)
 		{
-			for(int z=0;z<field->dims[2];z++)
+			for(int z=(zmid-radius);z<(zmid+radius);z++)
 			{
 				I[1][1]=I[1][1]+(x-CoM[0])*(x-CoM[0])*GRID[x][y][z];
 				I[1][2]=I[1][2]+(x-CoM[0])*(y-CoM[1])*GRID[x][y][z];
@@ -148,4 +153,8 @@ void evalue_characteristics(double *evalues)
 	// Define the triaxiality, T of the halo:
 	double T=(l1*l1-l2*l2)/(l1*l1-l3*l3);
 	printf("triaxiality, T	= %.2f\n",T);
+
+	// Define the ellipticity, E of the halo:
+	double E=(1-l1/l2);
+	printf("ellipticity, E = %.2f\n",E);
 }

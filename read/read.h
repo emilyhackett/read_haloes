@@ -14,7 +14,7 @@
 #define NDFIELD_TAG "NDFIELD"
 #define OPTLIST "ncdri:"
 
-extern float radius;
+extern int radius;
 
 // NDField structure to hold data:
 
