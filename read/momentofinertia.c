@@ -1,5 +1,103 @@
 #include "read.h"
 
+double *eigensystem(double *I)
+{
+
+	double *esys;
+	esys=malloc(12*sizeof(double));
+	
+	// This function will take the symmetric moment of inertia matrix in the 
+	// simplified form defined previously and will output a list of floats:
+	// e1, e2, e3, (v1x,v1y,v1z), (v2x,v2y,v2z), (v3x,v3y,v3z) 
+	// corresponding to the values for the eigensystem as a whole
+
+	double det;	// Define the 3x3 matrix determinant
+	det=I[0]*(I[1]*I[2]-I[5]*I[5])
+		-I[3]*(I[3]*I[2]-I[5]*I[4])
+		+I[4]*(I[3]*I[5]-I[1]*I[4]);
+
+	// Define the following values as the coefficients for the cubic equation
+	// a x^3 + b x^2 + c x + d = 0
+
+	double a,b,c,d;
+
+	a=-1;
+	
+	b=I[0]+I[1]+I[2];
+	
+	c=-I[0]*I[1]-I[0]*I[2]-I[1]*I[2]+I[3]*I[3]+I[4]*I[4]+I[5]*I[5];
+
+	d=I[0]*I[1]*I[2]-I[2]*I[3]*I[3]-I[1]*I[4]*I[4]
+		+2*I[3]*I[4]*I[5]-I[0]*I[5]*I[5];
+
+	printf("a	= %.2f\nb	= %.2f\nc 	= %.2f\nd	= %.2f\n",a,b,c,d);
+	
+	double *evals;
+	evals=malloc(3*sizeof(double));
+
+	// Define some useful quantities to simplify the equations
+	/*
+	double beta,alpha,lambda;
+	
+	alpha=-b*b+3*a*c;
+	beta=-2*b*b*b+9*a*b*c-27*a*a*d;
+	lambda=-4*beta*beta*beta+alpha*alpha;
+
+	printf("alpha	= %.2f\nbeta	= %.2f\nlambda	= %.2f\n",alpha,beta,lambda);
+	
+	evals[0]=-b/3*a-(1.25992*alpha)/(3*a*cbrt(beta+sqrt(lambda)))
+		+cbrt(beta+sqrt(lambda))/(3*1.25992*a);
+
+	printf("evals[0]	= %.2f\n",evals[0]);
+	*/
+
+	//////////////
+
+	b /= a;
+	c /= a;
+	d /= a;
+	
+	double disc,q,r,dum1,s,t,term1,r13,pi;
+
+	q=(3.0*c-(b*b))/9.0;
+	r=-(27.0*d)+b*(9.0*c-2.0*(b*b));
+	r /= 54.0;
+	disc=q*q*q + r*r;
+	term1=(b/3.0);
+	if(disc>0)	// One root real, two complex (ERROR!)
+	{
+		printf("ERROR - one root real, two complex\n");
+		exit(EXIT_FAILURE);
+	}
+
+	if(disc == 0)	// All roots real, two equal (unlikely)
+	{
+		printf("ERROR - two real roots equal\n");
+	}
+	
+	q=-q;
+	dum1=q*q*q;
+	dum1=acos(r/sqrt(dum1));
+	r13=2.0*sqrt(q);
+	pi=3.14159265;
+
+	evals[0]=-term1+r13*cos(dum1/3.0);
+	evals[1]=-term1+r13*cos((dum1+2.0*pi)/3.0);
+	evals[2]=-term1+r13*cos((dum1+4.0*pi)/3.0);
+
+	for(int i=0;i<3;i++)
+	{
+		printf("evals[%i]	= %.2f\n",i,evals[i]);
+	}
+
+
+
+
+
+
+	return evals;
+}
+
 //////////////////////////	CALCULATING MOMENT OF INERTIA FROM A GRID	//////////////////////////
 
 double *moment_of_inertia(float ***GRID,float *CoM)
@@ -43,7 +141,7 @@ double *moment_of_inertia(float ***GRID,float *CoM)
 	matrix[4]=I[3][1];
 	matrix[5]=I[3][2];
 
-	printf("Moment of inertia tensor passed to eigenvalues function ...\n");
+	if(LONG)	printf("Moment of inertia tensor passed to eigenvalues function ...\n");
 
 	// ADD CHECK FOR SYMMETRY (?)
 
@@ -60,7 +158,7 @@ double *eigenvalues(double *matrix)
 	
 	// Define the trace of the matrix (sum of diagonal elements)
 	double trace=matrix[0]+matrix[1]+matrix[2];
-	printf("	trace	= %.2f\n",trace);
+	//printf("	trace	= %.2f\n",trace);
 	double q=trace/3;
 	//printf("	q	= %.2f\n",q);	
 
@@ -91,7 +189,7 @@ double *eigenvalues(double *matrix)
 
 	// Calculate determinant of matrix B
 	double detB=B[0]*B[1]*B[2]+2*B[3]*B[5]*B[4]-B[4]*B[1]*B[4]-B[3]*B[3]*B[2]-B[0]*B[5]*B[5];
-	printf("	detB	= %.8f\n",detB);
+	//printf("	detB	= %.8f\n",detB);
 
 	double r=detB/2;
 	//printf("	r	= %.2f\n",r);
@@ -113,24 +211,13 @@ double *eigenvalues(double *matrix)
 
 
 	double e1=q+2*p*cos(phi);
-	printf("	e1	= %.2f\n",e1);
-	
 	double e3=q+2*p*cos(phi+(2*pi/3));
-	printf("	e3	= %.2f\n",e3);
-
 	double e2=3*q - e1-e3;
-	printf("	e2	= %.2f\n",e2);
 	
 	evalues[0]=e1;
 	evalues[1]=e2;
 	evalues[2]=e3;
 	
-	qsort(evalues,3,sizeof(double),cmpfunc);
-	printf("After sort, eigenvalues returned from function are:\n");
-	printf("evalues[0]	= %.2f\n",evalues[0]);
-	printf("evalues[1]	= %.2f\n",evalues[1]);
-	printf("evalues[2]	= %.2f\n",evalues[2]);	
-
 	return evalues;
 }
 
@@ -138,23 +225,38 @@ double *eigenvalues(double *matrix)
 
 void evalue_characteristics(double *evalues)
 {
+	qsort(evalues,3,sizeof(double),cmpfunc);
+	printf("  After sort, eigenvalues returned from function are:\n");
+	printf("evalues[0]	= %.2f\n",evalues[0]);
+	printf("evalues[1]	= %.2f\n",evalues[1]);
+	printf("evalues[2]	= %.2f\n",evalues[2]);	
 
-	printf("	Determining physical characteristics from eigenvalues:\n");
+	printf("  Determining physical characteristics from eigenvalues:\n");
 	
-	double l1=evalues[0];
-	double l2=evalues[1];
-	double l3=evalues[2];
+	double l1=sqrt(fabs(-evalues[0]+evalues[1]+evalues[2]))/sqrt(2);
+	double l2=sqrt(fabs(evalues[0]-evalues[1]+evalues[2]))/sqrt(2);
+	double l3=sqrt(fabs(evalues[0]+evalues[1]-evalues[2]))/sqrt(2);
+
+	printf("a	= %.2f\n",l1);
+	printf("b	= %.2f\n",l2);
+	printf("c	= %.2f\n",l3);
 	
+//	printf("l1 = %2.f\nl2 = %.2f\nl3 = %.2f\n",l1,l2,l3);
+
 	// Define the sphericity, S of the halo:
 	double S=l3/l1;
-	printf("sphericity, S	= %.2f\n",S);
+	printf("Sphericity, S	= %.2f\n",S);
 
 
 	// Define the triaxiality, T of the halo:
 	double T=(l1*l1-l2*l2)/(l1*l1-l3*l3);
-	printf("triaxiality, T	= %.2f\n",T);
+	printf("Triaxiality, T	= %.2f\n",T);
 
 	// Define the ellipticity, E of the halo:
-	double E=(1-l1/l2);
-	printf("ellipticity, E = %.2f\n",E);
+	double E1=(1-l1/l2);
+	printf("Ellipticity, E1 = %.2f\n",E1);
+	double E2=(1-l2/l3);
+	printf("Ellipticity, E2 = %.2f\n",E2);
+	double E3=(1-l1/l3);
+	printf("Ellipticity, E3 = %.2f\n",E3);
 }

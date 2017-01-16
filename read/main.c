@@ -25,10 +25,10 @@ int main(int argc, char *argv[])
 	if(iflag) printf("Radius read in as %i\n",radius);
 
 	// Open file passed in command line arguments
-	printf("\n	---- READING FROM FORTRAN FILE ----\n");
+	if(LONG)	printf("\n	---- READING FROM FORTRAN FILE ----\n");
 	FILE *fp;
 	fp = fopen(argv[argc-2],"r");
-	printf("File opened is %s\n",argv[argc-2]);
+	if(LONG)	printf("File opened is %s\n",argv[argc-2]);
 
 	// Allocate memory for NDfield structure
 	field=calloc(1,sizeof(NDfield));
@@ -42,10 +42,10 @@ int main(int argc, char *argv[])
 	read_header(fp);
 	
 	// Populate NDfield structure with values
-	printf("\n	---- CREATING NDFIELD STRUCTURE ----\n");
+	if(LONG)	printf("\n	---- CREATING NDFIELD STRUCTURE ----\n");
 	create_NDstruct(0,(1<<8),field->x0,field->delta);
 
-	printf("\n	---- READING GRID INTO NDFIELD STRUCTURE ----\n");
+	if(LONG)	printf("\n	---- READING GRID INTO NDFIELD STRUCTURE ----\n");
 	read_grid(fp);
 
 	// File names to save into:
@@ -109,8 +109,11 @@ int main(int argc, char *argv[])
 		evalues=eigenvalues(matrix);
 		evalue_characteristics(evalues);
 
-		//printf("\n\n	---- NEW EIGENVALUE CALCULATION TEST ----\n\n");
-		//neweigenvalues(matrix);
+		printf("\n	---- NEW EIGENVALUE CALCULATION TEST ----\n\n");
+		
+		double *eval2=malloc(field->ndims*sizeof(double));
+		eval2=eigensystem(matrix);
+		evalue_characteristics(eval2);
 	}
 
 	printf("\n	---- END OF PROGRAM REACHED ----\n\n");

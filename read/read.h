@@ -14,6 +14,8 @@
 #define NDFIELD_TAG "NDFIELD"
 #define OPTLIST "ncdri:"
 
+#define LONG	0
+
 extern int radius;
 
 // NDField structure to hold data:
@@ -128,6 +130,8 @@ double trace(double *);
 double twobytwos(double *);
 double det(double *);
 double *neweigenvalues(double *);
+
+double *eigensystem(double *);
 
 //// MATHS FUNCTIONS ////
 // Functions are in functions.c

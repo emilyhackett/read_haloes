@@ -10,7 +10,7 @@ void read_header(FILE *fp)
 	
 	fread(len,4,1,fp);
 	field->ndims=length/4;
-	printf("field->ndims	= %i\n",field->ndims);
+	if(LONG)	printf("field->ndims	= %i\n",field->ndims);
 	
 	buffer = malloc(field->ndims+1);
 	fread(buffer,4,field->ndims+1,fp);
@@ -27,7 +27,7 @@ void read_header(FILE *fp)
 	for(int i=0;i<field->ndims;i++)
 	{
 		field->dims[i]=buffer[i];
-		printf("field->dims[%i]	= %i\n",i,field->dims[i]);
+		if(LONG)	printf("field->dims[%i]	= %i\n",i,field->dims[i]);
 	}
 }
 
@@ -40,7 +40,7 @@ void read_grid(FILE *fp)
 	int *len = &length;
 	
 	fread(len,4,1,fp);
-	printf("Number of grid points is %i\n",length/4);
+	if(LONG)	printf("Number of grid points is %i\n",length/4);
 
 	field->val=calloc(field->nval,field->datasize);
 	if(field->val==NULL)

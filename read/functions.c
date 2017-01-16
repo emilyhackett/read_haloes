@@ -26,8 +26,8 @@ float ***create_grid(void)
 		}
 	}
 
-	printf("Grid cleared and allocated for GRID[%i][%i][%i]\n",nx,ny,nz); 
-	printf("nvals read into grid are %i\n",nvals);
+	if(LONG)	printf("Grid cleared and allocated for GRID[%i][%i][%i]\n",nx,ny,nz); 
+	if(LONG)	printf("nvals read into grid are %i\n",nvals);
 	
 	return GRID;	
 }
