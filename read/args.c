@@ -22,6 +22,7 @@ void flags(int argc, char *argv[])
 				break;
 			case 'i':		// Calculate moment of inertia tensor
 				iflag= !iflag;
+				radius=atof(optarg);	
 				break;
 		}
     	}

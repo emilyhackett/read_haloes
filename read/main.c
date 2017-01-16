@@ -3,6 +3,7 @@
 // Initialising declared variables
 NDfield *field;
 int nx,ny,nz;
+float radius;
 
 // Initialising command line argument structures
 bool nflag,cflag,dflag,rflag,iflag,errflag	= false;
@@ -21,6 +22,7 @@ int main(int argc, char *argv[])
 
 	// Read in command line argument flags
 	flags(argc,argv);
+	if(iflag) printf("Radius read in as %.2f\n",radius);
 
 	// Open file passed in command line arguments
 	printf("\n	---- READING FROM FORTRAN FILE ----\n");

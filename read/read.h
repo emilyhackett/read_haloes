@@ -8,13 +8,13 @@
 #include <stdbool.h>
 #include <getopt.h>
 
-
 // Globals:
 
 #define NDFIELD_MAX_DIMS 20
 #define NDFIELD_TAG "NDFIELD"
-#define OPTLIST "ncdri"
+#define OPTLIST "ncdri:"
 
+extern float radius;
 
 // NDField structure to hold data:
 
