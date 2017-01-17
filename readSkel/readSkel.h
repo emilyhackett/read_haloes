@@ -109,7 +109,7 @@ extern void	ListSegPos(NDskel *,char *,float,float);
 	 * minimum and maximum value of z */
 
 extern void	PlotNodePos(NDskel *,char *,char *,float,float,int);
-extern void	PlotSegPos(NDskel *,char *,char *,float,float,int);
+extern void	PlotSegPos(NDskel *,char *,char *,char *,float,float,int);
 
 extern void	ListNodeFieldVals(NDskel *,char *);
 extern void	ListSegFieldVals(NDskel *,char *);

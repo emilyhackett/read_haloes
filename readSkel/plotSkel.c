@@ -12,54 +12,83 @@ void ListSegPos(NDskel *skl,char *datafile,float min,float max)
 	printf("File %s opened for critical point data write\n",datafile);
 
 	// Define counter for x and y position values
-	int x=0;
-	int y=0;
-	int z=0;
+	int x1=0;
+	int y1=0;
+	int z1=0;
 
-	float *xpos;
-	float *ypos;
-	float *zpos;
+	int x2=0;
+	int y2=0;
+	int z2=0;
 
-	xpos=malloc(2*skl->nsegs*sizeof(float));
-	ypos=malloc(2*skl->nsegs*sizeof(float));
-	zpos=malloc(2*skl->nsegs*sizeof(float));
+	float *x1pos;
+	float *y1pos;
+	float *z1pos;
+	
+	float *x2pos;
+	float *y2pos;
+	float *z2pos;
+
+	x1pos=malloc(2*skl->nsegs*sizeof(float));
+	y1pos=malloc(2*skl->nsegs*sizeof(float));
+	z1pos=malloc(2*skl->nsegs*sizeof(float));
+	
+	x2pos=malloc(2*skl->nsegs*sizeof(float));
+	y2pos=malloc(2*skl->nsegs*sizeof(float));
+	z2pos=malloc(2*skl->nsegs*sizeof(float));
 	 
 	// Index over all segment start/end positions and write to two columns in file
 	for(int i=1;i<=skl->nsegs*2*skl->ndims;i++)
 	{
-		if((i%3)==2)
+		if((i%6)==5)
 		{
-			xpos[x]=skl->segpos[i];
-			x++;
+			x1pos[x1]=skl->segpos[i];
+			x1++;
 		}
-		if((i%3)==1)
+		if((i%6)==4)
 		{
-			ypos[y]=skl->segpos[i];
-			y++;
+			y1pos[y1]=skl->segpos[i];
+			y1++;
 		}
-		if((i%3)==0)
+		if((i%6)==3)
 		{
-			zpos[z]=skl->segpos[i];
-			z++;
+			z1pos[z1]=skl->segpos[i];
+			z1++;
+		}
+		if((i%6)==2)
+		{
+			x2pos[x2]=skl->segpos[i];
+			x2++;
+		}
+		if((i%6)==1)
+		{
+			y2pos[y2]=skl->segpos[i];
+			y2++;
+		}
+		if((i%6)==0)
+		{
+			z2pos[z2]=skl->segpos[i];
+			z2++;
 		}
 	}
 	
-	for(int i=0;i<=skl->nsegs*2;i++)
+	for(int i=0;i<=skl->nsegs;i++)
 	{
-		if(zpos[i]>=min && zpos[i]<=max)
+		if(z1pos[i]>=min && z1pos[i]<=max && z2pos[i]>=min && z2pos[i]<=max)
 		{
-			fprintf(fp,"%f	%f	%f	1\n",xpos[i],ypos[i],zpos[i]);
+			fprintf(fp,"%f	%f	%f	",x1pos[i],y1pos[i],z1pos[i]);
+			fprintf(fp,"%f	%f	%f	1\n",x2pos[i],y2pos[i],z2pos[i]);
+			//fprintf(fp,"\n");
 		}
 	}
 
-	printf("%i x positions, %i y positions, %i z positions read to file %s in form\n",x,y,z,datafile);
+	printf("%i x positions, %i y positions, %i z positions read to file %s in form\n",x1,y1,z1,datafile);
 	printf(" x	y	z	1\n");
 	fclose(fp);
 	printf("File %s closed\n",datafile);
 }
 ////////////////////	PLOT SEG POSITIONS TO POSTSCRIPT FILE	////////////////////
 
-void	PlotSegPos(NDskel *skl,char *datafile, char *plotfile, float min, float max, int print)
+void	PlotSegPos(NDskel *skl,char *datafile, char *plotfile, char *denfile,float min, float max, int print)
 {
 	// This function will take the datafile name as an argument, call the ListSegPos function 
 	// to fill the datafile with values, then create a temporary gnuplot script to run.
@@ -79,23 +108,37 @@ void	PlotSegPos(NDskel *skl,char *datafile, char *plotfile, float min, float max
 	sprintf(output,"set term postscript color\nset output '%s'\n",plotfile);
 	fputs(output,tmp);
 	if(print)	printf("%s",output);
-
+	
 	// Set box settings
 	char settings[BUFSIZ];
-	sprintf(settings,"set size square 1,1\nset tmargin 2\nset xrange [0:1]\nset yrange [0:1]\n");
+	sprintf(settings,"set size square 1,1\nset tmargin 2\nset xrange [0:1]\nset yrange [0:1]\nunset label\n");
 	fputs(settings,tmp);
 	if(print)	printf("%s",settings);
 
-	// Plot commands
+	// FIRST PLOT - Skeleton only
 	char title[BUFSIZ];
-	sprintf(title,"set title 'Point plot for skeleton segments from file %s with xy values for z in [%.2f,%.2f]'\n",datafile,min,max);
+	sprintf(title,"set title 'Skeleton segments from file %s with xy values for z in [%.2f,%.2f]'\n",datafile,min,max);
 	fputs(title,tmp);
 	if(print)	printf("%s",title);
 	
 	char plotcom[BUFSIZ];
-	sprintf(plotcom,"plot '%s' using 1:2 with points pointsize 1\n",datafile);
+	sprintf(plotcom,"plot '%s' using 1:2:($4-$1):($5-$2) with vectors nohead notitle\n",datafile);
 	fputs(plotcom,tmp);	
 	if(print)	printf("%s",plotcom);
+
+	// SECOND PLOT - Skeleton on top of density file
+	sprintf(settings,"set view map\nset palette rgb 36,35,34\n");
+	fputs(settings,tmp);
+	if(print)	printf("%s",settings);
+	
+	sprintf(title,"set title 'Skeleton segments on density map xy values for z in [%.2f:%.2f]'\n",min,max);
+	fputs(title,tmp);
+	if(print)	printf("%s",title);
+	
+	sprintf(plotcom,"splot '%s' using ($1/128):($2/128):4 with points palette pointtype 7,'%s' using 1:2:7:($4-$1):($5-$2):7 with vectors nohead lc 5 notitle\n",denfile,datafile);
+	fputs(plotcom,tmp);
+	if(print)	printf("%s",plotcom);
+	
 
 	// Close temp file before running commands through system
 	fclose(tmp);

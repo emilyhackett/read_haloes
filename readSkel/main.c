@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 	if(PLOTSEGS && !EXAMPLE)
 	{
 		printf("	---------- PLOTTING SEGMENT POSITIONS ----------\n");
-		PlotSegPos(skl,"segpos.dat","segplot.ps",0.35,0.4,1);
+		PlotSegPos(skl,"segpos.dat","segplot.ps","GAS10G-xygrid.dat",0.35,0.4,1);
 	}
 			
 
