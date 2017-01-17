@@ -1,18 +1,21 @@
 #Ignore all object files
 *.o
-#Ignore all output files
+#Ignore all output and big input files
 *.ps
-*.ND
 *.txt
-*ASCI
+*.NDskl
+# Output from read:
+*.ND
+*.dat
+# Output from readSkel:
+*ASCII
 seg*
 node*
 #Ignore final completed file
-readSkel
+*/readSkel
+*/read
 a.out
 backread
 #Ignore swp files (i.e. files open in mvim)
 *.swp
 *.gch
-# Ignore very large files for easier data transfer
-eg2D.*

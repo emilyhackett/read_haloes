@@ -48,12 +48,12 @@ void ListSegPos(NDskel *skl,char *datafile,float min,float max)
 	{
 		if(zpos[i]>=min && zpos[i]<=max)
 		{
-			fprintf(fp,"%f	%f	%f\n",xpos[i],ypos[i],zpos[i]);
+			fprintf(fp,"%f	%f	%f	1\n",xpos[i],ypos[i],zpos[i]);
 		}
 	}
 
 	printf("%i x positions, %i y positions, %i z positions read to file %s in form\n",x,y,z,datafile);
-	printf(" x	y	z\n");
+	printf(" x	y	z	1\n");
 	fclose(fp);
 	printf("File %s closed\n",datafile);
 }

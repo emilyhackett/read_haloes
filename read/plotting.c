@@ -46,8 +46,7 @@ void xy_data(char *filename,float ***GRID)
 		exit(EXIT_FAILURE);
 	}
 	printf("File %s opened for column data write\n",filename);
-	
-	
+		
 	for (int x=0;x<field->dims[0];x++)
 	{
 		for(int y=0;y<field->dims[1];y++)
