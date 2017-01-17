@@ -2,9 +2,7 @@
 
 #define EXAMPLE		0	// Basically a concept check - no output files wanted
 
-#define FLATTEN		1	// Take a 3D skeleton and flatten to 2D position by ignoring z coords
-
-#define PLOTNODES	1	// Output node pos to file and save 2D list plot to .ps file
+#define PLOTNODES	0	// Output node pos to file and save 2D list plot to .ps file
 #define PLOTSEGS	1	// Output seg pos to file and save 2D list plot to .ps file
 
 #define PLOTNODEFIELDS	0	// Ouptut all node field data to .dat file
@@ -20,7 +18,6 @@ int main(int argc, char *argv[])
 	
 	// Define NDskeleton
 	NDskel	*skl;
-	NDskel 	*new;
 	
 	if(argc<2)
 	{
@@ -42,35 +39,17 @@ int main(int argc, char *argv[])
 		printf("	---------- SAVING ASCII SKELETON ----------\n");
 		Save_ASCIIskel(skl,argv[2]);
 	}	
-	
-	if(FLATTEN && !EXAMPLE)
-	{
-		printf("	---------- FLATTENING TO 2D SKELETON ----------\n");
-		new=FlattenSkl(skl);
-	}	
 
 	if(PLOTNODES && !EXAMPLE)
 	{
 		printf("	---------- PLOTTING NODE POSITIONS ----------\n");
-		if(skl->ndims==2)
-		{
-			PlotNodePos(skl,"nodepos.dat","nodeplot.ps",0.2,0.4,0);
-		}
-		else	{
-			PlotNodePos(new,"nodepos.dat","nodeplot.ps",0.2,0.4,0);
-		}
+		PlotNodePos(skl,"nodepos.dat","nodeplot.ps",0.2,0.4,0);
 	}
 	
 	if(PLOTSEGS && !EXAMPLE)
 	{
 		printf("	---------- PLOTTING SEGMENT POSITIONS ----------\n");
-		if(skl->ndims==2)
-		{
-			PlotSegPos(skl,"segpos.dat","segplot.ps",0.2,0.4,1);
-		}
-		else	{
-			PlotNodePos(new,"segpos.dat","segplot.ps",0.2,0.4,1);
-		}
+		PlotSegPos(skl,"segpos.dat","segplot.ps",0.35,0.4,1);
 	}
 			
 

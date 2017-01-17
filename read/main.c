@@ -74,8 +74,8 @@ int main(int argc, char *argv[])
 	// Save to column data file format with .dat extension
 	if(cflag) {
 		printf("\n	---- WRITING GRID TO COLUMN DATA ----\n");
-//		sprintf(COLFILE,"%s-grid.dat",argv[argc-1]);
-//		column_data(COLFILE);
+		sprintf(COLFILE,"%s-grid.dat",argv[argc-1]);
+		column_data(COLFILE);
 		sprintf(xyCOLFILE,"%s-xygrid.dat",argv[argc-1]);
 		xy_data(xyCOLFILE,GRID);
 		sprintf(xzCOLFILE,"%s-xzgrid.dat",argv[argc-1]);

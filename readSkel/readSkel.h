@@ -104,7 +104,9 @@ extern NDskel	*FlattenSkl(NDskel *);
 extern void	NodeData(NDskel *,char *);
 
 extern void	ListNodePos(NDskel *,char *);
-extern void	ListSegPos(NDskel *,char *);
+extern void	ListSegPos(NDskel *,char *,float,float);
+	/* Exports list of 3D coordinates to txt file for gnuplot read between
+	 * minimum and maximum value of z */
 
 extern void	PlotNodePos(NDskel *,char *,char *,float,float,int);
 extern void	PlotSegPos(NDskel *,char *,char *,float,float,int);
