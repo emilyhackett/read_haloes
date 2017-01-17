@@ -2,7 +2,6 @@
 
 double *eigensystem(double *I)
 {
-
 	double *esys;
 	esys=malloc(12*sizeof(double));
 	
@@ -30,29 +29,8 @@ double *eigensystem(double *I)
 	d=I[0]*I[1]*I[2]-I[2]*I[3]*I[3]-I[1]*I[4]*I[4]
 		+2*I[3]*I[4]*I[5]-I[0]*I[5]*I[5];
 
-	printf("a	= %.2f\nb	= %.2f\nc 	= %.2f\nd	= %.2f\n",a,b,c,d);
+//	printf("a	= %.2f\nb	= %.2f\nc 	= %.2f\nd	= %.2f\n",a,b,c,d);
 	
-	double *evals;
-	evals=malloc(3*sizeof(double));
-
-	// Define some useful quantities to simplify the equations
-	/*
-	double beta,alpha,lambda;
-	
-	alpha=-b*b+3*a*c;
-	beta=-2*b*b*b+9*a*b*c-27*a*a*d;
-	lambda=-4*beta*beta*beta+alpha*alpha;
-
-	printf("alpha	= %.2f\nbeta	= %.2f\nlambda	= %.2f\n",alpha,beta,lambda);
-	
-	evals[0]=-b/3*a-(1.25992*alpha)/(3*a*cbrt(beta+sqrt(lambda)))
-		+cbrt(beta+sqrt(lambda))/(3*1.25992*a);
-
-	printf("evals[0]	= %.2f\n",evals[0]);
-	*/
-
-	//////////////
-
 	b /= a;
 	c /= a;
 	d /= a;
@@ -81,21 +59,16 @@ double *eigensystem(double *I)
 	r13=2.0*sqrt(q);
 	pi=3.14159265;
 
-	evals[0]=-term1+r13*cos(dum1/3.0);
-	evals[1]=-term1+r13*cos((dum1+2.0*pi)/3.0);
-	evals[2]=-term1+r13*cos((dum1+4.0*pi)/3.0);
+	esys[0]=-term1+r13*cos(dum1/3.0);
+	esys[1]=-term1+r13*cos((dum1+2.0*pi)/3.0);
+	esys[2]=-term1+r13*cos((dum1+4.0*pi)/3.0);
 
-	for(int i=0;i<3;i++)
-	{
-		printf("evals[%i]	= %.2f\n",i,evals[i]);
-	}
+	printf(" {e1,e2,e3}	= {%.2f,%.2f,%.2f}\n",esys[0],esys[1],esys[2]);
 
+	// NOTE: Still need to define eigenvectors
+	// Iterate over 3 eigenvalues and find solutions:
 
-
-
-
-
-	return evals;
+	return esys;
 }
 
 //////////////////////////	CALCULATING MOMENT OF INERTIA FROM A GRID	//////////////////////////
@@ -130,9 +103,9 @@ double *moment_of_inertia(float ***GRID,float *CoM)
 		}
 	}
 	
-	printf("I11	I12	I13	->	%.2f		%.2f		%.2f\n",I[1][1],I[1][2],I[1][3]);
-	printf("I21	I22	I23	->	%.2f		%.2f		%.2f\n",I[2][1],I[2][2],I[2][3]);
-	printf("I31	I32	I33	->	%.2f		%.2f		%.2f\n",I[3][1],I[3][2],I[3][3]);
+//	printf("I11	I12	I13	->	%.2f		%.2f		%.2f\n",I[1][1],I[1][2],I[1][3]);
+//	printf("I21	I22	I23	->	%.2f		%.2f		%.2f\n",I[2][1],I[2][2],I[2][3]);
+//	printf("I31	I32	I33	->	%.2f		%.2f		%.2f\n",I[3][1],I[3][2],I[3][3]);
 
 	matrix[0]=I[1][1];
 	matrix[1]=I[2][2];
@@ -226,22 +199,16 @@ double *eigenvalues(double *matrix)
 void evalue_characteristics(double *evalues)
 {
 	qsort(evalues,3,sizeof(double),cmpfunc);
-	printf("  After sort, eigenvalues returned from function are:\n");
-	printf("evalues[0]	= %.2f\n",evalues[0]);
-	printf("evalues[1]	= %.2f\n",evalues[1]);
-	printf("evalues[2]	= %.2f\n",evalues[2]);	
+	if(LONG)	printf("After sort, eigenvalues returned from function are:\n");
+	if(LONG)	printf(" {%.2f,%.2f,%.2f}\n",evalues[0],evalues[1],evalues[2]);
 
-	printf("  Determining physical characteristics from eigenvalues:\n");
+	if(LONG)	printf("Determining physical characteristics from eigenvalues:\n");
 	
 	double l1=sqrt(fabs(-evalues[0]+evalues[1]+evalues[2]))/sqrt(2);
 	double l2=sqrt(fabs(evalues[0]-evalues[1]+evalues[2]))/sqrt(2);
 	double l3=sqrt(fabs(evalues[0]+evalues[1]-evalues[2]))/sqrt(2);
 
-	printf("a	= %.2f\n",l1);
-	printf("b	= %.2f\n",l2);
-	printf("c	= %.2f\n",l3);
-	
-//	printf("l1 = %2.f\nl2 = %.2f\nl3 = %.2f\n",l1,l2,l3);
+	printf(" {a,b,c}	= {%.2f,%.2f,%.2f}\n",l1,l2,l3);
 
 	// Define the sphericity, S of the halo:
 	double S=l3/l1;

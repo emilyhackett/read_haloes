@@ -109,9 +109,9 @@ int main(int argc, char *argv[])
 		evalues=eigenvalues(matrix);
 		evalue_characteristics(evalues);
 
-		printf("\n	---- NEW EIGENVALUE CALCULATION TEST ----\n\n");
+		printf("\n	---- NEW EIGENVALUE CALCULATION TEST ----\n");
 		
-		double *eval2=malloc(field->ndims*sizeof(double));
+		double *eval2=malloc(4*field->ndims*sizeof(double));
 		eval2=eigensystem(matrix);
 		evalue_characteristics(eval2);
 	}
