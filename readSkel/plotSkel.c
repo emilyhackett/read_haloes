@@ -183,7 +183,7 @@ void	PlotSegPos(NDskel *skl,char *datafile, char *plotfile, float min, float max
 	tmp=fopen("temp","w");
 	
 	if(print)	printf(" --- GNUplot COMMANDS ---\n");
-/*	
+	
 	// Set outputs
 	char output[BUFSIZ];
 	sprintf(output,"set term postscript color\nset output '%s'\n",plotfile);
@@ -195,7 +195,7 @@ void	PlotSegPos(NDskel *skl,char *datafile, char *plotfile, float min, float max
 	sprintf(settings,"set size square 1,1\nset tmargin 2\nset xrange [0:1]\nset yrange [0:1]\n");
 	fputs(settings,tmp);
 	if(print)	printf("%s",settings);
-*/
+
 	// Plot commands
 	char title[BUFSIZ];
 	sprintf(title,"set title 'Point plot for skeleton nodes from file %s with xy values'\n",datafile);
