@@ -2,7 +2,7 @@
 
 #define EXAMPLE		0	// Basically a concept check - no output files wanted
 
-#define FLATTEN		0	// Take a 3D skeleton and flatten to 2D position by ignoring z coords
+#define FLATTEN		1	// Take a 3D skeleton and flatten to 2D position by ignoring z coords
 
 #define PLOTNODES	1	// Output node pos to file and save 2D list plot to .ps file
 #define PLOTSEGS	1	// Output seg pos to file and save 2D list plot to .ps file
@@ -17,18 +17,20 @@
 int main(int argc, char *argv[])
 {
 	
-	printf("\n");
-	printf("	---------- READING .NDskl FILE ----------\n");
 	
 	// Define NDskeleton
 	NDskel	*skl;
+	NDskel 	*new;
 	
-	if(argc>1)
+	if(argc<2)
 	{
-		skl=readNDskeleton(argv[1]);
-	}
-	else if(argc<2) {
 		fprintf(stderr,"Usage: %s file\n",argv[0]);
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		printf("\n	---------- READING .NDskl FILE ----------\n");
+		skl=readNDskeleton(argv[1]);
 	}
 	
 	// Check sanity of skeleton (e.g. carry over contamination from .ND files)
@@ -44,25 +46,33 @@ int main(int argc, char *argv[])
 	if(FLATTEN && !EXAMPLE)
 	{
 		printf("	---------- FLATTENING TO 2D SKELETON ----------\n");
-		FlattenSkl(skl);
+		new=FlattenSkl(skl);
 	}	
 
 	if(PLOTNODES && !EXAMPLE)
 	{
 		printf("	---------- PLOTTING NODE POSITIONS ----------\n");
-		PlotNodePos(skl,"nodepos.dat","nodeplot.ps",1);
-//		for(int i=0;i<100;i++)
-//		{
-//			printf("%f\n",skl->nodepos[i]);
-//		}
-
+		if(skl->ndims==2)
+		{
+			PlotNodePos(skl,"nodepos.dat","nodeplot.ps",0.2,0.4,0);
+		}
+		else	{
+			PlotNodePos(new,"nodepos.dat","nodeplot.ps",0.2,0.4,0);
+		}
 	}
 	
 	if(PLOTSEGS && !EXAMPLE)
 	{
 		printf("	---------- PLOTTING SEGMENT POSITIONS ----------\n");
-		PlotSegPos(skl,"segpos.dat","segplot.ps",1);
+		if(skl->ndims==2)
+		{
+			PlotSegPos(skl,"segpos.dat","segplot.ps",0.2,0.4,1);
+		}
+		else	{
+			PlotNodePos(new,"segpos.dat","segplot.ps",0.2,0.4,1);
+		}
 	}
+			
 
 	if(PLOTNODEFIELDS && !EXAMPLE)
 	{
@@ -82,12 +92,13 @@ int main(int argc, char *argv[])
 		NodeData(skl,"NodePosField.dat");
 	}
 	
-	if(EXAMPLE)
+/*	if(EXAMPLE)
 	{
 		printf("	---------- CONCEPT CHECK RUN - EXAMPLE FLAGGED ----------\n");
 		ExampleSegment(skl,10);
 		ExampleNode(skl,10);
 	}
+*/
 	printf("	---------- END OF PROGRAM REACHED ----------\n\n");
 
 	return 0;
