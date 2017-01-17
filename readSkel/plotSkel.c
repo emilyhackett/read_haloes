@@ -48,37 +48,30 @@ void ListNodePos(NDskel *skl,char *datafile)
 	// Define counter for x and y position values
 	int x=0;
 	int y=0;
-
-	float *xpos;
-	xpos=malloc(sizeof(float)*skl->nnodes);
-		if(xpos==NULL)
-		{
-			fprintf(stderr,"xpos malloc failed\n");
-		}
-	float *ypos;
-	ypos=malloc(sizeof(float)*skl->nnodes);
-		if(ypos==NULL)
-		{
-			fprintf(stderr,"ypos malloc failed\n");
-		}
-
+	int z=0;
+	
 	// Index over all nodes and turn long list into 2D array of coordinates
 	for(int i=1;i<=skl->nnodes*skl->ndims;i++)
 	{
-		if((i%2)==1)
+		if((i%3)==2)
 		{
-			fprintf(fp,"%f		",skl->nodepos[i]);
+			fprintf(fp,"%f	",skl->nodepos[i]);
 			x++;
 		}
-		if((i%2)==0)
+		if((i%3)==1)
+		{
+			fprintf(fp,"%f	",skl->nodepos[i]);
+			y++;
+		}
+		if((i%3)==0)
 		{
 			fprintf(fp,"%f\n",skl->nodepos[i]);
-			y++;
+			z++;
 		}
 	}
 	
-	printf("%i x positions read, %i y positions read to file %s in form\n",x,y,datafile);
-	printf(" x	y\n");
+	printf("%i x positions, %i y positions, %i z positions read to file %s in form\n",x,y,z,datafile);
+	printf(" x	y	z\n");
 	fclose(fp);
 	printf("File %s closed\n",datafile);
 }
@@ -89,12 +82,6 @@ void ListSegPos(NDskel *skl,char *datafile)
 {
 	// Save column data list of segment positions, aimed to be used 
 
-	if(skl->ndims!=2)
-	{
-		printf("ERROR: Can only plot 2D skeleton\n");
-		exit(EXIT_FAILURE);
-	}
-
 	// Define  file for node positions
 	FILE *fp;
 	fp=fopen(datafile,"w");
@@ -103,54 +90,41 @@ void ListSegPos(NDskel *skl,char *datafile)
 	// Define counter for x and y position values
 	int x=0;
 	int y=0;
-
-	float *xpos;
-	xpos=malloc(sizeof(float)*skl->nsegs*2);
-		if(xpos==NULL)
-		{
-			fprintf(stderr,"xpos malloc failed\n");
-		}
-	float *ypos;
-	ypos=malloc(sizeof(float)*skl->nsegs*2);
-		if(ypos==NULL)
-		{
-			fprintf(stderr,"ypos malloc failed\n");
-		}
-
+	int z=0;
+	 
 	// Index over all segment start/end positions and write to two columns in file
 	for(int i=1;i<=skl->nsegs*2*skl->ndims;i++)
 	{
-		if((i%2)==1)
+		if((i%3)==2)
 		{
 			fprintf(fp,"%f		",skl->segpos[i]);
 			x++;
 		}
-		if((i%2)==0)
+		if((i%3)==1)
+		{
+			fprintf(fp,"%f	",skl->segpos[i]);
+			y++;
+		}
+		if((i%3)==0)
 		{
 			fprintf(fp,"%f\n",skl->segpos[i]);
-			y++;
+			z++;
 		}
 	}
 	
-	printf("%i x positions read, %i y positions read to file %s in form\n",x,y,datafile);
-	printf(" x	y\n");
+	printf("%i x positions, %i y positions, %i z positions read to file %s in form\n",x,y,z,datafile);
+	printf(" x	y	z\n");
 	fclose(fp);
 	printf("File %s closed\n",datafile);
 }
 ////////////////////	PLOT NODE POSITIONS TO POSTSCRIPT FILE	////////////////////
 
-void	PlotNodePos(NDskel *skl,char *datafile, char *plotfile, int print)
+void	PlotNodePos(NDskel *skl,char *datafile, char *plotfile, float min, float max, int print)
 {
 	// This function will take the datafile name as an argument, call the ListNodePos function 
 	// to fill the datafile with values, then create a temporary gnuplot script to run.
 	// Note: If print is non-zero, will print out the GNUplot commands to terminal, else
 	// will simply save them to temp file then delete them
-
-	if(skl->ndims!=2)
-	{
-		printf("ERROR: Can only plot 2D skeleton\n");
-		exit(EXIT_FAILURE);
-	}
 
 	ListNodePos(skl,datafile);
 
@@ -166,6 +140,12 @@ void	PlotNodePos(NDskel *skl,char *datafile, char *plotfile, int print)
 	fputs(output,tmp);
 	if(print)	printf("%s",output);
 
+	// Set box settings
+	char settings[BUFSIZ];
+	sprintf(settings,"set size square 1,1\nset tmargin 2\nset xrange [0:1]\nset yrange [0:1]\n");
+	fputs(settings,tmp);
+	if(print)	printf("%s",settings);
+
 	// Plot commands
 	char title[BUFSIZ];
 	sprintf(title,"set title 'Point plot for skeleton nodes from file %s with xy values'\n",datafile);
@@ -173,7 +153,7 @@ void	PlotNodePos(NDskel *skl,char *datafile, char *plotfile, int print)
 	if(print)	printf("%s",title);
 	
 	char plotcom[BUFSIZ];
-	sprintf(plotcom,"plot '%s' using 1:2 with points pointsize 1 pointtype 7\n",datafile);
+	sprintf(plotcom,"plot '%s' using 1:2 with points pointsize 1\n",datafile);
 	fputs(plotcom,tmp);	
 	if(print)	printf("%s",plotcom);
 
@@ -189,18 +169,12 @@ void	PlotNodePos(NDskel *skl,char *datafile, char *plotfile, int print)
 
 ////////////////////	PLOT SEG POSITIONS TO POSTSCRIPT FILE	////////////////////
 
-void	PlotSegPos(NDskel *skl,char *datafile, char *plotfile, int print)
+void	PlotSegPos(NDskel *skl,char *datafile, char *plotfile, float min, float max, int print)
 {
 	// This function will take the datafile name as an argument, call the ListSegPos function 
 	// to fill the datafile with values, then create a temporary gnuplot script to run.
 	// Note: If print is non-zero, will print out the GNUplot commands to terminal, else
 	// will simply save them to temp file then delete them
-
-	if(skl->ndims!=2)
-	{
-		printf("ERROR: Can only plot 2D skeleton\n");
-		exit(EXIT_FAILURE);
-	}
 
 	ListSegPos(skl,datafile);
 
@@ -209,13 +183,19 @@ void	PlotSegPos(NDskel *skl,char *datafile, char *plotfile, int print)
 	tmp=fopen("temp","w");
 	
 	if(print)	printf(" --- GNUplot COMMANDS ---\n");
-	
+/*	
 	// Set outputs
 	char output[BUFSIZ];
 	sprintf(output,"set term postscript color\nset output '%s'\n",plotfile);
 	fputs(output,tmp);
 	if(print)	printf("%s",output);
 
+	// Set box settings
+	char settings[BUFSIZ];
+	sprintf(settings,"set size square 1,1\nset tmargin 2\nset xrange [0:1]\nset yrange [0:1]\n");
+	fputs(settings,tmp);
+	if(print)	printf("%s",settings);
+*/
 	// Plot commands
 	char title[BUFSIZ];
 	sprintf(title,"set title 'Point plot for skeleton nodes from file %s with xy values'\n",datafile);
@@ -223,7 +203,7 @@ void	PlotSegPos(NDskel *skl,char *datafile, char *plotfile, int print)
 	if(print)	printf("%s",title);
 	
 	char plotcom[BUFSIZ];
-	sprintf(plotcom,"plot '%s' using 1:2 with points pointsize 1 pointtype 7\n",datafile);
+	sprintf(plotcom,"plot '%s' using 1:(($3 > %f) ? $2:NaN) with points pointsize 1\n",datafile,min);
 	fputs(plotcom,tmp);	
 	if(print)	printf("%s",plotcom);
 
@@ -234,7 +214,7 @@ void	PlotSegPos(NDskel *skl,char *datafile, char *plotfile, int print)
 	// Remove temp file - comment out for trouble shooting
 	remove("temp");
 
-	printf("%i node points plotted in %s\n",skl->nnodes,plotfile);
+	printf("%i seg points plotted in %s\n",skl->nsegs,plotfile);
 }
 
 ////////////////////	WRITE COLUMN DATA FILE WITH NODE FIELD VALUES	////////////////////
