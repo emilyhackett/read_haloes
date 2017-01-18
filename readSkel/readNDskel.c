@@ -192,7 +192,7 @@ NDskel *readNDskeleton(char *filename)
 		fread_sw(dummy,sizeof(double),NDSKEL_MAX_DIMS-skl->ndims,fp,swap);
 	}
 	// Print out dims, x0 and delta to check
-	for(int i=0;i<skl->ndims;i++)
+	for(i=0;i<skl->ndims;i++)
 	{
 		if(LONG)	printf(" dims[%i] = %i,	x0[%i] = %.2f,	delta[%i] = %.2f\n",i,skl->dims[i],i,
 				skl->x0[i],i,skl->delta[i]);
