@@ -14,6 +14,7 @@ node*
 #Ignore final completed file
 */readSkel
 */read
+*/esys
 a.out
 backread
 #Ignore swp files (i.e. files open in mvim)

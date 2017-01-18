@@ -60,6 +60,8 @@ void read_grid(FILE *fp)
 //////////////////////////	READING STRUCTURE TO NDFIELD STRUCT	//////////////////////////
 void create_NDstruct(int fdims_index,int datatype,double *x0,double *delta)
 {
+	int i;
+
 	// fdims_index (0 for grid, 1 for particle positions)
 	field->fdims_index=fdims_index;
 	if(LONG)	printf("fdims_index	= %i\n",field->fdims_index);
@@ -68,7 +70,7 @@ void create_NDstruct(int fdims_index,int datatype,double *x0,double *delta)
 	if(!field->fdims_index)
 	{
 		field->n_dims=field->ndims;
-		for (int i=0;i<field->ndims;i++)
+		for (i=0;i<field->ndims;i++)
 		{
 			field->nval=field->nval*field->dims[i];
 		}
@@ -86,7 +88,6 @@ void create_NDstruct(int fdims_index,int datatype,double *x0,double *delta)
 	if(LONG)	printf("datasize	= %i\n",field->datasize);
 
 	// x0 and delta
-	int i;
 	for(i=0;i<field->ndims;i++)
 	{
 		field->x0[i]=x0[i];

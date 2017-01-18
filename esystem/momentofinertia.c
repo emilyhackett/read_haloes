@@ -13,11 +13,12 @@ double *moment_of_inertia(float ***GRID,float *CoM,int radius)
 	int zmid=(int)field->dims[2]/2;
 //	printf("xmid	= %i, ymid	= %i, zmid	= %i\n",xmid,ymid,zmid);
 
-	for(int x=(xmid-radius);x<(xmid+radius);x++)
+	int x,y,z;
+	for(x=(xmid-radius);x<(xmid+radius);x++)
 	{
-		for(int y=(ymid-radius);y<(ymid+radius);y++)
+		for(y=(ymid-radius);y<(ymid+radius);y++)
 		{
-			for(int z=(zmid-radius);z<(zmid+radius);z++)
+			for(z=(zmid-radius);z<(zmid+radius);z++)
 			{
 				I[1][1]=I[1][1]+(x-CoM[0])*(x-CoM[0])*GRID[x][y][z];
 				I[1][2]=I[1][2]+(x-CoM[0])*(y-CoM[1])*GRID[x][y][z];
