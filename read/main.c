@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 	// Save to NDfield file format with .ND extension
 	if(nflag) {
 		printf("\n	---- SAVING NDFIELD STRUCTURE TO FILE ----\n");
-		sprintf(NDfile,"%s.ND",name);
+		sprintf(NDfile,"NDfiles/%s.ND",name);
 		save_NDfield(NDfile);
 	}
 

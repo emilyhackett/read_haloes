@@ -183,6 +183,8 @@ void density_plots(char *fileout,char *xyfile,char *xzfile,char *yzfile,float mi
 	fputs(plotcom,fp);	
 	printf("%s",plotcom);
 
+	/*	IGNORING EVERYTHING OTHER THAN XY LOG PLOT
+
 	// Plot commands for XZ plot
 	sprintf(title,"set title 'Density log plot from file %s with xz values'\n",xzfile);
 	fputs(title,fp);
@@ -229,6 +231,8 @@ void density_plots(char *fileout,char *xyfile,char *xzfile,char *yzfile,float mi
 	sprintf(plotcom,"splot '%s' using 1:2:3 with points palette pointsize 1 pointtype 7\n",yzfile);
 	fputs(plotcom,fp);
 	printf("%s",plotcom);
+
+	*/
 
 	fclose(fp);
 
@@ -377,8 +381,8 @@ void mass_radius_plots(float ***GRID,float *CoM,char *filename,char *plotfile)
 	printf("%s",title);
 	fputs(title,fp);
 	fputs(logscale,fp);
-	printf("%s",logscale);
-	
+	printf("%s",logscale);	
+
 	fclose(fp);
 	system("gnuplot -p 'temp'");
 
