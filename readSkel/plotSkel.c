@@ -5,6 +5,7 @@
 void ListSegPos(NDskel *skl,char *datafile,float min,float max)
 {
 	// Save column data list of segment positions, aimed to be used 
+	int i;
 
 	// Define  file for node positions
 	FILE *fp;
@@ -37,7 +38,7 @@ void ListSegPos(NDskel *skl,char *datafile,float min,float max)
 	z2pos=malloc(2*skl->nsegs*sizeof(float));
 	 
 	// Index over all segment start/end positions and write to two columns in file
-	for(int i=1;i<=skl->nsegs*2*skl->ndims;i++)
+	for(i=1;i<=skl->nsegs*2*skl->ndims;i++)
 	{
 		if((i%6)==5)
 		{
@@ -71,7 +72,7 @@ void ListSegPos(NDskel *skl,char *datafile,float min,float max)
 		}
 	}
 	
-	for(int i=0;i<=skl->nsegs;i++)
+	for(i=0;i<=skl->nsegs;i++)
 	{
 		if(z1pos[i]>=min && z1pos[i]<=max && z2pos[i]>=min && z2pos[i]<=max)
 		{
@@ -158,16 +159,17 @@ void NodeData(NDskel *skl,char *datafile)
 	printf("File %s opened for node data write\n",datafile);
 
 	int pos=0;
+	int i,j,k;
 
-	for(int i=0;i<skl->nnodes;i++)		// Index over all nodes (n lines in file)
+	for(i=0;i<skl->nnodes;i++)		// Index over all nodes (n lines in file)
 	{
-		for(int j=0;j<skl->ndims;j++)
+		for(j=0;j<skl->ndims;j++)
 		{
 			fprintf(fp,"%f,",skl->nodepos[pos]);
 			pos++;
 		}
 		  
-	  	for (int k=0;k<skl->nnodedata;k++)
+	  	for (k=0;k<skl->nnodedata;k++)
 		{
 			fprintf(fp,"%.7g,",skl->Node[i].data[k]);	// Field values to file
 		}
@@ -183,6 +185,8 @@ void NodeData(NDskel *skl,char *datafile)
 // Save column data list of node positions
 void ListNodePos(NDskel *skl,char *datafile,float min,float max)
 {
+	int i;
+	
 	// Define  file for node positions
 	FILE *fp;
 	fp=fopen(datafile,"w");
@@ -202,7 +206,7 @@ void ListNodePos(NDskel *skl,char *datafile,float min,float max)
 	zpos=malloc(skl->nnodes*sizeof(float));	
 	
 	// Index over all nodes and turn long list into 2D array of coordinates
-	for(int i=1;i<=skl->nnodes*skl->ndims;i++)
+	for(i=1;i<=skl->nnodes*skl->ndims;i++)
 	{
 		if((i%3)==2)
 		{
@@ -221,7 +225,7 @@ void ListNodePos(NDskel *skl,char *datafile,float min,float max)
 		}
 	}
 	
-	for(int i=0;i<=skl->nnodes;i++)
+	for(i=0;i<=skl->nnodes;i++)
 	{
 		if(zpos[i]>=min && zpos[i]<=max)
 		{
