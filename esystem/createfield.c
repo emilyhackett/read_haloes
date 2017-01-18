@@ -29,12 +29,13 @@ void create_NDstruct(int fdims_index,int datatype,double *x0,double *delta)
 	if(LONG)	printf("datasize	= %i\n",field->datasize);
 
 	// x0 and delta
-	for(int i=0;i<field->ndims;i++)
+	int i;
+	for(i=0;i<field->ndims;i++)
 	{
 		field->x0[i]=x0[i];
 		if(LONG)	printf("x0[%i]		= %f\n",i,field->x0[i]);
 	}
-	for(int i=0;i<field->ndims;i++)
+	for(i=0;i<field->ndims;i++)
 	{
 		field->delta[i]=delta[i];
 		if(LONG)	printf("delta[%i]	= %f\n",i,field->delta[i]);

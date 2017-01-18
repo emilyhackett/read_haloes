@@ -85,7 +85,8 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	for(int radius=1;radius<=max_radius;radius++)
+	int radius;
+	for(radius=1;radius<=max_radius;radius++)
 	{
 		if(LONG)	printf("radius = %i\n",radius);
 		fprintf(fout,"%i\n",radius);
