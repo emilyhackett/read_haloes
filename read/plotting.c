@@ -13,12 +13,13 @@ void column_data(char *filename)
 	}
 	printf("File %s opened for column data write\n",filename);
 	
+	int x,y,z;
 	int i=0;
-	for (int x=0;x<field->dims[0];x++)
+	for (x=0;x<field->dims[0];x++)
 	{
-		for(int y=0;y<field->dims[1];y++)
+		for(y=0;y<field->dims[1];y++)
 		{
-			for(int z=0;z<field->dims[2];z++)
+			for(z=0;z<field->dims[2];z++)
 			{
 				fprintf(fp,"%i	%i	%i	%f	%f\n",x,y,z,field->val[i],log(field->val[i]));
 				i++;
@@ -46,13 +47,15 @@ void xy_data(char *filename,float ***GRID,float min,float max)
 		exit(EXIT_FAILURE);
 	}
 	printf("File %s opened for column data write\n",filename);
-		
-	for (int x=0;x<field->dims[0];x++)
+	
+	int x,y,z;
+
+	for (x=0;x<field->dims[0];x++)
 	{
-		for(int y=0;y<field->dims[1];y++)
+		for(y=0;y<field->dims[1];y++)
 		{
 			float sum=0;
-			for(int z=0;z<field->dims[2];z++)
+			for(z=0;z<field->dims[2];z++)
 			{
 				if(z>=(min*field->dims[2]) && z<=(max*field->dims[2]))
 				{
@@ -89,13 +92,13 @@ void xz_data(char *filename,float ***GRID)
 	}
 	printf("File %s opened for column data write\n",filename);
 	
-	
-	for (int x=0;x<field->dims[0];x++)
+	int x,y,z;
+	for (x=0;x<field->dims[0];x++)
 	{
-		for(int z=0;z<field->dims[2];z++)
+		for(z=0;z<field->dims[2];z++)
 		{
 			float sum=0;
-			for(int y=0;y<field->dims[1];y++)
+			for(y=0;y<field->dims[1];y++)
 			{
 				sum=sum+GRID[x][y][z];				
 			}
@@ -122,13 +125,13 @@ void yz_data(char *filename,float ***GRID)
 	}
 	printf("File %s opened for column data write\n",filename);
 	
-	
-	for (int y=0;y<field->dims[1];y++)
+	int x,y,z;
+	for (y=0;y<field->dims[1];y++)
 	{
-		for(int z=0;z<field->dims[2];z++)
+		for(z=0;z<field->dims[2];z++)
 		{
 			float sum=0;
-			for(int x=0;x<field->dims[0];x++)
+			for(x=0;x<field->dims[0];x++)
 			{
 				sum=sum+GRID[x][y][z];				
 			}
@@ -240,6 +243,7 @@ void density_plots(char *fileout,char *xyfile,char *xzfile,char *yzfile,float mi
 //////////////////////////	BINNED HISTOGRAM OF MASS-RADIUS DATA	//////////////////////////
 void bin_histogram(float ***GRID,float xCoM,float yCoM,float zCoM)
 {
+	int i;
 	float **HIST;
 	
 	struct {
@@ -251,7 +255,7 @@ void bin_histogram(float ***GRID,float xCoM,float yCoM,float zCoM)
 	int y=0;
 	int z=0;
 	printf(" --- Converting to polar coordinates ---\n");
-	for(int i=0;i<field->nval;i++)
+	for(i=0;i<field->nval;i++)
 	{
 		float posx=xCoM-x;
 		float posy=yCoM-y;
@@ -270,15 +274,17 @@ void mass_radius_plots(float ***GRID,float *CoM,char *filename,char *plotfile)
 	// Define radius
 	int maxradius=field->dims[0]/2;
 	float cumulative_mass[maxradius];
-	
-	for(int radius=2;radius<maxradius+1;radius++)
+
+	int radius,x,y,z;
+
+	for(radius=2;radius<maxradius+1;radius++)
 	{
 		float mass=0;
-		for(int x=0;x<field->dims[0];++x)
+		for(x=0;x<field->dims[0];++x)
 		{
-			for(int y=0;y<field->dims[1];++y)
+			for(y=0;y<field->dims[1];++y)
 			{
-				for(int z=0;z<field->dims[2];++z)
+				for(z=0;z<field->dims[2];++z)
 				{
 					if(radcentre(x,y,z,CoM[0],CoM[1],CoM[2])<radius)
 					{
@@ -293,7 +299,7 @@ void mass_radius_plots(float ***GRID,float *CoM,char *filename,char *plotfile)
 	}
 
 	float mass_shell[maxradius];
-	for(int radius=2;radius<maxradius+1;radius++)
+	for(radius=2;radius<maxradius+1;radius++)
 	{
 		mass_shell[radius]=cumulative_mass[radius]-cumulative_mass[radius-1];
 		//printf("radius	- %i,	mass_shell	= %f\n",radius,mass_shell[radius]);
@@ -308,7 +314,7 @@ void mass_radius_plots(float ***GRID,float *CoM,char *filename,char *plotfile)
 	}
 	printf("File %s opened for write\n",filename);
 
-	for(int radius=1;radius<maxradius+1;radius++)
+	for(radius=1;radius<maxradius+1;radius++)
 	{
 		fprintf(f,"%i	%.2f	%.2f\n",radius,cumulative_mass[radius],mass_shell[radius]);
 	}

@@ -1,27 +1,27 @@
 
 read: main.o readfile.o createNDfield.o plotting.o args.o functions.o momentofinertia.o
-	cc -o read main.o readfile.o createNDfield.o plotting.o args.o functions.o momentofinertia.o -lm
+	gcc -o read main.o readfile.o createNDfield.o plotting.o args.o functions.o momentofinertia.o -lm
 
 main.o: main.c read.h
-	cc -c main.c
+	gcc -c main.c
 	
 readfile.o: readfile.c read.h
-	cc -c readfile.c
+	gcc -c readfile.c
 
 createNDfield.o: createNDfield.c read.h
-	cc -c createNDfield.c
+	gcc -c createNDfield.c
 
 momentofinertia.o: momentofinertia.c read.h
-	cc -c momentofinertia.c
+	gcc -c momentofinertia.c
 
 plotting.o: plotting.c read.h
-	cc -c plotting.c
+	gcc -c plotting.c
 
 functions.o: functions.c read.h
-	cc -c functions.c
+	gcc -c functions.c
 
 args.o: args.c read.h
-	cc -c args.c
+	gcc -c args.c
 
 clean:
 	rm -f read main.o args.o readfile.o plotting.o createNDfield.o functions.o momentofinertia.o

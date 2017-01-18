@@ -7,6 +7,7 @@ void read_header(FILE *fp)
 	int length = 0;
 	int *len = &length;
 	int *buffer;
+	int i;
 	
 	fread(len,4,1,fp);
 	field->ndims=length/4;
@@ -24,7 +25,7 @@ void read_header(FILE *fp)
 //	Change this line in order to feed to delaunay_3D
 //	field->dims[0]=field->ndims;
 
-	for(int i=0;i<field->ndims;i++)
+	for(i=0;i<field->ndims;i++)
 	{
 		field->dims[i]=buffer[i];
 		if(LONG)	printf("field->dims[%i]	= %i\n",i,field->dims[i]);
@@ -37,8 +38,8 @@ void read_header(FILE *fp)
 void read_grid(FILE *fp)
 {
 	int length = 0;
-	int *len = &length;
-	
+	int *len = &length;	
+
 	fread(len,4,1,fp);
 	if(LONG)	printf("Number of grid points is %i\n",length/4);
 

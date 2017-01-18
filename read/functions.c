@@ -5,18 +5,19 @@ float ***create_grid(void)
 {
 	int nvals=0;
 	float ***GRID;
+	int x,y,z;
 
 	int v=0;
 	GRID=calloc(field->dims[0],sizeof(GRID));
 	if(GRID != NULL)
 	{
-		for(int x=0;x<field->dims[0];++x)
+		for(x=0;x<field->dims[0];++x)
 		{
 			GRID[x]=calloc(field->dims[1],sizeof(GRID[0]));
-			for(int y=0;y<field->dims[1];++y)
+			for(y=0;y<field->dims[1];++y)
 			{
 				GRID[x][y]=calloc(field->dims[2],sizeof(GRID[0][0]));
-				for(int z=0;z<field->dims[2];++z)
+				for(z=0;z<field->dims[2];++z)
 				{
 					GRID[x][y][z]=field->val[v];
 					v++;
@@ -43,12 +44,13 @@ float *centre_of_mass(float ***GRID)
 	float wsum_x=0.0;
 	float gridtot_x=0.0;
 	
-	for(int x=0;x<field->dims[0];++x)
+	int x,y,z;
+	for(x=0;x<field->dims[0];++x)
 	{
 		float weight=0;
-		for(int y=0;y<field->dims[1];++y)
+		for(y=0;y<field->dims[1];++y)
 		{
-			for(int z=0;z<field->dims[2];++z)
+			for(z=0;z<field->dims[2];++z)
 			{
 				weight=weight+GRID[x][y][z];
 			}
@@ -63,12 +65,12 @@ float *centre_of_mass(float ***GRID)
 	float wsum_y=0.0;
 	float gridtot_y=0.0;
 
-	for(int y=0;y<field->dims[1];++y)
+	for(y=0;y<field->dims[1];++y)
 	{
 		float weight=0;
-		for(int x=0;x<field->dims[0];++x)
+		for(x=0;x<field->dims[0];++x)
 		{
-			for(int z=0;z<field->dims[2];++z)
+			for(z=0;z<field->dims[2];++z)
 			{
 				weight=weight+GRID[x][y][z];
 			}
@@ -81,12 +83,12 @@ float *centre_of_mass(float ***GRID)
 	///////// FINDING Z Centre of Mass ////////
 	float wsum_z=0.0;
 	float gridtot_z=0.0;
-	for(int z=0;z<field->dims[2];++z)
+	for(z=0;z<field->dims[2];++z)
 	{
 		float weight=0;
-		for(int x=0;x<field->dims[0];++x)
+		for(x=0;x<field->dims[0];++x)
 		{
-			for(int y=0;y<field->dims[1];++y)
+			for(y=0;y<field->dims[1];++y)
 			{
 				weight=weight+GRID[x][y][z];
 			}

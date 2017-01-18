@@ -84,11 +84,12 @@ double *moment_of_inertia(float ***GRID,float *CoM)
 	int zmid=(int)field->dims[2]/2;
 //	printf("xmid	= %i, ymid	= %i, zmid	= %i\n",xmid,ymid,zmid);
 
-	for(int x=(xmid-radius);x<(xmid+radius);x++)
+	int x,y,z;
+	for(x=(xmid-radius);x<(xmid+radius);x++)
 	{
-		for(int y=(ymid-radius);y<(ymid+radius);y++)
+		for(y=(ymid-radius);y<(ymid+radius);y++)
 		{
-			for(int z=(zmid-radius);z<(zmid+radius);z++)
+			for(z=(zmid-radius);z<(zmid+radius);z++)
 			{
 				I[1][1]=I[1][1]+(x-CoM[0])*(x-CoM[0])*GRID[x][y][z];
 				I[1][2]=I[1][2]+(x-CoM[0])*(y-CoM[1])*GRID[x][y][z];
@@ -143,19 +144,20 @@ double *eigenvalues(double *matrix)
 	double p=sqrt(p2/6);
 	//printf("	p	= %.2f\n",p);
 
+	int i;
 	// Define simplified symmetric matrix in same style as matrix passed to function
 	double *B=malloc(6*sizeof(double));
 	double *I=malloc(6*sizeof(double));
-	for(int i=0;i<3;i++)
+	for(i=0;i<3;i++)
 	{
 		I[i]=1;
 	}
-	for(int i=3;i<6;i++)
+	for(i=3;i<6;i++)
 	{
 		I[i]=0;
 	}
 
-	for(int i=0;i<6;i++)
+	for(i=0;i<6;i++)
 	{
 		B[i]=(1/p)*(matrix[i]-q*I[i]);
 	}
