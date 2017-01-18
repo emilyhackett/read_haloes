@@ -6,6 +6,8 @@
 
 // Define global variables required for structure and functions
 
+#define	LONG	0
+
 #define NDSKEL_DATA_STR_SIZE 20
 #define NDSKEL_TAG "NDSKEL"
 #define NDSKEL_ASCII_TAG "ANDSKEL"

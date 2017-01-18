@@ -27,9 +27,9 @@ int main(int argc, char *argv[])
 	// FILE NAMES:
 	char name[20];
 	sprintf(name,"%s",argv[argc-3]);
-	char datfile[20],NDfile[20],plotfile[20];
+	char datfile[40],NDfile[40],plotfile[40];
 	sprintf(datfile,"%s.dat",name);
-	char colfile[20],colxy[20],colxz[20],colyz[20];
+	char colfile[40],colxy[40],colxz[40],colyz[40];
 
 	// Read in command line argument flags
 	flags(argc,argv);
@@ -60,7 +60,6 @@ int main(int argc, char *argv[])
 	read_grid(fp);
 
 	// File names to save into:
-	char *DENFILE=malloc(20);
 	char *MASSFILE=malloc(20);
 	char *MASSPLOTFILE=malloc(20);
 
@@ -82,7 +81,7 @@ int main(int argc, char *argv[])
 		printf("\n	---- WRITING GRID TO COLUMN DATA ----\n");
 //		sprintf(colfile,"%s-grid.dat",name);
 //		column_data(colfile);
-		sprintf(colxy,"%s-xygrid.dat",name);
+		sprintf(colxy,"%s_%.2f_%.2f-xygrid.dat",name,min,max);
 		xy_data(colxy,GRID,min,max);
 //		sprintf(colxz,"%s-xzgrid.dat",name);
 //		xz_data(colxz,GRID);

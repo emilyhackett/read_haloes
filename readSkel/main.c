@@ -4,7 +4,7 @@
 
 #define	ASCII		0	// Output to ASCII format
 
-#define PLOTNODES	1	// Output node pos to file and save 2D list plot to .ps file
+#define PLOTNODES	0	// Output node pos to file and save 2D list plot to .ps file
 #define PLOTSEGS	1	// Output seg pos to file and save 2D list plot to .ps file
 
 #define PLOTNODEFIELDS	0	// Ouptut all node field data to .dat file
@@ -43,8 +43,6 @@ int main(int argc, char *argv[])
 		min=atof(argv[2]);
 		max=atof(argv[3]);
 	}
-	
-	printf(":)\n");
 
 	// Check sanity of skeleton (e.g. carry over contamination from .ND files)
 	NDskelCheckSanity(skl,0);
@@ -69,10 +67,10 @@ int main(int argc, char *argv[])
 	if(PLOTSEGS && !EXAMPLE)
 	{
 		printf("	---------- PLOTTING SEGMENT POSITIONS ----------\n");
-		sprintf(datfile,"%s-segpos.dat",name);
-		sprintf(plotfile,"%s-segplot.ps",name);
-		sprintf(denfile,"%s-xygrid.dat",name);
-		PlotSegPos(skl,datfile,plotfile,denfile,min,max,1);
+		sprintf(datfile,"%s_%.2f_%.2f-segpos.dat",name,min,max);
+		sprintf(plotfile,"%s_%.2f_%.2f-segplot.ps",name,min,max);
+		sprintf(denfile,"%s_%.2f_%.2f-xygrid.dat",name,min,max);
+		PlotSegPos(skl,datfile,plotfile,denfile,min,max,0);
 	}
 			
 

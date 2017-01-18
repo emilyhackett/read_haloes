@@ -159,15 +159,15 @@ NDskel *readNDskeleton(char *filename)
 	if(i!=16) swap=1-swap;
 	
 	fread_sw(tag,sizeof(char),16,fp,swap);
-	printf(" tag	= %s\n",tag);
+	if(LONG)	printf(" tag	= %s\n",tag);
 	fread_sw(&i,sizeof(int),1,fp,swap);	// DUMMY
 
 	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
 	fread_sw(skl->comment,sizeof(char),80,fp,swap);
-	printf(" comment	= %s\n",skl->comment);
+	if(LONG)	printf(" comment	= %s\n",skl->comment);
 	
 	fread_sw(&skl->ndims,sizeof(int),1,fp,swap);
-	printf(" ndims	= %i\n",skl->ndims);
+	if(LONG)	printf(" ndims	= %i\n",skl->ndims);
 	
 
 	// Allocate room based on ndims
@@ -194,18 +194,18 @@ NDskel *readNDskeleton(char *filename)
 	// Print out dims, x0 and delta to check
 	for(int i=0;i<skl->ndims;i++)
 	{
-		printf(" dims[%i] = %i,	x0[%i] = %.2f,	delta[%i] = %.2f\n",i,skl->dims[i],i,
+		if(LONG)	printf(" dims[%i] = %i,	x0[%i] = %.2f,	delta[%i] = %.2f\n",i,skl->dims[i],i,
 				skl->x0[i],i,skl->delta[i]);
 	}
 
 	fread_sw(&skl->nsegs,sizeof(int),1,fp,swap);
-	printf(" nsegs	= %i\n",skl->nsegs);
+	if(LONG)	printf(" nsegs	= %i\n",skl->nsegs);
       	fread_sw(&skl->nnodes,sizeof(int),1,fp,swap);
-	printf(" nnodes	= %i\n",skl->nnodes);
+	if(LONG)	printf(" nnodes	= %i\n",skl->nnodes);
       	fread_sw(&skl->nsegdata,sizeof(int),1,fp,swap);
-	printf(" nsegdata	= %i\n",skl->nsegdata);
+	if(LONG)	printf(" nsegdata	= %i\n",skl->nsegdata);
       	fread_sw(&skl->nnodedata,sizeof(int),1,fp,swap);
-	printf(" nnodedata	= %i\n",skl->nnodedata);
+	if(LONG)	printf(" nnodedata	= %i\n",skl->nnodedata);
       	fread_sw(&j,sizeof(int),1,fp,swap);
 
 
@@ -219,7 +219,7 @@ NDskel *readNDskeleton(char *filename)
     	{
 	  	skl->segdata_info[i]=calloc(NDSKEL_DATA_STR_SIZE,sizeof(char));
 	  	fread_sw(skl->segdata_info[i],sizeof(char),NDSKEL_DATA_STR_SIZE,fp,swap);
-		printf(" segdata_info[%i]	= %s\n",i,skl->segdata_info[i]);
+		if(LONG)	printf(" segdata_info[%i]	= %s\n",i,skl->segdata_info[i]);
     	}
 	
 	// Read in two dummy variables
@@ -230,7 +230,7 @@ NDskel *readNDskeleton(char *filename)
     	{
 	  	skl->nodedata_info[i]=calloc(NDSKEL_DATA_STR_SIZE,sizeof(char));
 	  	fread_sw(skl->nodedata_info[i],sizeof(char),NDSKEL_DATA_STR_SIZE,fp,swap);
-		printf(" nodedata_info[%i]	= %s\n",i,skl->nodedata_info[i]);
+		if(LONG)	printf(" nodedata_info[%i]	= %s\n",i,skl->nodedata_info[i]);
     	}
       
 	if (skl->nnodedata)	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
@@ -262,17 +262,17 @@ NDskel *readNDskeleton(char *filename)
 	// Assign memory for segment data
       	skl->segdata = malloc((long)sizeof(double)*skl->nsegs*skl->nsegdata);
       	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
-	printf("Reading in segdata ...");
+	if(LONG)	printf("Reading in segdata ...");
       	fread_sw(skl->segdata,sizeof(double),skl->nsegs*skl->nsegdata,fp,swap);
-	printf("		read\n");
+	if(LONG)	printf("		read\n");
       	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
 
 	// Assign memory for node data
       	skl->nodedata = malloc((long)sizeof(double)*skl->nnodes*skl->nnodedata);
       	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
-	printf("Reading in nodedata ...");
+	if(LONG)	printf("Reading in nodedata ...");
       	fread_sw(skl->nodedata,sizeof(double),skl->nnodes*skl->nnodedata,fp,swap);
-	printf("		read\n");
+	if(LONG)	printf("		read\n");
       	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
 
 	// Assign memory for Node and Seg
@@ -286,7 +286,7 @@ NDskel *readNDskeleton(char *filename)
 	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
 
 	// Index over all nodes and read in data
-	printf("Reading in node array ...");      
+	if(LONG)	printf("Reading in node array ...");      
 	for(i=0;i<skl->nnodes;i++)
     	{
 		// Initialise array of nodes 
@@ -317,12 +317,12 @@ NDskel *readNDskeleton(char *filename)
 	     		else node->Seg[j] =NULL;
 		}
     	}
-	printf("	read\n");
+	if(LONG)	printf("	read\n");
 
       	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
       	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
       
-	printf("Reading in seg array ...");
+	if(LONG)	printf("Reading in seg array ...");
 	for(i=0;i<skl->nsegs;i++)
     	{
 		// Initialise array of segments
@@ -344,7 +344,7 @@ NDskel *readNDskeleton(char *filename)
 	  	else seg->Prev = &skl->Seg[index];
     
     	}
-      	printf("	read\n");
+      	if(LONG)	printf("	read\n");
 
 	fread_sw(&j,sizeof(int),1,fp,swap);	// DUMMY
 	fclose(fp);
