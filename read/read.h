@@ -17,6 +17,8 @@
 #define LONG	0
 
 extern int radius;
+extern float min;
+extern float max;
 
 // NDField structure to hold data:
 
@@ -84,8 +86,8 @@ extern void	column_data(char *);
 	/* Output grid values to column txt file in the format
 	 * 		x	y	z	field->val	log(val)	
 	 * with a new line after each new x value (for gnuplot) */
-extern void	xy_data(char *,float ***);
-	/* Sums up all grid values for different z for a given (x,y) to produce 
+extern void	xy_data(char *,float ***,float,float);
+	/* Sums up all grid values for different z in range [min,max] for a given (x,y) to produce 
 	 * a 3D grid and outputs to filename specified */
 extern void	xz_data(char *,float ***);
 	/* Sums up all grid values for different y for a given (x,z) to produce 
@@ -97,7 +99,7 @@ extern void	yz_data(char *,float ***);
 //// DENSITY PLOTS ////
 // Functions are in plotting.c
 
-extern void	density_plots(char *,char *,char *,char *);		
+extern void	density_plots(char *,char *,char *,char *,float,float);		
 	/* Plot densities using column data outputed to file, with map view 
 	 * using GNUplot commands, for both normal and log scales */
 

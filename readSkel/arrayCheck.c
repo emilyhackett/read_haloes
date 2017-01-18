@@ -1,19 +1,8 @@
 #include "readSkel.h"
 
-
 // 	Aim of this function/s will be to index through the array
 //	of segments contained in the NDskel structure and extract info
 //	to be put in to a column data file that can then be plotted
-
-void ListSegArray(NDskel *skl,char *datafile)
-{
-	FILE *fp;
-	fp=fopen(datafile,"w");
-	printf("File %s opened for seg array write\n",datafile);
-
-
-	fclose(fp);
-}
 
 void ExampleSegment(NDskel *skl,int n)
 {

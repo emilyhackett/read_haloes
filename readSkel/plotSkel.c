@@ -77,7 +77,6 @@ void ListSegPos(NDskel *skl,char *datafile,float min,float max)
 		{
 			fprintf(fp,"%f	%f	%f	",x1pos[i],y1pos[i],z1pos[i]);
 			fprintf(fp,"%f	%f	%f	1\n",x2pos[i],y2pos[i],z2pos[i]);
-			//fprintf(fp,"\n");
 		}
 	}
 
@@ -182,7 +181,7 @@ void NodeData(NDskel *skl,char *datafile)
 ////////////////////	EXPORT NODE POSITION DATA TO COLUMN TEXT	////////////////////
 
 // Save column data list of node positions
-void ListNodePos(NDskel *skl,char *datafile)
+void ListNodePos(NDskel *skl,char *datafile,float min,float max)
 {
 	// Define  file for node positions
 	FILE *fp;
@@ -193,24 +192,40 @@ void ListNodePos(NDskel *skl,char *datafile)
 	int x=0;
 	int y=0;
 	int z=0;
+
+	float *xpos;
+	float *ypos;
+	float *zpos;
+
+	xpos=malloc(skl->nnodes*sizeof(float));
+	ypos=malloc(skl->nnodes*sizeof(float));
+	zpos=malloc(skl->nnodes*sizeof(float));	
 	
 	// Index over all nodes and turn long list into 2D array of coordinates
 	for(int i=1;i<=skl->nnodes*skl->ndims;i++)
 	{
 		if((i%3)==2)
 		{
-			fprintf(fp,"%f	",skl->nodepos[i]);
+			xpos[x]=skl->nodepos[i];
 			x++;
 		}
 		if((i%3)==1)
 		{
-			fprintf(fp,"%f	",skl->nodepos[i]);
+			ypos[y]=skl->nodepos[i];
 			y++;
 		}
 		if((i%3)==0)
 		{
-			fprintf(fp,"%f\n",skl->nodepos[i]);
+			zpos[z]=skl->nodepos[i];
 			z++;
+		}
+	}
+	
+	for(int i=0;i<=skl->nnodes;i++)
+	{
+		if(zpos[i]>=min && zpos[i]<=max)
+		{
+			fprintf(fp,"%f	%f	%f	1\n",xpos[i],ypos[i],zpos[i]);
 		}
 	}
 	
@@ -222,44 +237,57 @@ void ListNodePos(NDskel *skl,char *datafile)
 
 ////////////////////	PLOT NODE POSITIONS TO POSTSCRIPT FILE	////////////////////
 
-void	PlotNodePos(NDskel *skl,char *datafile, char *plotfile, float min, float max, int print)
+void	PlotNodePos(NDskel *skl,char *datafile, char *plotfile, char *denfile, float min, float max, int print)
 {
 	// This function will take the datafile name as an argument, call the ListNodePos function 
 	// to fill the datafile with values, then create a temporary gnuplot script to run.
 	// Note: If print is non-zero, will print out the GNUplot commands to terminal, else
 	// will simply save them to temp file then delete them
 
-	ListNodePos(skl,datafile);
+	ListNodePos(skl,datafile,min,max);
 
 	// Define temporary file for gnuplot commands
 	FILE *tmp;
 	tmp=fopen("temp","w");
 	
 	if(print)	printf(" --- GNUplot COMMANDS ---\n");
-	
+
 	// Set outputs
 	char output[BUFSIZ];
 	sprintf(output,"set term postscript color\nset output '%s'\n",plotfile);
 	fputs(output,tmp);
 	if(print)	printf("%s",output);
-
+	
 	// Set box settings
 	char settings[BUFSIZ];
-	sprintf(settings,"set size square 1,1\nset tmargin 2\nset xrange [0:1]\nset yrange [0:1]\n");
+	sprintf(settings,"set size square 1,1\nset tmargin 2\nset xrange [0:1]\nset yrange [0:1]\nunset label\n");
 	fputs(settings,tmp);
 	if(print)	printf("%s",settings);
 
-	// Plot commands
+	// FIRST PLOT - Nodes only
 	char title[BUFSIZ];
-	sprintf(title,"set title 'Point plot for skeleton nodes from file %s with xy values'\n",datafile);
+	sprintf(title,"set title 'Skeleton nodes from file %s with xy values for z in [%.2f,%.2f]'\n",datafile,min,max);
 	fputs(title,tmp);
 	if(print)	printf("%s",title);
 	
 	char plotcom[BUFSIZ];
-	sprintf(plotcom,"plot '%s' using 1:2 with points pointsize 1\n",datafile);
+	sprintf(plotcom,"plot '%s' using 1:2 with points pt 7 ps 0.6 notitle\n",datafile);
 	fputs(plotcom,tmp);	
 	if(print)	printf("%s",plotcom);
 
+	// SECOND PLOT - Nodes on top of density file
+	sprintf(settings,"set view map\nset palette rgb 36,35,34\n");
+	fputs(settings,tmp);
+	if(print)	printf("%s",settings);
+	
+	sprintf(title,"set title 'Skeleton segments on density map xy values for z in [%.2f:%.2f]'\n",min,max);
+	fputs(title,tmp);
+	if(print)	printf("%s",title);
+	
+	sprintf(plotcom,"splot '%s' using ($1/128):($2/128):4 with points palette pointtype 7,'%s' using 1:2:4 with points pt 7 ps 0.6 lc 5 notitle\n",denfile,datafile);
+	fputs(plotcom,tmp);
+	if(print)	printf("%s",plotcom);
+	
 	// Close temp file before running commands through system
 	fclose(tmp);
 	system("gnuplot -p 'temp'");

@@ -35,7 +35,7 @@ void column_data(char *filename)
 
 
 //////////////////////////	READING GRID INTO XY COLUMN DATA	//////////////////////////
-void xy_data(char *filename,float ***GRID)
+void xy_data(char *filename,float ***GRID,float min,float max)
 {
 	FILE *fp;
 	
@@ -54,10 +54,19 @@ void xy_data(char *filename,float ***GRID)
 			float sum=0;
 			for(int z=0;z<field->dims[2];z++)
 			{
-				sum=sum+GRID[x][y][z];				
+				if(z>=(min*field->dims[2]) && z<=(max*field->dims[2]))
+				{
+					sum=sum+GRID[x][y][z];	
+				}
+						
 			}
-			
-			fprintf(fp,"%i	%i	%f	%f\n",x,y,sum,log(sum));
+			if(log(sum) == -INFINITY)
+			{
+				fprintf(fp,"%i	%i	%f	-4\n",x,y,sum);	
+			}
+			else {
+				fprintf(fp,"%i	%i	%f	%f\n",x,y,sum,log(sum));
+			}
 		}
 	}
 	
@@ -135,7 +144,7 @@ void yz_data(char *filename,float ***GRID)
 
 //////////////////////////	PLOTTING DENSITY DATA	//////////////////////////
 
-void density_plots(char *fileout,char *xyfile,char *xzfile,char *yzfile)
+void density_plots(char *fileout,char *xyfile,char *xzfile,char *yzfile,float min,float max)
 {
 	// Temporary file for gnuplot commands
 	FILE *fp=fopen("temp","w");
@@ -162,7 +171,7 @@ void density_plots(char *fileout,char *xyfile,char *xzfile,char *yzfile)
 
 	// Plot commands for XY plot
 	char title[BUFSIZ];
-	sprintf(title,"set title 'Density log plot from file %s with xy values'\n",xyfile);
+	sprintf(title,"set title 'Density log plot from file %s with xy values in z range [%.2f,%.2f]'\n",xyfile,min,max);
 	fputs(title,fp);
 	printf("%s",title);
 	
@@ -217,6 +226,7 @@ void density_plots(char *fileout,char *xyfile,char *xzfile,char *yzfile)
 	sprintf(plotcom,"splot '%s' using 1:2:3 with points palette pointsize 1 pointtype 7\n",yzfile);
 	fputs(plotcom,fp);
 	printf("%s",plotcom);
+
 	fclose(fp);
 
 	system("gnuplot -p 'temp'");

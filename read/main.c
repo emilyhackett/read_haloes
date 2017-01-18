@@ -4,21 +4,32 @@
 NDfield *field;
 int nx,ny,nz;
 int radius;
+float min,max;
 
 // Initialising command line argument structures
 bool nflag,cflag,dflag,rflag,iflag,errflag	= false;
-char *usage =	"Usage: ./read <options> filename label\n\nDefault option simply reads file and prints to screen quantities.\nCommand line options are:\n\n -n	Create NDfield file\n -c	Create column data text file\n -d	Create density plots\n -r	Create mass-radius plots\n -i	Calculate moment of inertia tensor\n";
+char *usage =	"Usage: ./read <options> file_label z_min z_max\n\nDefault option simply reads file and prints to screen quantities.\nCommand line options are:\n\n -n	Create NDfield file\n -c	Create column data text file\n -d	Create density plots\n -r	Create mass-radius plots\n -i	Calculate moment of inertia tensor\n";
 
 
 //////////////////////////	MAIN: READING FILE FROM ARGS	//////////////////////////
 int main(int argc, char *argv[])
 {
 	// Check command line arguments
-	if(argc<3)
+	if(argc<4)
 	{
 		fprintf(stderr,"%s\n", usage);
 		exit(1);
     	}
+
+	min=atof(argv[3]);
+	max=atof(argv[4]);
+
+	// FILE NAMES:
+	char name[20];
+	sprintf(name,"%s",argv[argc-3]);
+	char datfile[20],NDfile[20],plotfile[20];
+	sprintf(datfile,"%s.dat",name);
+	char colfile[20],colxy[20],colxz[20],colyz[20];
 
 	// Read in command line argument flags
 	flags(argc,argv);
@@ -27,8 +38,8 @@ int main(int argc, char *argv[])
 	// Open file passed in command line arguments
 	if(LONG)	printf("\n	---- READING FROM FORTRAN FILE ----\n");
 	FILE *fp;
-	fp = fopen(argv[argc-2],"r");
-	if(LONG)	printf("File opened is %s\n",argv[argc-2]);
+	fp = fopen(datfile,"r");
+	if(LONG)	printf("File opened is %s\n",datfile);
 
 	// Allocate memory for NDfield structure
 	field=calloc(1,sizeof(NDfield));
@@ -49,11 +60,6 @@ int main(int argc, char *argv[])
 	read_grid(fp);
 
 	// File names to save into:
-	char *NDFILE=malloc(20);
-	char *COLFILE=malloc(20);
-	char *xyCOLFILE=malloc(20);
-	char *xzCOLFILE=malloc(20);
-	char *yzCOLFILE=malloc(20);
 	char *DENFILE=malloc(20);
 	char *MASSFILE=malloc(20);
 	char *MASSPLOTFILE=malloc(20);
@@ -67,28 +73,28 @@ int main(int argc, char *argv[])
 	// Save to NDfield file format with .ND extension
 	if(nflag) {
 		printf("\n	---- SAVING NDFIELD STRUCTURE TO FILE ----\n");
-		sprintf(NDFILE,"%s.ND",argv[argc-1]);
-		save_NDfield(NDFILE);
+		sprintf(NDfile,"%s.ND",name);
+		save_NDfield(NDfile);
 	}
 
 	// Save to column data file format with .dat extension
 	if(cflag) {
 		printf("\n	---- WRITING GRID TO COLUMN DATA ----\n");
-		sprintf(COLFILE,"%s-grid.dat",argv[argc-1]);
-		column_data(COLFILE);
-		sprintf(xyCOLFILE,"%s-xygrid.dat",argv[argc-1]);
-		xy_data(xyCOLFILE,GRID);
-		sprintf(xzCOLFILE,"%s-xzgrid.dat",argv[argc-1]);
-		xz_data(xzCOLFILE,GRID);
-		sprintf(yzCOLFILE,"%s-yzgrid.dat",argv[argc-1]);
-		yz_data(yzCOLFILE,GRID);	
+//		sprintf(colfile,"%s-grid.dat",name);
+//		column_data(colfile);
+		sprintf(colxy,"%s-xygrid.dat",name);
+		xy_data(colxy,GRID,min,max);
+//		sprintf(colxz,"%s-xzgrid.dat",name);
+//		xz_data(colxz,GRID);
+//		sprintf(colyz,"%s-yzgrid.dat",name);
+//		yz_data(colyz,GRID);	
 	}
 
 	// Create density plots and save to file
 	if(dflag) {
 		printf("\n	---- CREATING AND SAVING DENSITY PLOTS ----\n");
-		sprintf(DENFILE,"%s-denplots.ps",argv[argc-1]);
-		density_plots(DENFILE,xyCOLFILE,xzCOLFILE,yzCOLFILE);
+		sprintf(plotfile,"%s-denplots.ps",name);
+		density_plots(plotfile,colxy,colxz,colyz,min,max);
 	}
 
 	// Create mass-radius histogram plots

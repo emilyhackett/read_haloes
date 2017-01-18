@@ -46,7 +46,7 @@ struct NDskl_node_str {
 					 each of the nnext arcs */  
     	struct NDskl_seg_str **Seg;	/* Points to the first segment in the arcs, 
 					   starting from the current node */
-}; 
+};
 typedef struct NDskl_node_str NDskl_node;
 
 typedef struct NDskel_str {
@@ -78,7 +78,17 @@ typedef struct NDskel_str {
     	NDskl_node *Node;	/* Nodes array (contains all nodes) */
 } NDskel;
 
+////////////////////	DEFINE FUNCTIONS IN "readName.c"	////////////////////
 
+typedef struct name_str {
+	char type[20];		/* E.g. DM, GAS, TEMP, etc. */
+	int size;		/* Size of halo cube */
+	
+	// Skeleton characteristics
+	int smooth;		/* How much the skeleton has been smoothed by */
+	float cut;		/* The cut off point for the skeleton */
+	int periodicity[3];	/* Periodicity for each of the three dimensions */
+} NAME;
 
 ////////////////////	DEFINE FUNCTIONS IN "readNDskel.c"	////////////////////
 
@@ -102,21 +112,15 @@ extern NDskel	*FlattenSkl(NDskel *);
 ////////////////////	DEFINE FUNCTIONS IN "plotSkel.c"	////////////////////
 
 extern void	NodeData(NDskel *,char *);
-
-extern void	ListNodePos(NDskel *,char *);
+extern void	ListNodePos(NDskel *,char *,float,float);
 extern void	ListSegPos(NDskel *,char *,float,float);
-	/* Exports list of 3D coordinates to txt file for gnuplot read between
-	 * minimum and maximum value of z */
-
-extern void	PlotNodePos(NDskel *,char *,char *,float,float,int);
+extern void	PlotNodePos(NDskel *,char *,char *,char *,float,float,int);
 extern void	PlotSegPos(NDskel *,char *,char *,char *,float,float,int);
-
 extern void	ListNodeFieldVals(NDskel *,char *);
 extern void	ListSegFieldVals(NDskel *,char *);
 
 ////////////////////	DEFINE FUNCTIONS IN "arrayCheck.c"	////////////////////
 
-extern void	ListSegArray(NDskel *,char *);
 extern void	ExampleSegment(NDskel *,int);
 extern void	ExampleNode(NDskel *,int);
 
