@@ -1,4 +1,4 @@
-#include "read.h"
+#include "esys.h"
 
 ////////////////	PLOTTING RADIUS V. SHAPE DATA	//////////////////
 
@@ -58,7 +58,7 @@ void plot_evalues(char *datfile, char *plotfile)
 }
 
 ////////////////	PLOTTING ELLIPSES AGAINST DENSITY BACKGROUND	//////////////////
-
+/*
 void plot_ellipses(char *datfile, char *plotfile, char *denfile)
 {
 	FILE *fp=fopen("temp","w");
@@ -80,3 +80,4 @@ void plot_ellipses(char *datfile, char *plotfile, char *denfile)
 
 
 }
+*/

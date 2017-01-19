@@ -1,4 +1,4 @@
-#include "read.h"
+#include "esys.h"
 
 #define	RADIUSPLOTS	0
 #define ELLIPSEPLOTS	1
@@ -90,18 +90,22 @@ int main(int argc, char *argv[])
 	}
 
 	int radius;
-	for(radius=1;radius<=max_radius;radius++)
+	for(radius=max_radius;radius<=max_radius;radius++)
 	{
 		fprintf(fout,"%i\n",radius);
 		fprintf(fplot,"%i	",radius);
 		double *i=malloc(6*sizeof(double));
+		double *ired=malloc(6*sizeof(double));
 		i=moment_of_inertia(GRID,CoM,radius);	
+		ired=reduced_inertia(GRID,CoM,radius);
 		fprintf(fout,"%.2f	%.2f	%.2f\n%.2f	%.2f	%.2f\n%.2f	%.2f	%.2f\n",
 				i[0],i[3],i[4],
 				i[3],i[1],i[5],
 				i[4],i[5],i[2]);
 		double *esys=malloc(4*field->ndims*sizeof(double));
-		esys=eigensystem(i);	
+		double *esys_reduced=malloc(4*field->ndims*sizeof(double));
+		esys=eigensystem(i);
+		esys_reduced=eigensystem(ired);
 		fprintf(fout,"%.2f	%.2f	%.2f\n%.2f	%.2f	%.2f\n%.2f	%.2f	%.2f\n%.2f	%.2f	%.2f\n",
 				esys[0],esys[1],esys[2],
 				esys[3],esys[4],esys[5],
@@ -109,7 +113,9 @@ int main(int argc, char *argv[])
 				esys[9],esys[10],esys[11]);
 		fprintf(fplot,"%.2f	%.2f	%.f	",esys[0],esys[1],esys[2]);
 		double *shape=malloc(5*sizeof(double));
+		double *shape_reduced=malloc(5*sizeof(double));
 		shape=evalue_characteristics(esys);
+		shape_reduced=evalue_characteristics(esys_reduced);
 		fprintf(fout,"%.2f\n%.2f\n%.2f	%.2f	%.2f\n",
 				shape[0],shape[1],
 				shape[2],shape[3],shape[4]);
@@ -139,7 +145,7 @@ int main(int argc, char *argv[])
 		sprintf(PLOTS,"%s_%i-ellipseplots.ps",argv[argc-1],max_radius);
 		char *DENFILE=malloc(sizeof(char)*100);
 		sprintf(DENFILE,"%s_0.00_1.00-xygrid.dat",argv[argc-1]);
-		plot_ellipses(PLOTFILE,PLOTS,DENFILE);	
+		//plot_ellipses(PLOTFILE,PLOTS,DENFILE);	
 	}
 
 	if(LONG)	printf("\n	---- END OF PROGRAM REACHED ----\n\n");

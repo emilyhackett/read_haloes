@@ -1,4 +1,4 @@
-#include "read.h"
+#include "esys.h"
 
 //////////////////////////	READING STRUCTURE TO NDFIELD STRUCT	//////////////////////////
 void create_NDstruct(int fdims_index,int datatype,double *x0,double *delta)

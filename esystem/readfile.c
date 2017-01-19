@@ -1,4 +1,4 @@
-#include "read.h"
+#include "esys.h"
 
 //////////////////////////	READING NX,NY,NZ FROM FORTRAN	//////////////////////////
 

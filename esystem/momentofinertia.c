@@ -1,4 +1,4 @@
-#include "read.h"
+#include "esys.h"
 
 //////////////////////////	CALCULATING MOMENT OF INERTIA FROM A GRID	//////////////////////////
 
@@ -53,6 +53,84 @@ double *moment_of_inertia(float ***GRID,float *CoM,int radius)
 	return matrix;
 }
 
+//////////////////	CALCULATING MOMENT OF INERTIA FROM A GRID	///////////////////
+
+double *reduced_inertia(float ***GRID,float *CoM,int radius)
+{
+	double *matrix=malloc(6*sizeof(double));
+	
+	double I[field->ndims+1][field->ndims+1];
+	double Ired[field->ndims+1][field->ndims+1];
+	
+	int xmid=(int)field->dims[0]/2;
+	int ymid=(int)field->dims[1]/2;
+	int zmid=(int)field->dims[2]/2;
+	
+	double MASS=0;
+	
+	int x,y,z;
+	for(x=(xmid-radius);x<(xmid+radius);x++)
+	{
+		for(y=(ymid-radius);y<(ymid+radius);y++)
+		{
+			for(z=(zmid-radius);z<(zmid+radius);z++)
+			{	
+				I[1][1]=I[1][1]+(x-CoM[0])*(x-CoM[0])*GRID[x][y][z]/
+					((x-CoM[0])*(x-CoM[0])+(y-CoM[1])*(y-CoM[1])
+					 +(z-CoM[2])*(z-CoM[2]));
+				I[1][2]=I[1][2]+(x-CoM[0])*(y-CoM[1])*GRID[x][y][z]/
+					((x-CoM[0])*(x-CoM[0])+(y-CoM[1])*(y-CoM[1])
+					 +(z-CoM[2])*(z-CoM[2]));
+				I[1][3]=I[1][3]+(x-CoM[0])*(z-CoM[2])*GRID[x][y][z]/
+					((x-CoM[0])*(x-CoM[0])+(y-CoM[1])*(y-CoM[1])
+					 +(z-CoM[2])*(z-CoM[2]));
+			//	I[2][1]=I[2][1]+(y-CoM[1])*(x-CoM[0])*GRID[x][y][z]/
+			//		((x-CoM[0])*(x-CoM[0])+(y-CoM[1])*(y-CoM[1])
+			//		 +(z-CoM[2])*(z-CoM[2]));
+				I[2][2]=I[2][2]+(y-CoM[1])*(y-CoM[1])*GRID[x][y][z]/
+					((x-CoM[0])*(x-CoM[0])+(y-CoM[1])*(y-CoM[1])
+					 +(z-CoM[2])*(z-CoM[2]));
+				I[2][3]=I[2][3]+(y-CoM[1])*(z-CoM[2])*GRID[x][y][z]/
+					((x-CoM[0])*(x-CoM[0])+(y-CoM[1])*(y-CoM[1])
+					 +(z-CoM[2])*(z-CoM[2]));
+			//	I[3][1]=I[3][1]+(z-CoM[2])*(x-CoM[0])*GRID[x][y][z]/
+			//		((x-CoM[0])*(x-CoM[0])+(y-CoM[1])*(y-CoM[1])
+			//		 +(z-CoM[2])*(z-CoM[2]));
+			//	I[3][2]=I[3][2]+(z-CoM[2])*(y-CoM[1])*GRID[x][y][z]/
+			//		((x-CoM[0])*(x-CoM[0])+(y-CoM[1])*(y-CoM[1])
+			//		 +(z-CoM[2])*(z-CoM[2]));
+				I[3][3]=I[3][3]+(z-CoM[2])*(z-CoM[2])*GRID[x][y][z]/
+					((x-CoM[0])*(x-CoM[0])+(y-CoM[1])*(y-CoM[1])
+					 +(z-CoM[2])*(z-CoM[2]));
+				
+				MASS=MASS+GRID[x][y][z];	// Total mass of simulation
+			}
+		}
+	}
+
+	Ired[1][1]=I[1][1]/MASS;
+	Ired[1][2]=I[1][2]/MASS;
+	Ired[1][3]=I[1][3]/MASS;
+	Ired[2][2]=I[2][2]/MASS;
+	Ired[2][3]=I[2][3]/MASS;
+	Ired[3][3]=I[3][3]/MASS;
+
+	if(LONG) {
+	printf("Ired11	Ired12	Ired13	->	%.6f	%.6f	%.6f\n",Ired[1][1],Ired[1][2],Ired[1][3]);
+	printf("Ired21	Ired22	Ired23	->	%.6f	%.6f	%.6f\n",Ired[1][2],Ired[2][2],Ired[2][3]);
+	printf("Ired31	Ired32	Ired33	->	%.6f	%.6f	%.6f\n",Ired[1][3],Ired[2][3],Ired[3][3]);
+	}
+
+	matrix[0]=Ired[1][1];
+	matrix[1]=Ired[2][2];
+	matrix[2]=Ired[3][3];
+	matrix[3]=Ired[1][2];
+	matrix[4]=Ired[1][3];
+	matrix[5]=Ired[2][3];
+
+	return matrix;
+
+}
 //////////////////////////	PRINT OUT SPHERICITY ETC. FROM E'VALUES	//////////////////////////
 
 double *evalue_characteristics(double *evalues)
