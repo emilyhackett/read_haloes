@@ -4,6 +4,10 @@
 *.ps
 *.txt
 *.NDskl
+*.MSC
+temp.ND.0
+temp.ND.3
+skl_nifty.zip
 # Output from read:
 *.ND
 *.dat
