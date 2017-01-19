@@ -1,6 +1,6 @@
 
-esys: main.o readfile.o momentofinertia.o functions.o
-	gcc -o esys main.o readfile.o momentofinertia.o functions.o -lm
+esys: main.o readfile.o momentofinertia.o functions.o plotting.o
+	gcc -o esys main.o readfile.o momentofinertia.o functions.o plotting.o -lm
 
 main.o: main.c read.h
 	gcc -c main.c
@@ -14,5 +14,8 @@ momentofinertia.o: momentofinertia.c read.h
 functions.o: functions.c read.h
 	gcc -c functions.c
 
+plotting.o: plotting.c read.h
+	gcc -c plotting.c
+
 clean:
-	rm -f esys main.o readfile.o momentofinertia.o functions.o
+	rm -f esys main.o readfile.o momentofinertia.o functions.o plotting.o

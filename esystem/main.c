@@ -1,5 +1,8 @@
 #include "read.h"
 
+#define	RADIUSPLOTS	0
+#define ELLIPSEPLOTS	1
+
 // Initialising declared variables
 NDfield *field;
 int nx,ny,nz;
@@ -69,6 +72,7 @@ int main(int argc, char *argv[])
 	char *PLOTFILE=malloc(20);
 	sprintf(PLOTFILE,"%s-shape_%i.dat",argv[argc-1],max_radius);
 
+	if(LONG)	printf("\n	---- SAVING SHAPE CHARACTERISTICS TO FILE ----\n");
 	FILE *fout;
 	fout=fopen(OUTFILE,"w");
 	if(fout==NULL)
@@ -88,7 +92,6 @@ int main(int argc, char *argv[])
 	int radius;
 	for(radius=1;radius<=max_radius;radius++)
 	{
-		if(LONG)	printf("radius = %i\n",radius);
 		fprintf(fout,"%i\n",radius);
 		fprintf(fplot,"%i	",radius);
 		double *i=malloc(6*sizeof(double));
@@ -118,8 +121,27 @@ int main(int argc, char *argv[])
 	fclose(fplot);
 
 	printf("Data written to file %s\n",OUTFILE);
-	printf("Data for plotting written to file %s\n",PLOTFILE);
+	printf("Data for plotting written to file %s in format:\n",PLOTFILE);
+	printf(" radius	e1	e2	e3	S	T	E1	E2	E3\n");
+
+	if(RADIUSPLOTS) {
+		if(LONG)	printf("\n	---- CREATING SHAPE V. RADIUS PLOTS ----\n");
 	
+		char *PLOTS=malloc(sizeof(char)*100);
+		sprintf(PLOTS,"%s_%i-radiusplots.ps",argv[argc-1],max_radius);
+		plot_evalues(PLOTFILE,PLOTS);
+	}
+
+	if(ELLIPSEPLOTS) {
+		if(LONG)	printf("\n	---- CREATING ELLIPSE-DENSITY PLOTS ----\n");
+	
+		char *PLOTS=malloc(sizeof(char)*100);
+		sprintf(PLOTS,"%s_%i-ellipseplots.ps",argv[argc-1],max_radius);
+		char *DENFILE=malloc(sizeof(char)*100);
+		sprintf(DENFILE,"%s_0.00_1.00-xygrid.dat",argv[argc-1]);
+		plot_ellipses(PLOTFILE,PLOTS,DENFILE);	
+	}
+
 	if(LONG)	printf("\n	---- END OF PROGRAM REACHED ----\n\n");
 }
 

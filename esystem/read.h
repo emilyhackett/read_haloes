@@ -13,7 +13,7 @@
 #define NDFIELD_MAX_DIMS 20
 #define NDFIELD_TAG "NDFIELD"
 
-#define LONG	0
+#define LONG	1
 
 extern int max_radius;
 
@@ -67,6 +67,11 @@ extern double	*evalue_characteristics(double *);
 extern double 	*eigensystem(double *);
 	/* Hopefully the finalised method of calculating the eigenvalues and the
 	 * corresponding eigenvectors for a given moment of inertia tensor */
+
+//// PLOTTING FUNCTIONS ////
+// Functions are in plotting.c
+extern void	plot_evalues(char *,char *);
+	/* Plots radius v. shape characteristics */
 
 
 //// MATHS FUNCTIONS ////
