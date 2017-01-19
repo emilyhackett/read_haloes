@@ -58,7 +58,7 @@ float *centre_of_mass(float ***GRID)
 		gridtot_x=gridtot_x+weight;
 		wsum_x=wsum_x+x*weight;
 	}
-	printf("wave_x		= %f\n",wsum_x/gridtot_x);
+	if(LONG)	printf("wave_x		= %f\n",wsum_x/gridtot_x);
 
 	///////// FINDING Y Centre of Mass ////////
 
@@ -78,7 +78,7 @@ float *centre_of_mass(float ***GRID)
 		gridtot_y=gridtot_y+weight;
 		wsum_y=wsum_y+y*weight;
 	}
-	printf("wave_y		= %f\n",wsum_y/gridtot_y);
+	if(LONG)	printf("wave_y		= %f\n",wsum_y/gridtot_y);
 
 	///////// FINDING Z Centre of Mass ////////
 	float wsum_z=0.0;
@@ -97,7 +97,7 @@ float *centre_of_mass(float ***GRID)
 		//printf("x	= %i,	weight	= %f,	gridtot_x	= %f\n",x,weight,gridtot_x);
 		wsum_z=wsum_z+z*weight;
 	}
-	printf("wave_z		= %f\n",wsum_z/gridtot_z);
+	if(LONG)	printf("wave_z		= %f\n",wsum_z/gridtot_z);
 
 	// Defining centre of mass by taking correct average
 	CoM[0]=wsum_x/gridtot_x;

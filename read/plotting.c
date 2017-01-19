@@ -152,23 +152,23 @@ void density_plots(char *fileout,char *xyfile,char *xzfile,char *yzfile,float mi
 	// Temporary file for gnuplot commands
 	FILE *fp=fopen("temp","w");
 	
-	printf(" --- GNUplot COMMANDS ---\n");
+	if(LONG)	printf(" --- GNUplot COMMANDS ---\n");
 	// Initial conditions
 	char *settings="set size square 1,1\nset tmargin 2\nset view map\nset ticslevel 0\nset palette rgb 36,35,34\n";	
 	fputs(settings,fp);
-	printf("%s",settings);
+	if(LONG)	printf("%s",settings);
 
 	// X, Y and Z ranges
 	char ranges[BUFSIZ];
 	sprintf(ranges,"set xrange [:%i]\nset yrange [:%i]\n",field->dims[0],field->dims[2]);
 	fputs(ranges,fp);
-	printf("%s",ranges);
+	if(LONG)	printf("%s",ranges);
 
 	// Outputs
 	char output[BUFSIZ];
 	sprintf(output,"set term postscript color\nset output '%s'\n",fileout);
 	fputs(output,fp);
-	printf("%s",output);
+	if(LONG)	printf("%s",output);
 
 	//// LOG ////
 
@@ -176,12 +176,12 @@ void density_plots(char *fileout,char *xyfile,char *xzfile,char *yzfile,float mi
 	char title[BUFSIZ];
 	sprintf(title,"set title 'Density log plot from file %s with xy values in z range [%.2f,%.2f]'\n",xyfile,min,max);
 	fputs(title,fp);
-	printf("%s",title);
+	if(LONG)	printf("%s",title);
 	
 	char plotcom[BUFSIZ];
 	sprintf(plotcom,"splot '%s' using 1:2:4 with points palette pointsize 1 pointtype 7\n",xyfile);
 	fputs(plotcom,fp);	
-	printf("%s",plotcom);
+	if(LONG)	printf("%s",plotcom);
 
 	/*	IGNORING EVERYTHING OTHER THAN XY LOG PLOT
 

@@ -3,6 +3,10 @@
 NDfield *field;
 int nx,ny,nz;
 
+/*	Function of this program is to convert unstructured fortran grids into ND field 
+ *	files - will do nothing else
+ */
+
 int main(int argc, char *argv[])
 {
 	// Check command line arguments

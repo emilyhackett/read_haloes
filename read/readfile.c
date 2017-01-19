@@ -4,15 +4,16 @@
 
 void read_header(FILE *fp)
 {
-	int length = 0;
-	int *len = &length;
+	int length;
+	int *len=&length;
 	int *buffer;
 	int i;
-	
-	fread(len,4,1,fp);
+
+	fread(len,sizeof(int),1,fp);
+
 	field->ndims=length/4;
 	if(LONG)	printf("field->ndims	= %i\n",field->ndims);
-	
+
 	buffer = malloc(field->ndims+1);
 	fread(buffer,4,field->ndims+1,fp);
 	

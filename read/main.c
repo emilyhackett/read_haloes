@@ -27,16 +27,16 @@ int main(int argc, char *argv[])
 	// FILE NAMES:
 	char name[20];
 	sprintf(name,"%s",argv[argc-3]);
-	char datfile[40],NDfile[40],plotfile[40];
+	char datfile[100],NDfile[100],plotfile[100];
 	sprintf(datfile,"%s.dat",name);
-	char colfile[40],colxy[40],colxz[40],colyz[40];
+	char colfile[100],colxy[100],colxz[100],colyz[100];
 
 	// Read in command line argument flags
 	flags(argc,argv);
 	if(iflag) printf("Radius read in as %i\n",radius);
 
 	// Open file passed in command line arguments
-	if(LONG)	printf("\n	---- READING FROM FORTRAN FILE ----\n");
+	if(LONG)	printf("	---- READING FROM FORTRAN FILE ----\n");
 	FILE *fp;
 	fp = fopen(datfile,"r");
 	if(LONG)	printf("File opened is %s\n",datfile);
@@ -51,19 +51,19 @@ int main(int argc, char *argv[])
 	
 	// Read values from header in
 	read_header(fp);
-	
+
 	// Populate NDfield structure with values
-	if(LONG)	printf("\n	---- CREATING NDFIELD STRUCTURE ----\n");
+	if(LONG)	printf("	---- CREATING NDFIELD STRUCTURE ----\n");
 	create_NDstruct(0,(1<<8),field->x0,field->delta);
 
-	if(LONG)	printf("\n	---- READING GRID INTO NDFIELD STRUCTURE ----\n");
+	if(LONG)	printf("	---- READING GRID INTO NDFIELD STRUCTURE ----\n");
 	read_grid(fp);
 
 	// File names to save into:
 	char *MASSFILE=malloc(20);
 	char *MASSPLOTFILE=malloc(20);
 
-	printf("\n	---- CALCULATING CENTRE OF MASS AND GRID ----\n");
+	if(LONG)	printf("	---- CALCULATING CENTRE OF MASS AND GRID ----\n");
 	// Calculate centre of mass and GRID regardless of flags
 	float ***GRID=create_grid();
 	float *CoM=malloc(sizeof(float)*field->ndims);
@@ -71,14 +71,14 @@ int main(int argc, char *argv[])
 
 	// Save to NDfield file format with .ND extension
 	if(nflag) {
-		printf("\n	---- SAVING NDFIELD STRUCTURE TO FILE ----\n");
+		printf("	---- SAVING NDFIELD STRUCTURE TO FILE ----\n");
 		sprintf(NDfile,"NDfiles/%s.ND",name);
 		save_NDfield(NDfile);
 	}
 
 	// Save to column data file format with .dat extension
 	if(cflag) {
-		printf("\n	---- WRITING GRID TO COLUMN DATA ----\n");
+		printf("	---- WRITING GRID TO COLUMN DATA ----\n");
 //		sprintf(colfile,"%s-grid.dat",name);
 //		column_data(colfile);
 		sprintf(colxy,"%s_%.2f_%.2f-xygrid.dat",name,min,max);
@@ -91,15 +91,15 @@ int main(int argc, char *argv[])
 
 	// Create density plots and save to file
 	if(dflag) {
-		printf("\n	---- CREATING AND SAVING DENSITY PLOTS ----\n");
-		sprintf(plotfile,"%s-denplots.ps",name);
+		printf("	---- CREATING AND SAVING DENSITY PLOTS ----\n");
+		sprintf(plotfile,"%s_%.2f_%.2f-denplots.ps",name,min,max);
 		density_plots(plotfile,colxy,colxz,colyz,min,max);
 	}
 
 	// Create mass-radius histogram plots
 	if(rflag)
 	{
-		printf("\n	---- PRODUCING MASS-RADIUS PLOTS ----\n");
+		printf("	---- PRODUCING MASS-RADIUS PLOTS ----\n");
 		sprintf(MASSFILE,"%s-massradius.dat",argv[argc-1]);
 		sprintf(MASSPLOTFILE,"%s-massradiusplots.ps",argv[argc-1]);
 		mass_radius_plots(GRID,CoM,MASSFILE,MASSPLOTFILE);
@@ -107,21 +107,21 @@ int main(int argc, char *argv[])
 
 	if(iflag)
 	{
-		printf("\n	---- CALCULATING MOMENT OF INERTIA TENSOR ----\n");
+		printf("	---- CALCULATING MOMENT OF INERTIA TENSOR ----\n");
 		double *matrix=malloc(6*sizeof(double));
 		matrix=moment_of_inertia(GRID,CoM);	
 		double *evalues=malloc(field->ndims*sizeof(double));
 		evalues=eigenvalues(matrix);
 		evalue_characteristics(evalues);
 
-		printf("\n	---- NEW EIGENVALUE CALCULATION TEST ----\n");
+		printf("	---- NEW EIGENVALUE CALCULATION TEST ----\n");
 		
 		double *eval2=malloc(4*field->ndims*sizeof(double));
 		eval2=eigensystem(matrix);
 		evalue_characteristics(eval2);
 	}
 
-	printf("\n	---- END OF PROGRAM REACHED ----\n\n");
+	printf("	---- END OF PROGRAM REACHED ----\n\n");
 }
 
 //// END ////
