@@ -1,6 +1,0 @@
-set view map
-set palette rgb 36,35,34
-set size square 1,1
-set xrange [0:1]
-set yrange [0:1]
-splot 'GAS10G-xygrid.dat' using ($1/128):($2/128):4 with points palette pointtype 7, 'segpos.dat' using 1:2:7:($4-$1):($5-$2):7 with vectors nohead

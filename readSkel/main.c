@@ -5,7 +5,8 @@
 #define	ASCII		0	// Output to ASCII format
 
 #define PLOTNODES	0	// Output node pos to file and save 2D list plot to .ps file
-#define PLOTSEGS	1	// Output seg pos to file and save 2D list plot to .ps file
+#define PLOTSEGSONLY	0
+#define PLOTSEGDENSITY	1	// Output seg pos to file and save 2D list plot to .ps file
 
 #define PLOTNODEFIELDS	0	// Ouptut all node field data to .dat file
 #define PLOTSEGFIELDS	0	// Output all seg field data to .dat file
@@ -16,14 +17,14 @@
 
 int main(int argc, char *argv[])
 {
-	char *name=malloc(sizeof(char)*10);
+	char *name=malloc(sizeof(char)*100);
 	sprintf(name,"%s",argv[1]);
 
-	char *sklfile=malloc(sizeof(char)*20);
-	char *asciifile=malloc(sizeof(char)*20);
-	char *datfile=malloc(sizeof(char)*20);
-	char *plotfile=malloc(sizeof(char)*20);
-	char *denfile=malloc(sizeof(char)*20);
+	char *sklfile=malloc(sizeof(char)*100);
+	char *asciifile=malloc(sizeof(char)*100);
+	char *datfile=malloc(sizeof(char)*100);
+	char *plotfile=malloc(sizeof(char)*100);
+	char *denfile=malloc(sizeof(char)*100);
 	
 	// Define NDskeleton
 	NDskel	*skl;
@@ -33,6 +34,9 @@ int main(int argc, char *argv[])
 	if(argc<4)
 	{
 		fprintf(stderr,"Usage: %s file_label z_min z_max\n",argv[0]);
+		if(PLOTSEGSONLY) printf("PLOTTING SEGMENTS ONLY\n");
+		if(PLOTSEGDENSITY) printf("PLOTTING SEGMENTS ON DENSITY BACKGROUND\n");
+		if(ASCII) printf("OUTPUTTING TO ASCII FORMAT\n");
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -64,7 +68,16 @@ int main(int argc, char *argv[])
 		PlotNodePos(skl,datfile,plotfile,denfile,min,max,0);
 	}
 	
-	if(PLOTSEGS && !EXAMPLE)
+	if(PLOTSEGSONLY && !EXAMPLE)
+	{
+		printf("	---------- PLOTTING SEGMENT POSITIONS ----------\n");
+		sprintf(datfile,"%s_%.2f_%.2f-segpos.dat",name,min,max);
+		sprintf(plotfile,"%s_%.2f_%.2f-segplot.ps",name,min,max);
+		PlotSegOnly(skl,datfile,plotfile,min,max,0);
+	}	
+	
+
+	if(PLOTSEGDENSITY && !EXAMPLE && !PLOTSEGSONLY)
 	{
 		printf("	---------- PLOTTING SEGMENT POSITIONS ----------\n");
 		sprintf(datfile,"%s_%.2f_%.2f-segpos.dat",name,min,max);

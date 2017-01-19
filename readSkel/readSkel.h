@@ -116,6 +116,7 @@ extern NDskel	*FlattenSkl(NDskel *);
 extern void	NodeData(NDskel *,char *);
 extern void	ListNodePos(NDskel *,char *,float,float);
 extern void	ListSegPos(NDskel *,char *,float,float);
+extern void	PlotSegOnly(NDskel *,char *,char *,float,float,int);
 extern void	PlotNodePos(NDskel *,char *,char *,char *,float,float,int);
 extern void	PlotSegPos(NDskel *,char *,char *,char *,float,float,int);
 extern void	ListNodeFieldVals(NDskel *,char *);

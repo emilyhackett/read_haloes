@@ -86,6 +86,57 @@ void ListSegPos(NDskel *skl,char *datafile,float min,float max)
 	fclose(fp);
 	printf("File %s closed\n",datafile);
 }
+
+////////////////////	PLOT SEG POSITIONS TO POSTSCRIPT FILE	////////////////////
+
+void	PlotSegOnly(NDskel *skl,char *datafile, char *plotfile, float min, float max, int print)
+{
+	// This function will take the datafile name as an argument, call the ListSegPos function 
+	// to fill the datafile with values, then create a temporary gnuplot script to run.
+	// Note: If print is non-zero, will print out the GNUplot commands to terminal, else
+	// will simply save them to temp file then delete them
+
+	ListSegPos(skl,datafile,min,max);
+
+	// Define temporary file for gnuplot commands
+	FILE *tmp;
+	tmp=fopen("temp","w");
+	
+	if(print)	printf(" --- GNUplot COMMANDS ---\n");
+	
+	// Set outputs
+	char output[BUFSIZ];
+	sprintf(output,"set term postscript color\nset output '%s'\n",plotfile);
+	fputs(output,tmp);
+	if(print)	printf("%s",output);
+	
+	// Set box settings
+	char settings[BUFSIZ];
+	sprintf(settings,"set size square 1,1\nset tmargin 2\nset xrange [0:1]\nset yrange [0:1]\nunset label\n");
+	fputs(settings,tmp);
+	if(print)	printf("%s",settings);
+
+	// FIRST PLOT - Skeleton only
+	char title[BUFSIZ];
+	sprintf(title,"set title 'Skeleton segments from file %s with xy values for z in [%.2f,%.2f]'\n",datafile,min,max);
+	fputs(title,tmp);
+	if(print)	printf("%s",title);
+	
+	char plotcom[BUFSIZ];
+	sprintf(plotcom,"plot '%s' using 1:2:($4-$1):($5-$2) with vectors nohead notitle\n",datafile);
+	fputs(plotcom,tmp);	
+	if(print)	printf("%s",plotcom);
+
+	// Close temp file before running commands through system
+	fclose(tmp);
+	system("gnuplot -p 'temp'");
+	
+	// Remove temp file - comment out for trouble shooting
+	remove("temp");
+
+	printf("%i seg points plotted in %s\n",skl->nsegs,plotfile);
+}
+
 ////////////////////	PLOT SEG POSITIONS TO POSTSCRIPT FILE	////////////////////
 
 void	PlotSegPos(NDskel *skl,char *datafile, char *plotfile, char *denfile,float min, float max, int print)
