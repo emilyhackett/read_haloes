@@ -1,7 +1,7 @@
 #include "esys.h"
 
-#define	RADIUSPLOTS	0
-#define ELLIPSEPLOTS	1
+#define	RADIUSPLOTS	1
+#define ELLIPSEPLOTS	0
 
 // Initialising declared variables
 NDfield *field;
@@ -90,36 +90,30 @@ int main(int argc, char *argv[])
 	}
 
 	int radius;
-	for(radius=max_radius;radius<=max_radius;radius++)
+	for(radius=1;radius<=max_radius;radius++)
 	{
 		fprintf(fout,"%i\n",radius);
 		fprintf(fplot,"%i	",radius);
 		double *i=malloc(6*sizeof(double));
-		double *ired=malloc(6*sizeof(double));
-		i=moment_of_inertia(GRID,CoM,radius);	
-		ired=reduced_inertia(GRID,CoM,radius);
-		fprintf(fout,"%.2f	%.2f	%.2f\n%.2f	%.2f	%.2f\n%.2f	%.2f	%.2f\n",
+		i=reduced_inertia(GRID,CoM,radius);
+		fprintf(fout,"%.6f	%.6f	%.6f\n%.6f	%.6f	%.6f\n%.6f	%.6f	%.6f\n",
 				i[0],i[3],i[4],
 				i[3],i[1],i[5],
 				i[4],i[5],i[2]);
 		double *esys=malloc(4*field->ndims*sizeof(double));
-		double *esys_reduced=malloc(4*field->ndims*sizeof(double));
 		esys=eigensystem(i);
-		esys_reduced=eigensystem(ired);
-		fprintf(fout,"%.2f	%.2f	%.2f\n%.2f	%.2f	%.2f\n%.2f	%.2f	%.2f\n%.2f	%.2f	%.2f\n",
+		fprintf(fout,"%.6f	%.6f	%.6f\n%.6f	%.6f	%.6f\n%.6f	%.6f	%.6f\n%.6f	%.6f	%.2f\n",
 				esys[0],esys[1],esys[2],
 				esys[3],esys[4],esys[5],
 				esys[6],esys[7],esys[8],
 				esys[9],esys[10],esys[11]);
-		fprintf(fplot,"%.2f	%.2f	%.f	",esys[0],esys[1],esys[2]);
+		fprintf(fplot,"%.6f	%.6f	%.6f	",esys[0],esys[1],esys[2]);
 		double *shape=malloc(5*sizeof(double));
-		double *shape_reduced=malloc(5*sizeof(double));
 		shape=evalue_characteristics(esys);
-		shape_reduced=evalue_characteristics(esys_reduced);
-		fprintf(fout,"%.2f\n%.2f\n%.2f	%.2f	%.2f\n",
+		fprintf(fout,"%.6f\n%.6f\n%.6f	%.6f	%.6f\n",
 				shape[0],shape[1],
 				shape[2],shape[3],shape[4]);
-		fprintf(fplot,"%.2f	%.2f	%.2f	%.2f	%.2f\n",
+		fprintf(fplot,"%.3f	%.3f	%.3f	%.3f	%.3f\n",
 				shape[0],shape[1],shape[2],shape[3],shape[4]);
 	}
 
