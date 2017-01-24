@@ -59,15 +59,15 @@ double *reduced_inertia(float ***GRID,float *CoM,int radius)
 {
 	double *matrix=malloc(6*sizeof(double));
 	
-	double I[field->ndims+1][field->ndims+1];
-	double Ired[field->ndims+1][field->ndims+1];
+	double I[4][4];
+	double Ired[4][4];
 	
 	int xmid=(int)field->dims[0]/2;
 	int ymid=(int)field->dims[1]/2;
 	int zmid=(int)field->dims[2]/2;
 	
 	double MASS=0;
-	
+
 	int x,y,z;
 	for(x=(xmid-radius);x<(xmid+radius);x++)
 	{

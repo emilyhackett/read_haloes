@@ -186,7 +186,7 @@ void	PlotSegPos(NDskel *skl,char *datafile, char *plotfile, char *denfile,float 
 	fputs(title,tmp);
 	if(print)	printf("%s",title);
 	
-	sprintf(plotcom,"splot '%s' using ($1/128):($2/128):4 with points palette pointtype 7,'%s' using 1:2:7:($4-$1):($5-$2):7 with vectors nohead lc 5 notitle\n",denfile,datafile);
+	sprintf(plotcom,"splot '%s' using ($1/128):($2/128):4 with points palette pointtype 7 notitle,'%s' using 1:2:7:($4-$1):($5-$2):7 with vectors nohead lc 5 notitle\n",denfile,datafile);
 	fputs(plotcom,tmp);
 	if(print)	printf("%s",plotcom);
 	

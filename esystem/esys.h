@@ -72,7 +72,7 @@ extern double	*evalue_characteristics(double *);
 // Functions are in plotting.c
 extern void	plot_evalues(char *,char *);
 	/* Plots radius v. shape characteristics */
-extern void	plot_ellipses(char *,char *,char *,float *,double *);
+extern void	plot_ellipses(char *,char *,char *,float *,float ***);
 	/* Plots ellipse for moment of inertia tensor at given max_radius 
 	 * on top of density plot */
 

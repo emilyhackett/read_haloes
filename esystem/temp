@@ -1,0 +1,14 @@
+set size square 1,1
+set tmargin 2
+set view map
+set ticslevel 0
+set palette rgb 36,35,34
+set xrange [:128]
+set yrange [:128]
+set term postscript color
+set output 'DM02G_0-ellipseplots.ps'
+set object 1 ellipse center 69.1377, 67.1779 size 58.6962,33.5406 angle 101.25 units xy front fillstyle empty
+set object 2 ellipse center 69.1377, 67.1779 size 37.8205,22.8215 angle 99.65 units xy front fillstyle empty
+set object 3 ellipse center 69.1377, 67.1779 size 16.3592,13.4767 angle 83.84 units xy front fillstyle empty
+set title 'E-vector ellipse at radius 0'
+splot 'DM02G_0.00_1.00-xygrid.dat' using 1:2:4 with points palette ps 1 pt 7 notitle

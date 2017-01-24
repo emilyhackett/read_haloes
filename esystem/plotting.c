@@ -59,7 +59,7 @@ void plot_evalues(char *datfile, char *plotfile)
 
 ////////////////	PLOTTING ELLIPSES AGAINST DENSITY BACKGROUND	//////////////////
 
-void plot_ellipses(char *datfile, char *plotfile, char *denfile, float *CoM, double *esys)
+void plot_ellipses(char *datfile, char *plotfile, char *denfile, float *CoM,float ***GRID)
 {
 	FILE *fp=fopen("temp","w");
 
@@ -76,8 +76,15 @@ void plot_ellipses(char *datfile, char *plotfile, char *denfile, float *CoM, dou
 
 	int i;
 	int j=1;
-	for(i=max_radius;i>0;i=i-10)
+	for(i=60;i>0;i=i-20)
 	{
+		// Calculate eigenvalues for particular radius:
+		double *inertia=malloc(6*sizeof(double));
+		printf("radius/i = %i\n",i);
+		inertia=reduced_inertia(GRID,CoM,i);	
+		double *esys=malloc(4*field->ndims*sizeof(double));
+		esys=eigensystem(inertia);
+
 		char ellipse[BUFSIZ];
 		sprintf(ellipse,"set object %i ellipse center %.4f, %.4f size %.4f,%.4f angle %.2f units xy front fillstyle empty\n",j,CoM[0],CoM[1],esys[0]*2*i,esys[1]*2*i,axis_angle(esys));
 		fputs(ellipse,fp);
@@ -98,7 +105,7 @@ void plot_ellipses(char *datfile, char *plotfile, char *denfile, float *CoM, dou
 
 	fclose(fp);
 	system("gnuplot -p 'temp'");
-	remove("temp");
+	//remove("temp");
 
 }
 

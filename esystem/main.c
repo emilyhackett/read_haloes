@@ -66,15 +66,12 @@ int main(int argc, char *argv[])
 	float *CoM=malloc(sizeof(float)*field->ndims);
 	CoM=centre_of_mass(GRID);
 
-	if(LONG)	printf("\n	---- CALCULATING MOMENT OF INERTIA TENSOR ----\n");
-	
 	// File name to save moment of inertia data into:
 	char *OUTFILE=malloc(20);
 	sprintf(OUTFILE,"%s-esys_%i.dat",argv[argc-1],max_radius);
 	char *PLOTFILE=malloc(20);
 	sprintf(PLOTFILE,"%s-shape_%i.dat",argv[argc-1],max_radius);
 
-	if(LONG)	printf("\n	---- SAVING SHAPE CHARACTERISTICS TO FILE ----\n");
 	FILE *fout;
 	fout=fopen(OUTFILE,"w");
 	if(fout==NULL)
@@ -90,59 +87,49 @@ int main(int argc, char *argv[])
 		printf("Error opening plotfile %s\n",PLOTFILE);
 		exit(EXIT_FAILURE);
 	}
-
-	int start;
-	if(!RADIUSPLOTS)
+	
+	if(RADIUSPLOTS)
 	{
-		start=max_radius;
-	}
-	else {
-		start=1;
-	}
-
-	double *esys=malloc(4*field->ndims*sizeof(double));
-
-	int radius;
-	for(radius=start;radius<=max_radius;radius++)
-	{
-		fprintf(fout,"%i\n",radius);
-		fprintf(fplot,"%i	",radius);
-		double *i=malloc(6*sizeof(double));
-		i=reduced_inertia(GRID,CoM,radius);
-		fprintf(fout,"%.6f	%.6f	%.6f\n%.6f	%.6f	%.6f\n%.6f	%.6f	%.6f\n",
+		int radius;
+		for(radius=1;radius<=max_radius;radius++)
+		{
+			fprintf(fout,"%i\n",radius);
+			fprintf(fplot,"%i	",radius);
+			double *i=malloc(6*sizeof(double));
+			i=reduced_inertia(GRID,CoM,radius);
+			fprintf(fout,"%.6f	%.6f	%.6f\n%.6f	%.6f	%.6f\n%.6f	%.6f	%.6f\n",
 				i[0],i[3],i[4],
 				i[3],i[1],i[5],
 				i[4],i[5],i[2]);
-	//	double *esys=malloc(4*field->ndims*sizeof(double));
-		esys=eigensystem(i);
-		fprintf(fout,"%.6f	%.6f	%.6f\n%.6f	%.6f	%.6f\n%.6f	%.6f	%.6f\n%.6f	%.6f	%.2f\n",
+			double *esys=malloc(4*field->ndims*sizeof(double));
+			esys=eigensystem(i);
+			fprintf(fout,"%.6f	%.6f	%.6f\n%.6f	%.6f	%.6f\n%.6f	%.6f	%.6f\n%.6f	%.6f	%.2f\n",
 				esys[0],esys[1],esys[2],
 				esys[3],esys[4],esys[5],
 				esys[6],esys[7],esys[8],
 				esys[9],esys[10],esys[11]);
-		fprintf(fplot,"%.6f	%.6f	%.6f	",esys[0],esys[1],esys[2]);
-		double *shape=malloc(5*sizeof(double));
-		shape=evalue_characteristics(esys);
-		fprintf(fout,"%.6f\n%.6f\n%.6f	%.6f	%.6f\n",
+			fprintf(fplot,"%.6f	%.6f	%.6f	",esys[0],esys[1],esys[2]);
+			double *shape=malloc(5*sizeof(double));
+			shape=evalue_characteristics(esys);
+			fprintf(fout,"%.6f\n%.6f\n%.6f	%.6f	%.6f\n",
 				shape[0],shape[1],
 				shape[2],shape[3],shape[4]);
-		fprintf(fplot,"%.3f	%.3f	%.3f	%.3f	%.3f\n",
+			fprintf(fplot,"%.3f	%.3f	%.3f	%.3f	%.3f\n",
 				shape[0],shape[1],shape[2],shape[3],shape[4]);
-	}
+		}
+	printf("Data written to file %s\n",OUTFILE);
+	printf("Data for plotting written to file %s in format:\n",PLOTFILE);
+	printf(" radius	e1	e2	e3	S	T	E1	E2	E3\n");	
 
 	fclose(fout);
 	fclose(fplot);
 
-	printf("Data written to file %s\n",OUTFILE);
-	printf("Data for plotting written to file %s in format:\n",PLOTFILE);
-	printf(" radius	e1	e2	e3	S	T	E1	E2	E3\n");
+	if(LONG)	printf("\n	---- CREATING SHAPE V. RADIUS PLOTS ----\n");
 
-	if(RADIUSPLOTS) {
-		if(LONG)	printf("\n	---- CREATING SHAPE V. RADIUS PLOTS ----\n");
-	
-		char *PLOTS=malloc(sizeof(char)*100);
-		sprintf(PLOTS,"%s_%i-radiusplots.ps",argv[argc-1],max_radius);
-		plot_evalues(PLOTFILE,PLOTS);
+	char *PLOTS=malloc(sizeof(char)*100);
+	sprintf(PLOTS,"%s_%i-radiusplots.ps",argv[argc-1],max_radius);
+	plot_evalues(PLOTFILE,PLOTS);
+
 	}
 
 	if(ELLIPSEPLOTS) {
@@ -152,7 +139,7 @@ int main(int argc, char *argv[])
 		sprintf(PLOTS,"%s_%i-ellipseplots.ps",argv[argc-1],max_radius);
 		char *DENFILE=malloc(sizeof(char)*100);
 		sprintf(DENFILE,"%s_0.00_1.00-xygrid.dat",argv[argc-1]);
-		plot_ellipses(PLOTFILE,PLOTS,DENFILE,CoM,esys);	
+		plot_ellipses(PLOTFILE,PLOTS,DENFILE,CoM,GRID);	
 	}
 
 	if(LONG)	printf("\n	---- END OF PROGRAM REACHED ----\n\n");
