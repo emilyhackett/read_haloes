@@ -1,0 +1,11 @@
+set zeroaxis
+set size square 1,1
+set view map
+set palette rgb 36,35,34
+
+set title 'Example of ellipse from demo'
+
+set style ellipse size graph 0.05, 0.03, first 0.00000 angle 0 units xy
+set object 1 ellipse center 60, 80 size 10, 5 angle 30. units xy front fillstyle empty
+
+splot 'DM10G_0.00_1.00-xygrid.dat' using 1:2:4 with points palette ps 1 pt 7

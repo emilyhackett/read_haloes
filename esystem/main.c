@@ -1,7 +1,7 @@
 #include "esys.h"
 
-#define	RADIUSPLOTS	1
-#define ELLIPSEPLOTS	0
+#define	RADIUSPLOTS	0
+#define ELLIPSEPLOTS	1
 
 // Initialising declared variables
 NDfield *field;
@@ -22,6 +22,8 @@ int main(int argc, char *argv[])
 	if(argc<3)
 	{
 		fprintf(stderr,"Usage: ./esys max_radius FILE file_extension\n");
+		if(RADIUSPLOTS)	printf("CREATING RADIUS PLOTS TO MAX_RADIUS\n");
+		if(ELLIPSEPLOTS)	printf("CREATING ELLIPSE PLOTS\n");
 		exit(1);
     	}
 	if(argc<4)
@@ -89,8 +91,19 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
+	int start;
+	if(!RADIUSPLOTS)
+	{
+		start=max_radius;
+	}
+	else {
+		start=1;
+	}
+
+	double *esys=malloc(4*field->ndims*sizeof(double));
+
 	int radius;
-	for(radius=1;radius<=max_radius;radius++)
+	for(radius=start;radius<=max_radius;radius++)
 	{
 		fprintf(fout,"%i\n",radius);
 		fprintf(fplot,"%i	",radius);
@@ -100,7 +113,7 @@ int main(int argc, char *argv[])
 				i[0],i[3],i[4],
 				i[3],i[1],i[5],
 				i[4],i[5],i[2]);
-		double *esys=malloc(4*field->ndims*sizeof(double));
+	//	double *esys=malloc(4*field->ndims*sizeof(double));
 		esys=eigensystem(i);
 		fprintf(fout,"%.6f	%.6f	%.6f\n%.6f	%.6f	%.6f\n%.6f	%.6f	%.6f\n%.6f	%.6f	%.2f\n",
 				esys[0],esys[1],esys[2],
@@ -139,7 +152,7 @@ int main(int argc, char *argv[])
 		sprintf(PLOTS,"%s_%i-ellipseplots.ps",argv[argc-1],max_radius);
 		char *DENFILE=malloc(sizeof(char)*100);
 		sprintf(DENFILE,"%s_0.00_1.00-xygrid.dat",argv[argc-1]);
-		//plot_ellipses(PLOTFILE,PLOTS,DENFILE);	
+		plot_ellipses(PLOTFILE,PLOTS,DENFILE,CoM,esys);	
 	}
 
 	if(LONG)	printf("\n	---- END OF PROGRAM REACHED ----\n\n");

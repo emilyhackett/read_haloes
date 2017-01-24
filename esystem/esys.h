@@ -67,14 +67,14 @@ extern double	*reduced_inertia(float ***,float *,int);
 extern double	*evalue_characteristics(double *);
 	/* Prints out characteristics of the moment of inertia tensor evalues
 	 * such as sphericity and triaxiality */
-extern double 	*eigensystem(double *);
-	/* Hopefully the finalised method of calculating the eigenvalues and the
-	 * corresponding eigenvectors for a given moment of inertia tensor */
 
 //// PLOTTING FUNCTIONS ////
 // Functions are in plotting.c
 extern void	plot_evalues(char *,char *);
 	/* Plots radius v. shape characteristics */
+extern void	plot_ellipses(char *,char *,char *,float *,double *);
+	/* Plots ellipse for moment of inertia tensor at given max_radius 
+	 * on top of density plot */
 
 
 //// MATHS FUNCTIONS ////
@@ -89,5 +89,8 @@ extern float	radcentre(int,int,int,float,float,float);
 	/* Small function which returns the distance of a point from CoM */
 extern int	cmpfunc(const void *,const void *);
 	/* Function that compares to values to do a sort */
-
-
+extern double 	*eigensystem(double *);
+	/* Hopefully the finalised method of calculating the eigenvalues and the
+	 * corresponding eigenvectors for a given moment of inertia tensor */
+extern float	axis_angle(double *esys);
+	/* Finds angle between major axis and x-axis */
