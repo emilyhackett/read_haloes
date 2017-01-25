@@ -9,7 +9,7 @@ void plot_evalues(char *datfile, char *plotfile)
 	if(LONG)	printf(" --- GNUplot COMMANDS ---\n");
 	
 	char output[BUFSIZ];
-	sprintf(output,"set term postscript color\nset output '%s'\n",plotfile);
+	sprintf(output,"set term postscript color\nset output '%s'\nset xlabel 'radius (Mpc)'\n",plotfile);
 	fputs(output,fp);
 	if(LONG)	printf("%s",output);
 
@@ -17,34 +17,43 @@ void plot_evalues(char *datfile, char *plotfile)
 	char plot[BUFSIZ];
 	
 	// FIRST PLOT - RADIUS AGAINST SPHERICITY
-	sprintf(title,"set title 'Radius v. sphericity from file %s'\n",datfile);
+	sprintf(title,"set title 'Radius v. sphericity for DM 10Mpc'\n");
 	fputs(title,fp);
 	if(LONG)	printf("%s",title);
-	sprintf(plot,"plot '%s' using 1:5 with lines notitle\n",datfile);
+	sprintf(plot,"plot '%s' using ($1*10/128):5 with lines notitle\n",datfile);
 	fputs(plot,fp);
 	if(LONG)	printf("%s",plot);
 
 	// SECOND PLOT - RADIUS AGAINST TRIAXIALITY
-	sprintf(title,"set title 'Radius v. triaxiality from file %s'\n",datfile);
+	sprintf(title,"set title 'Radius v. triaxiality for DM 10Mpc'\n");
 	fputs(title,fp);
 	if(LONG)	printf("%s",title);
-	sprintf(plot,"plot '%s' using 1:6 with lines notitle\n",datfile);
+	sprintf(plot,"plot '%s' using ($1*10/128):6 with lines notitle\n",datfile);
 	fputs(plot,fp);
 	if(LONG)	printf("%s",plot);
 
 	// THIRD PLOT - RADIUS AGAINST 3 ELLIPTICITIES
-	sprintf(title,"set title 'Radius v. Ellipticity from file %s'\n",datfile);
+	sprintf(title,"set title 'Radius v. Ellipticity for DM 10Mpc'\n");
 	fputs(title,fp);
 	if(LONG)	printf("%s",title);
-	sprintf(plot,"plot '%s' using 1:7 with lines notitle, '%s' using 1:8 with lines notitle, '%s' using 1:9 with lines notitle\n",datfile,datfile,datfile);
+	sprintf(plot,"plot '%s' using ($1*10/128):7 with lines notitle, '%s' using ($1*10/128):8 with lines notitle, '%s' using ($1*10/128):9 with lines notitle\n",datfile,datfile,datfile);
 	fputs(plot,fp);
 	if(LONG)	printf("%s",plot);
 
-	// FOURTH PLOT - RADIUS AGAINST 3 EIGENVALUES
-	sprintf(title,"set title 'Radius v. Eigenvalues from file %s'\n",datfile);
+	// THIRD PLOT - RADIUS AGAINST 3 ELLIPTICITIES - ** LOGSCALE!! **
+	sprintf(title,"set title 'Radius v. Ellipticity for DM 10Mpc log'\nset logscale y\n");
 	fputs(title,fp);
 	if(LONG)	printf("%s",title);
-	sprintf(plot,"plot '%s' using 1:2 with lines notitle, '%s' using 1:3 with lines notitle, '%s' using 1:4 with lines notitle\n",datfile,datfile,datfile);
+	sprintf(plot,"plot '%s' using ($1*10/128):7 with lines notitle, '%s' using ($1*10/128):8 with lines notitle, '%s' using ($1*10/128):9 with lines notitle\n",datfile,datfile,datfile);
+	fputs(plot,fp);
+	if(LONG)	printf("%s",plot);
+
+
+	// FOURTH PLOT - RADIUS AGAINST 3 EIGENVALUES
+	sprintf(title,"unset logscale y\nset title 'Radius v. Eigenvalues for DM 10Mpc'\n");
+	fputs(title,fp);
+	if(LONG)	printf("%s",title);
+	sprintf(plot,"plot '%s' using ($1*10/128):2 with lines notitle, '%s' using ($1*10/128):3 with lines notitle, '%s' using ($1*10/128):4 with lines notitle\n",datfile,datfile,datfile);
 	fputs(plot,fp);
 	if(LONG)	printf("%s",plot);
 
@@ -65,7 +74,7 @@ void plot_ellipses(char *datfile, char *plotfile, char *denfile, float *CoM,floa
 
 	if(LONG)	printf(" --- GNUplot COMMANDS ---\n");
 
-	char *settings="set size square 1,1\nset tmargin 2\nset view map\nset ticslevel 0\nset palette rgb 36,35,34\nset xrange [:128]\nset yrange [:128]\n";	
+	char *settings="set size square 1,1\nset tmargin 2\nset view map\nset ticslevel 0\nset palette rgb 36,35,34\nset xrange [:10]\nset yrange [:10]\nset xlabel 'radius (Mpc)'\n";	
 	fputs(settings,fp);
 	if(LONG)	printf("%s",settings);
 
@@ -86,7 +95,7 @@ void plot_ellipses(char *datfile, char *plotfile, char *denfile, float *CoM,floa
 		esys=eigensystem(inertia);
 
 		char ellipse[BUFSIZ];
-		sprintf(ellipse,"set object %i ellipse center %.4f, %.4f size %.4f,%.4f angle %.2f units xy front fillstyle empty\n",j,CoM[0],CoM[1],esys[0]*2*i,esys[1]*2*i,axis_angle(esys));
+		sprintf(ellipse,"set object %i ellipse center (%.4f*10/128), (%.4f*10/128) size (%.4f*10/128),(%.4f*10/128) angle %.2f units xy front fillstyle border lt 4\n",j,CoM[0],CoM[1],esys[0]*2*i,esys[1]*2*i,axis_angle(esys));
 		fputs(ellipse,fp);
 		if(LONG)	printf("%s",ellipse);
 		j++;
@@ -95,17 +104,17 @@ void plot_ellipses(char *datfile, char *plotfile, char *denfile, float *CoM,floa
 	char title[BUFSIZ];
 	char plot[BUFSIZ];
 	
-	sprintf(title,"set title 'E-vector ellipse at radius %i'\n",max_radius);
+	sprintf(title,"set title 'E-vector ellipse at different radii for DM 10Mpc'\n");
 	fputs(title,fp);
 	if(LONG)	printf("%s",title);
 
-	sprintf(plot,"splot '%s' using 1:2:4 with points palette ps 1 pt 7 notitle\n",denfile);
+	sprintf(plot,"splot '%s' using ($1*10/128):($2*10/128):4 with points palette ps 1 pt 7 notitle\n",denfile);
 	fputs(plot,fp);
 	if(LONG)	printf("%s",plot);
 
 	fclose(fp);
 	system("gnuplot -p 'temp'");
-	//remove("temp");
+//	remove("temp");
 
 }
 

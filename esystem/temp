@@ -3,12 +3,13 @@ set tmargin 2
 set view map
 set ticslevel 0
 set palette rgb 36,35,34
-set xrange [:128]
-set yrange [:128]
+set xrange [:10]
+set yrange [:10]
+set xlabel 'radius (Mpc)'
 set term postscript color
-set output 'DM02G_0-ellipseplots.ps'
-set object 1 ellipse center 69.1377, 67.1779 size 58.6962,33.5406 angle 101.25 units xy front fillstyle empty
-set object 2 ellipse center 69.1377, 67.1779 size 37.8205,22.8215 angle 99.65 units xy front fillstyle empty
-set object 3 ellipse center 69.1377, 67.1779 size 16.3592,13.4767 angle 83.84 units xy front fillstyle empty
-set title 'E-vector ellipse at radius 0'
-splot 'DM02G_0.00_1.00-xygrid.dat' using 1:2:4 with points palette ps 1 pt 7 notitle
+set output 'TEMP02G_60-ellipseplots.ps'
+set object 1 ellipse center (61.4009*10/128), (63.6904*10/128) size (46.6022*10/128),(38.3728*10/128) angle 89.64 units xy front fillstyle border lt 4
+set object 2 ellipse center (61.4009*10/128), (63.6904*10/128) size (29.9734*10/128),(26.0821*10/128) angle 87.48 units xy front fillstyle border lt 4
+set object 3 ellipse center (61.4009*10/128), (63.6904*10/128) size (13.9987*10/128),(13.2522*10/128) angle 38.14 units xy front fillstyle border lt 4
+set title 'E-vector ellipse at different radii for DM 10Mpc'
+splot 'TEMP02G_0.00_1.00-xygrid.dat' using ($1*10/128):($2*10/128):4 with points palette ps 1 pt 7 notitle

@@ -67,6 +67,7 @@ extern double	*reduced_inertia(float ***,float *,int);
 extern double	*evalue_characteristics(double *);
 	/* Prints out characteristics of the moment of inertia tensor evalues
 	 * such as sphericity and triaxiality */
+extern void	print_esys(char *,char *,float ***,float *);
 
 //// PLOTTING FUNCTIONS ////
 // Functions are in plotting.c

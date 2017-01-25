@@ -159,6 +159,16 @@ double *evalue_characteristics(double *evalues)
 	double E3=(1-l1/l3);
 	if(LONG)	printf("Ellipticity, E3 = %.2f\n",E3);
 
+	
+	// NEW ELLIPTICITY DEFINITION:
+	double a=sqrt(fabs(evalues[0]));
+	double b=sqrt(fabs(evalues[1]));
+	double c=sqrt(fabs(evalues[2]));
+	E1=a/b;
+	E2=a/c;
+	E3=b/c;
+
+
 	double *shape;
 	shape=malloc(5*sizeof(double));
 
@@ -170,5 +180,68 @@ double *evalue_characteristics(double *evalues)
 
 	return shape;
 }
+
+//////////////////////////	REQUIRED FUNCTIONS FOR MEETING WED	//////////////////////////
+
+void print_esys(char *OUTFILE1,char *OUTFILE2,float ***GRID,float *CoM)
+{
+	FILE *fp1=fopen(OUTFILE1,"w");
+	FILE *fp2=fopen(OUTFILE2,"w");
+	
+	int radius;
+	for(radius=1;radius<=max_radius;radius++)
+	{
+		// First column - RADIUS
+		fprintf(fp1,"%i	",radius);
+		
+		double *i=malloc(6*sizeof(double));
+		i=reduced_inertia(GRID,CoM,radius);
+		
+		// 2nd to 5th columns - INERTIA TENSOR
+		fprintf(fp1,"%.6f	%.6f	%.6f	%.6f	%.6f	%.6f	",i[0],i[1],i[2],i[3],i[4],i[5]);
+
+		double *esys=malloc(12*sizeof(double));
+		esys=eigensystem(i);
+
+		// 6th to 12th columns - EIGENVALUES AND FIRST E'VECTOR
+		fprintf(fp1,"%.6f	%.6f	%.6f	%.6f	%.6f	%.6f	",esys[0],
+				esys[1],esys[2],esys[3],esys[4],esys[5]);
+
+		double *shape=malloc(5*sizeof(double));
+		shape=evalue_characteristics(esys);
+
+		// 13th to 16th columns - SPHERICITY, TRIAXIALITY, ELLIPTICITY
+		fprintf(fp1,"%.6f	%.6f	%.6f\n",shape[0],shape[1],shape[2]);
+	}
+
+	for(radius=60;radius>0;radius=radius-20)
+	{
+		// First column - RADIUS
+		fprintf(fp2,"%i	",radius);
+		
+		double *i=malloc(6*sizeof(double));
+		i=reduced_inertia(GRID,CoM,radius);
+		
+		// 2nd to 7th columns - INERTIA TENSOR
+		fprintf(fp2,"%.6f	%.6f	%.6f	%.6f	%.6f	%.6f	",i[0],i[1],i[2],i[3],i[4],i[5]);
+
+		double *esys=malloc(12*sizeof(double));
+		esys=eigensystem(i);
+
+		// 8th to 13th columns - EIGENVALUES AND FIRST E'VECTOR
+		fprintf(fp2,"%.6f	%.6f	%.6f	%.6f	%.6f	%.6f	",esys[0],
+				esys[1],esys[2],esys[3],esys[4],esys[5]);
+
+		double *shape=malloc(5*sizeof(double));
+		shape=evalue_characteristics(esys);
+
+		// 14th to 16th columns - SPHERICITY, TRIAXIALITY, ELLIPTICITY
+		fprintf(fp2,"%.6f	%.6f	%.6f\n",shape[0],shape[1],shape[2]);
+	}
+
+	fclose(fp1);
+	fclose(fp2);
+}
+
 
 //// END ////

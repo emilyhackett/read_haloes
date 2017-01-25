@@ -1,7 +1,8 @@
 #include "esys.h"
 
-#define	RADIUSPLOTS	0
+#define	RADIUSPLOTS	1
 #define ELLIPSEPLOTS	1
+#define DATAFILES	0
 
 // Initialising declared variables
 NDfield *field;
@@ -141,6 +142,17 @@ int main(int argc, char *argv[])
 		sprintf(DENFILE,"%s_0.00_1.00-xygrid.dat",argv[argc-1]);
 		plot_ellipses(PLOTFILE,PLOTS,DENFILE,CoM,GRID);	
 	}
+
+	if(DATAFILES)	{
+		char *F1=malloc(sizeof(char)*100);
+		sprintf(F1,"%s-f1.dat",argv[argc-1]);
+		char *F2=malloc(sizeof(char)*100);
+		sprintf(F2,"%s-f2.dat",argv[argc-1]);
+		print_esys(F1,F2,GRID,CoM);
+
+		printf("Data saved to files %s and %s\n",F1,F2);
+	}
+
 
 	if(LONG)	printf("\n	---- END OF PROGRAM REACHED ----\n\n");
 }
