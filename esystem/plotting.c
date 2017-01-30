@@ -17,7 +17,7 @@ void plot_evalues(char *datfile, char *plotfile)
 	char plot[BUFSIZ];
 	
 	// FIRST PLOT - RADIUS AGAINST SPHERICITY
-	sprintf(title,"set title 'Radius v. sphericity for DM 10Mpc'\n");
+	sprintf(title,"set title 'Radius v. sphericity for temp 10Mpc'\n");
 	fputs(title,fp);
 	if(LONG)	printf("%s",title);
 	sprintf(plot,"plot '%s' using ($1*10/128):5 with lines notitle\n",datfile);
@@ -25,7 +25,7 @@ void plot_evalues(char *datfile, char *plotfile)
 	if(LONG)	printf("%s",plot);
 
 	// SECOND PLOT - RADIUS AGAINST TRIAXIALITY
-	sprintf(title,"set title 'Radius v. triaxiality for DM 10Mpc'\n");
+	sprintf(title,"set title 'Radius v. triaxiality for temp 10Mpc'\n");
 	fputs(title,fp);
 	if(LONG)	printf("%s",title);
 	sprintf(plot,"plot '%s' using ($1*10/128):6 with lines notitle\n",datfile);
@@ -33,7 +33,7 @@ void plot_evalues(char *datfile, char *plotfile)
 	if(LONG)	printf("%s",plot);
 
 	// THIRD PLOT - RADIUS AGAINST 3 ELLIPTICITIES
-	sprintf(title,"set title 'Radius v. Ellipticity for DM 10Mpc'\n");
+	sprintf(title,"set title 'Radius v. Ellipticity for temp 10Mpc'\n");
 	fputs(title,fp);
 	if(LONG)	printf("%s",title);
 	sprintf(plot,"plot '%s' using ($1*10/128):7 with lines notitle, '%s' using ($1*10/128):8 with lines notitle, '%s' using ($1*10/128):9 with lines notitle\n",datfile,datfile,datfile);
@@ -41,7 +41,7 @@ void plot_evalues(char *datfile, char *plotfile)
 	if(LONG)	printf("%s",plot);
 
 	// THIRD PLOT - RADIUS AGAINST 3 ELLIPTICITIES - ** LOGSCALE!! **
-	sprintf(title,"set title 'Radius v. Ellipticity for DM 10Mpc log'\nset logscale y\n");
+	sprintf(title,"set title 'Radius v. Ellipticity for temp 10Mpc log'\nset logscale y\n");
 	fputs(title,fp);
 	if(LONG)	printf("%s",title);
 	sprintf(plot,"plot '%s' using ($1*10/128):7 with lines notitle, '%s' using ($1*10/128):8 with lines notitle, '%s' using ($1*10/128):9 with lines notitle\n",datfile,datfile,datfile);
@@ -50,7 +50,7 @@ void plot_evalues(char *datfile, char *plotfile)
 
 
 	// FOURTH PLOT - RADIUS AGAINST 3 EIGENVALUES
-	sprintf(title,"unset logscale y\nset title 'Radius v. Eigenvalues for DM 10Mpc'\n");
+	sprintf(title,"unset logscale y\nset title 'Radius v. Eigenvalues for temp 10Mpc'\n");
 	fputs(title,fp);
 	if(LONG)	printf("%s",title);
 	sprintf(plot,"plot '%s' using ($1*10/128):2 with lines notitle, '%s' using ($1*10/128):3 with lines notitle, '%s' using ($1*10/128):4 with lines notitle\n",datfile,datfile,datfile);

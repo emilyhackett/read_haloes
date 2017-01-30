@@ -1,8 +1,10 @@
 #include "esys.h"
 
-#define	RADIUSPLOTS	1
+#define	RADIUSPLOTS	0
 #define ELLIPSEPLOTS	1
 #define DATAFILES	0
+
+#define CLEAN		0
 
 // Initialising declared variables
 NDfield *field;
@@ -54,6 +56,13 @@ int main(int argc, char *argv[])
 	// Read values from header in
 	read_header(fp);
 
+	if(max_radius>field->dims[0]/2)
+	{
+		printf("ERROR - max_radius given larger the box size\n");
+		exit(EXIT_FAILURE);
+	}
+
+	
 	// Populate NDfield structure with values
 	if(LONG)	printf("\n	---- CREATING NDFIELD STRUCTURE ----\n");
 	create_NDstruct(0,(1<<8),field->x0,field->delta);
@@ -65,7 +74,7 @@ int main(int argc, char *argv[])
 	// Calculate centre of mass and GRID regardless of flags
 	float ***GRID=create_grid();
 	float *CoM=malloc(sizeof(float)*field->ndims);
-	CoM=centre_of_mass(GRID);
+	CoM=new_CoM(GRID);
 
 	// File name to save moment of inertia data into:
 	char *OUTFILE=malloc(20);
@@ -152,6 +161,48 @@ int main(int argc, char *argv[])
 
 		printf("Data saved to files %s and %s\n",F1,F2);
 	}
+
+	if(CLEAN)	{
+		char *OUT1=malloc(sizeof(char)*100);
+		sprintf(OUT1,"%s_esys.dat",argv[argc-1]);
+		FILE *fp1=fopen(OUT1,"w");
+
+		char *OUT2=malloc(sizeof(char)*100);
+		sprintf(OUT2,"%s_inertia.dat",argv[argc-1]);
+		FILE *fp2=fopen(OUT2,"w");
+		
+		int radius;
+		for(radius=1;radius<=max_radius;radius++)
+		{
+			double rad_real=((double)radius*2)/128;
+			printf("real radius = %.4f\n",rad_real);
+
+			fprintf(fp1,"%.4f	",rad_real);
+			fprintf(fp2,"%.4f	",rad_real);
+
+			double *i=malloc(6*sizeof(double));
+			i=reduced_inertia(GRID,CoM,radius);
+			
+			fprintf(fp2,"%.4f	%.4f	%.4f	%.4f	%.4f	%.4f\n",
+				i[0],i[1],i[2],i[3],i[4],i[5]);
+				
+			double *esys=malloc(4*field->ndims*sizeof(double));
+			esys=eigensystem(i);
+			fprintf(fp1,"%.4f	%.4f	%.4f	%.4f	%.4f	%.4f	%.4f	%.4f	%.4f	%.4f	%.4f	%.4f\n",
+				esys[0],esys[1],esys[2],
+				esys[3],esys[4],esys[5],
+				esys[6],esys[7],esys[8],
+				esys[9],esys[10],esys[11]);
+		}
+
+		fclose(fp1);
+		fclose(fp2);
+
+		printf("\nFILES CREATED	- %s, %s\n",OUT1,OUT2);
+	}
+
+//	printf("Calculating centre of mass based on new method ...\n");
+//	new_CoM(GRID);
 
 
 	if(LONG)	printf("\n	---- END OF PROGRAM REACHED ----\n\n");

@@ -164,9 +164,9 @@ double *evalue_characteristics(double *evalues)
 	double a=sqrt(fabs(evalues[0]));
 	double b=sqrt(fabs(evalues[1]));
 	double c=sqrt(fabs(evalues[2]));
-	E1=a/b;
-	E2=a/c;
-	E3=b/c;
+	E1=(a-b)/a;
+	E2=0;
+	E3=0;
 
 
 	double *shape;
@@ -188,6 +188,8 @@ void print_esys(char *OUTFILE1,char *OUTFILE2,float ***GRID,float *CoM)
 	FILE *fp1=fopen(OUTFILE1,"w");
 	FILE *fp2=fopen(OUTFILE2,"w");
 	
+//	fprintf(fp1,"1-rad	2-i11	3-i22	4-i33	5-i12	6-i13	7-i23	8-la	9-lb	10-lc	11-eax	12-eay	13-eaz	14-S	15-T	16-E\n");
+
 	int radius;
 	for(radius=1;radius<=max_radius;radius++)
 	{

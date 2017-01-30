@@ -15,12 +15,18 @@ ymG=69.1903*10/128
 set xlabel 'x (Mpc)'
 set ylabel 'y (Mpc)'
 
-set title 'TEMP density with ellipse and skel'
+set title 'DM density with ellipse and skel'
 
 # FROM DM10G
-#set object 1 ellipse center xmD,ymD size (72.0986*10/128),(29.5002*10/128) angle 114.50 units xy front fillstyle border lt 2
+set object 1 ellipse center xmD,ymD size (72.0986*10/128),(29.5002*10/128) angle 114.50 units xy front fillstyle border lt 4
 #set object 2 ellipse center xmD,ymD size (50.5134*10/128),(18.3204*10/128) angle 113.61 units xy front fillstyle border lt 4
 #set object 3 ellipse center xmD,ymD size (24.9977*10/128),(9.1597*10/128) angle 112.78 units xy front fillstyle border lt 4
+
+# ARROW FOR DM10G (largest ellipse)
+#set arrow 1 from xmD,ymD to (xmD-0.414689),(ymD-0.848302) front
+#set arrow 2 from xmD,ymD to (xmD-0.400543),(ymD-0.863472) front
+set arrow 3 from xmD,ymD to (xmD+0.387163),(ymD+0.900785) front
+
 
 # FROM DM05G
 #set object 4 ellipse center xmD,ymD size (68.5349*5/128),(31.0987*5/128) angle 115.09 units xy front fillstyle border lt 2
@@ -50,5 +56,5 @@ set title 'TEMP density with ellipse and skel'
 # FROM TEMP10G
 
 
-splot 'GAS10G_0.00_1.00-xygrid.dat' using ($1*10/128):($2*10/128):4 with points palette ps 1 pt 7 notitle
+splot 'DM10G_0.00_1.00-xygrid.dat' using ($1*10/128):($2*10/128):4 with points palette ps 1 pt 7 notitle
 #, 'DM10G_0.00_1.00-segpos.dat' using ($1*10):($2*10):7:(($4-$1)*10):(($5-$2)*10):7 with vectors nohead lc 5 notitle

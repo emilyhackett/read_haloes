@@ -13,7 +13,7 @@
 #define NDFIELD_MAX_DIMS 20
 #define NDFIELD_TAG "NDFIELD"
 
-#define LONG	1
+#define LONG	0
 
 extern int max_radius;
 
@@ -86,6 +86,9 @@ extern float	***create_grid(void);
 extern float	*centre_of_mass(float ***);		
 	/* Determines the centre of mass of halo, returns as a float array 
 	 * the size of ndims */
+extern float	*new_CoM(float ***);
+	/* Determines the centre of mass of the halo using an iterative approach,
+	 * by making a small sphere around the centre of mass and then recalculating */
 extern float	radcentre(int,int,int,float,float,float);	
 	/* Small function which returns the distance of a point from CoM */
 extern int	cmpfunc(const void *,const void *);
@@ -95,3 +98,4 @@ extern double 	*eigensystem(double *);
 	 * corresponding eigenvectors for a given moment of inertia tensor */
 extern float	axis_angle(double *esys);
 	/* Finds angle between major axis and x-axis */
+

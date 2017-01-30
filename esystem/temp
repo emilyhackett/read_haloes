@@ -7,9 +7,9 @@ set xrange [:10]
 set yrange [:10]
 set xlabel 'radius (Mpc)'
 set term postscript color
-set output 'TEMP02G_60-ellipseplots.ps'
-set object 1 ellipse center (61.4009*10/128), (63.6904*10/128) size (46.6022*10/128),(38.3728*10/128) angle 89.64 units xy front fillstyle border lt 4
-set object 2 ellipse center (61.4009*10/128), (63.6904*10/128) size (29.9734*10/128),(26.0821*10/128) angle 87.48 units xy front fillstyle border lt 4
-set object 3 ellipse center (61.4009*10/128), (63.6904*10/128) size (13.9987*10/128),(13.2522*10/128) angle 38.14 units xy front fillstyle border lt 4
+set output 'DM10G_64-ellipseplots.ps'
+set object 1 ellipse center (65.1229*10/128), (64.7196*10/128) size (67.0284*10/128),(32.4623*10/128) angle 112.59 units xy front fillstyle border lt 4
+set object 2 ellipse center (65.1229*10/128), (64.7196*10/128) size (46.0307*10/128),(20.8815*10/128) angle 111.21 units xy front fillstyle border lt 4
+set object 3 ellipse center (65.1229*10/128), (64.7196*10/128) size (20.7158*10/128),(11.6220*10/128) angle 106.55 units xy front fillstyle border lt 4
 set title 'E-vector ellipse at different radii for DM 10Mpc'
-splot 'TEMP02G_0.00_1.00-xygrid.dat' using ($1*10/128):($2*10/128):4 with points palette ps 1 pt 7 notitle
+splot 'DM10G_0.00_1.00-xygrid.dat' using ($1*10/128):($2*10/128):4 with points palette ps 1 pt 7 notitle

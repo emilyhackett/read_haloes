@@ -33,6 +33,125 @@ float ***create_grid(void)
 	return GRID;	
 }
 
+
+//////////////////////////	NEW CONVERGENT CENTRE OF MASS	//////////////////////////
+float *new_CoM(float ***GRID)
+{
+	int x,y,z;
+	float *CoM=malloc(sizeof(float)*(field->ndims+1));
+	
+	float *centre=malloc(sizeof(float)*field->ndims);
+	centre[0]=field->dims[0]/2;
+	centre[1]=field->dims[1]/2;
+	centre[2]=field->dims[2]/2;
+
+	int radius=field->dims[0]/2;
+	printf("radius=%i\n",radius);
+
+	/* For everything in a specific radius from the centre, 
+	 * calculate the centre of mass
+	 * Then make that the new centre and decrease the
+	 * radius by one
+	 */
+
+	while(radius>0)
+	{
+		float wsum_x=0;
+		float gridtot_x=0;
+		
+		float wsum_y=0;
+		float gridtot_y=0;
+
+		float wsum_z=0;
+		float gridtot_z=0;
+		
+		/* *** CALCULATING FOR X *** */
+		// Iterate over all grid points to find sum for each x value	
+		for(x=0;x<field->dims[0];++x)
+		{
+			float weight=0;
+			// Iterate over all y and z for a specific x value
+			for(y=0;y<field->dims[1];++y)
+			{
+				for(z=0;z<field->dims[2];++z)
+				{
+					// Only add the sum to the weight if grid point is in sphere
+					if(radcentre(x,y,z,centre[0],centre[1],centre[2])<radius)
+					{
+						weight=weight+GRID[x][y][z];
+					}		
+				}
+			}
+			// Added the weighted x value to total weighted sum
+			wsum_x=wsum_x+x*weight;
+			// Add that weight for the total sum (for average at the end)
+			gridtot_x=gridtot_x+weight;
+		}
+		
+
+		/* *** CALCULATING FOR Y *** */
+		// Iterate over all grid points to find sum for each x value	
+		for(y=0;y<field->dims[0];++y)
+		{
+			float weight=0;
+			// Iterate over all y and z for a specific x value
+			for(x=0;x<field->dims[1];++x)
+			{
+				for(z=0;z<field->dims[2];++z)
+				{
+					// Only add the sum to the weight if grid point is in sphere
+					if(radcentre(x,y,z,centre[0],centre[1],centre[2])<radius)
+					{
+						weight=weight+GRID[x][y][z];
+					}		
+				}
+			}
+			// Added the weighted x value to total weighted sum
+			wsum_y=wsum_y+y*weight;
+			// Add that weight for the total sum (for average at the end)
+			gridtot_y=gridtot_y+weight;
+		}
+	
+		/* *** CALCULATING FOR Z *** */
+		// Iterate over all grid points to find sum for each x value	
+		for(z=0;z<field->dims[0];++z)
+		{
+			float weight=0;
+			// Iterate over all y and z for a specific x value
+			for(x=0;x<field->dims[1];++x)
+			{
+				for(y=0;y<field->dims[2];++y)
+				{
+					// Only add the sum to the weight if grid point is in sphere
+					if(radcentre(x,y,z,centre[0],centre[1],centre[2])<radius)
+					{
+						weight=weight+GRID[x][y][z];
+					}		
+				}
+			}
+			// Added the weighted x value to total weighted sum
+			wsum_z=wsum_z+z*weight;
+			// Add that weight for the total sum (for average at the end)
+			gridtot_z=gridtot_z+weight;
+		}
+
+		// Assign new centre based on calculated centre of masses:
+		centre[0]=wsum_x/gridtot_x;
+		centre[1]=wsum_y/gridtot_y;
+		centre[2]=wsum_z/gridtot_z;
+		
+		printf("Centre of mass for radius %i is {%.3f,%.3f,%.3f}\n",radius,centre[0],centre[1],centre[2]);
+
+		radius=radius-5;
+	}
+
+	CoM[0]=centre[0];
+	CoM[1]=centre[1];
+	CoM[2]=centre[2];	// Note: could just return centre value at end of function
+
+	return CoM;
+}
+
 //////////////////////////	FINDING CENTRE OF MASS FROM GRID DATA	//////////////////////////
 
 float *centre_of_mass(float ***GRID)
@@ -43,7 +162,7 @@ float *centre_of_mass(float ***GRID)
 	///////// FINDING X Centre of Mass ////////
 	float wsum_x=0.0;
 	float gridtot_x=0.0;
-	
+
 	for(x=0;x<field->dims[0];++x)
 	{
 		float weight=0;
