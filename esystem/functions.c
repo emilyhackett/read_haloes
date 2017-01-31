@@ -142,7 +142,7 @@ float *new_CoM(float ***GRID)
 		
 		printf("Centre of mass for radius %i is {%.3f,%.3f,%.3f}\n",radius,centre[0],centre[1],centre[2]);
 
-		radius=radius-5;
+		radius=radius-1;
 	}
 
 	CoM[0]=centre[0];
