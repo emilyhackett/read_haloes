@@ -135,7 +135,17 @@ int main(int argc, char *argv[])
 			fprintf(fp,"%.2f	%.4f	%.4f	%.4f\n",max_radius,fil[0],fil[1],fil[2]);
 			max_radius=max_radius+0.5;
 		}
-		
+	
+		FILE *line=fopen("FIL_line2Mpc.dat","w");
+		float *fil=malloc(sizeof(float)*4);
+		fil=SkelFilament(skl,2,CoM);
+		printf("Filament in radius %.2f is:\n	{%.2f,%.2f,%.2f}\n",max_radius,fil[0],fil[1],fil[2]);
+		fprintf(line,"5	2	%.4f	%.4f	%.4f	1\n",fil[0],fil[1],fil[2]);
+			max_radius=max_radius+0.5;
+		fclose(line);
+
+	//	ListSegPosRADIUS(skl,"SegPosRADIUS.dat",2,CoM);
+
 		fclose(fp);
 	}		
 

@@ -1000,3 +1000,92 @@ float radcentre(int x,int y,int z,float xCoM,float yCoM,float zCoM)
 	return radius;
 }
 
+
+///////// LIST SEGMENT POSITIONS AS DEFINED IN RADIUS	/////////
+//
+void ListSegPosRADIUS(NDskel *skl,char *datafile,float max_radius,float *CoM)
+{
+	// Save column data list of segment positions, aimed to be used 
+	int i;
+
+	// Define  file for node positions
+	FILE *fp;
+	fp=fopen(datafile,"w");
+	printf("File %s opened for segment data write in radius %.2f\n",datafile,max_radius);
+
+	// Define counter for x and y position values
+	int x1=0;
+	int y1=0;
+	int z1=0;
+
+	int x2=0;
+	int y2=0;
+	int z2=0;
+
+	float *x1pos;
+	float *y1pos;
+	float *z1pos;
+	
+	float *x2pos;
+	float *y2pos;
+	float *z2pos;
+
+	x1pos=malloc(2*skl->nsegs*sizeof(float));
+	y1pos=malloc(2*skl->nsegs*sizeof(float));
+	z1pos=malloc(2*skl->nsegs*sizeof(float));
+	
+	x2pos=malloc(2*skl->nsegs*sizeof(float));
+	y2pos=malloc(2*skl->nsegs*sizeof(float));
+	z2pos=malloc(2*skl->nsegs*sizeof(float));
+	 
+	// Index over all segment start/end positions and write to two columns in file
+	for(i=0;i<=skl->nsegs*2*skl->ndims;i++)
+	{
+		if((i%6)==5)
+		{
+			x1pos[x1]=skl->segpos[i];
+			x1++;
+		}
+		if((i%6)==4)
+		{
+			y1pos[y1]=skl->segpos[i];
+			y1++;
+		}
+		if((i%6)==3)
+		{
+			z1pos[z1]=skl->segpos[i];
+			z1++;
+		}
+		if((i%6)==2)
+		{
+			x2pos[x2]=skl->segpos[i];
+			x2++;
+		}
+		if((i%6)==1)
+		{
+			y2pos[y2]=skl->segpos[i];
+			y2++;
+		}
+		if((i%6)==0)
+		{
+			z2pos[z2]=skl->segpos[i];
+			z2++;
+		}
+	}
+	
+	for(i=0;i<=skl->nsegs;i++)
+	{
+		if((radcentre(10*x1pos[i],10*y1pos[i],10*z1pos[i],CoM[0],CoM[1],CoM[2])<max_radius)
+			&& (radcentre(10*x2pos[i],10*y2pos[i],10*z2pos[i],CoM[0],CoM[1],CoM[2])<max_radius))
+		{
+			fprintf(fp,"%f	%f	%f	",x1pos[i],y1pos[i],z1pos[i]);
+			fprintf(fp,"%f	%f	%f	1\n",x2pos[i],y2pos[i],z2pos[i]);
+		}
+	}
+
+	printf("%i x positions, %i y positions, %i z positions read to file %s in form\n",x1,y1,z1,datafile);
+	printf(" x	y	z	1\n");
+	fclose(fp);
+	printf("File %s closed\n",datafile);
+}
+

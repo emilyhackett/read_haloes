@@ -1,0 +1,1 @@
+splot DEN using ($1*10/128):($2*10/128):4 notitle with points ps 1 pt 7 palette, SKEL using (10*$1):(10*$2):7:(10*$4-10*$1):(10*$5-10*$2):7 with vectors nohead lc 5 notitle
