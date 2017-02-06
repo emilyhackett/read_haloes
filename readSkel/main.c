@@ -5,7 +5,7 @@
 #define	ASCII		0	// Output to ASCII format
 
 #define PLOTNODES	0	// Output node pos to file and save 2D list plot to .ps file
-#define PLOTSEGSONLY	1
+#define PLOTSEGSONLY	0
 #define PLOTSEGDENSITY	0	// Output seg pos to file and save 2D list plot to .ps file
 
 #define PLOTNODEFIELDS	0	// Ouptut all node field data to .dat file
@@ -13,10 +13,19 @@
 
 #define NODEDATA	0	// Output all node data (position and field values) to .dat file
 
+#define FILAMENT	1	// Find the filament for a section
+
 ////////////////////	MAIN FUNCTION TO TAKE IN FILE AS COMMAND ARGUMENT ////////////////////
 
 int main(int argc, char *argv[])
 {
+	
+	// DEFINE CENTRE OF MASS
+	float *CoM=malloc(sizeof(float)*3);
+	CoM[0]=65.078*10/128;
+	CoM[1]=64.630*10/128;
+	CoM[2]=64.664*10/128;
+
 	char *name=malloc(sizeof(char)*100);
 	sprintf(name,"%s",argv[1]);
 
@@ -111,6 +120,24 @@ int main(int argc, char *argv[])
 		ExampleSegment(skl,10);
 		ExampleNode(skl,10);
 	}
+
+	if(FILAMENT)
+	{
+		FILE *fp=fopen("FIL.dat","w");
+
+		float max_radius=0;
+		printf("	---------- FINDING FILAMENT INSIDE RADIUS  ----------\n");
+		while(max_radius<=10)
+		{
+			float *fil=malloc(sizeof(float)*4);
+			fil=SkelFilament(skl,max_radius,CoM);
+			printf("Filament in radius %.2f is:\n	{%.2f,%.2f,%.2f}\n",max_radius,fil[0],fil[1],fil[2]);
+			fprintf(fp,"%.2f	%.4f	%.4f	%.4f\n",max_radius,fil[0],fil[1],fil[2]);
+			max_radius=max_radius+0.5;
+		}
+		
+		fclose(fp);
+	}		
 
 	printf("	---------- END OF PROGRAM REACHED ----------\n\n");
 

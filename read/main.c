@@ -81,12 +81,12 @@ int main(int argc, char *argv[])
 		printf("	---- WRITING GRID TO COLUMN DATA ----\n");
 //		sprintf(colfile,"%s-grid.dat",name);
 //		column_data(colfile);
-		sprintf(colxy,"%s_%.2f_%.2f-xygrid.dat",name,min,max);
-		xy_data(colxy,GRID,min,max);
-//		sprintf(colxz,"%s-xzgrid.dat",name);
-//		xz_data(colxz,GRID);
-//		sprintf(colyz,"%s-yzgrid.dat",name);
-//		yz_data(colyz,GRID);	
+//		sprintf(colxy,"%s_%.2f_%.2f-xygrid.dat",name,min,max);
+//		xy_data(colxy,GRID,min,max);
+		sprintf(colxz,"%s_%.2f_%.2f-xzgrid.dat",name,min,max);
+		xz_data(colxz,GRID);
+		sprintf(colyz,"%s_%.2f_%.2f-yzgrid.dat",name,min,max);
+		yz_data(colyz,GRID);	
 	}
 
 	// Create density plots and save to file

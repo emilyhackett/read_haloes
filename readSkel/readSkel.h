@@ -106,6 +106,9 @@ extern double	ComputeDistFromPrev(NDskel *,NDskl_seg *);
 extern int	NDskelCheckSanity(NDskel *,int);
 extern int	Save_ASCIIskel(NDskel *,const char *);
 
+extern float	*SkelFilament(NDskel *,float,float *);
+extern float	radcentre(int,int,int,float,float,float);
+
 ////////////////////	DEFINE FUNCTIONS IN "flattenSkel.c"	////////////////////
 
 extern float	*TrimDimension(float *,int);

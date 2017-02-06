@@ -870,3 +870,133 @@ int Save_ASCIIskel(NDskel *skl,const char *filename)
   return 0;
 }
 
+///////		DEFINE FILAMENT INSIDE RADIUS 	//////
+float *SkelFilament(NDskel *skl,float max_radius,float *CoM)
+{
+	// max_radius: 	the radius within which the skeleton is considered 
+	// 		in calculating the filament
+	// fil_init:	the initial value of the filament vector {xi,yi,zi} 
+	// 		that is considered
+
+	int i;
+
+	// READ IN SEGMENT POSITIONS
+	// Define counter for x and y position values
+	int x1=0;
+	int y1=0;
+	int z1=0;
+
+	int x2=0;
+	int y2=0;
+	int z2=0;
+
+	float *x1pos;
+	float *y1pos;
+	float *z1pos;
+	
+	float *x2pos;
+	float *y2pos;
+	float *z2pos;
+
+	x1pos=malloc(2*skl->nsegs*sizeof(float));
+	y1pos=malloc(2*skl->nsegs*sizeof(float));
+	z1pos=malloc(2*skl->nsegs*sizeof(float));
+	
+	x2pos=malloc(2*skl->nsegs*sizeof(float));
+	y2pos=malloc(2*skl->nsegs*sizeof(float));
+	z2pos=malloc(2*skl->nsegs*sizeof(float));
+	 
+	// Index over all segment start/end positions and write to two columns in file
+	for(i=0;i<=skl->nsegs*2*skl->ndims;i++)
+	{
+		if((i%6)==5)
+		{
+			x1pos[x1]=skl->segpos[i];
+			x1++;
+		}
+		if((i%6)==4)
+		{
+			y1pos[y1]=skl->segpos[i];
+			y1++;
+		}
+		if((i%6)==3)
+		{
+			z1pos[z1]=skl->segpos[i];
+			z1++;
+		}
+		if((i%6)==2)
+		{
+			x2pos[x2]=skl->segpos[i];
+			x2++;
+		}
+		if((i%6)==1)
+		{
+			y2pos[y2]=skl->segpos[i];
+			y2++;
+		}
+		if((i%6)==0)
+		{
+			z2pos[z2]=skl->segpos[i];
+			z2++;
+		}
+	}
+
+	printf("Number of segs read is %i\n",z2);
+
+	// INDEX OVER SEGMENTS WITHIN A RADIUS AND AVERAGE TO FIND FILAMENT
+	
+	float *fil=malloc(sizeof(float)*3);
+
+	float xtot=0;
+	float ytot=0;
+	float ztot=0;
+
+	int seg_in=0;
+
+	for(i=0;i<=skl->nsegs;i++)
+	{	
+	//	printf("radcentre(x=%.2f,y=%.2f,z=%.2f) = %.2f\n",x1pos[i]*10,y1pos[i]*10,z1pos[i]*10,radcentre(x1pos[i]*10,y1pos[i]*10,z1pos[i]*10,CoM[0],CoM[1],CoM[2]));
+	
+		if((radcentre(10*x1pos[i],10*y1pos[i],10*z1pos[i],CoM[0],CoM[1],CoM[2])<max_radius)
+			&& (radcentre(10*x2pos[i],10*y2pos[i],10*z2pos[i],CoM[0],CoM[1],CoM[2])<max_radius))
+		{
+			float xvector,yvector,zvector;
+			xvector=x2pos[i]-x1pos[i];
+			yvector=y2pos[i]-y1pos[i];
+			zvector=z2pos[i]-z1pos[i];
+
+			xtot=xtot+xvector;
+			ytot=ytot+yvector;
+			ztot=ztot+zvector;
+		
+			seg_in++;
+
+		//	printf("{xtot,ytot,ztot}	= {%.2f,%.2f,%.2f}\n",xtot,ytot,ztot);
+		}
+	}
+
+	printf("%i out of %i included in calculation\n",seg_in,skl->nsegs);
+
+	float magnitude;
+	magnitude=sqrt(xtot*xtot+ytot*ytot+ztot*ztot);
+
+	fil[0]=xtot/magnitude;
+	fil[1]=ytot/magnitude;
+	fil[2]=ztot/magnitude;
+
+	return fil;
+}
+
+
+///////// SMALL FUNCTION TO DEFINE RADIUS FROM CENTRE OF MASS	/////////
+float radcentre(int x,int y,int z,float xCoM,float yCoM,float zCoM)
+{
+	float xdif=x-xCoM;
+	float ydif=y-yCoM;
+	float zdif=z-zCoM;
+	
+	double radiusSquare = xdif*xdif + ydif*ydif + zdif*zdif;
+	float radius = sqrt(radiusSquare);	
+	return radius;
+}
+

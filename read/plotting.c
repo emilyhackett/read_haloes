@@ -99,11 +99,20 @@ void xz_data(char *filename,float ***GRID)
 		{
 			float sum=0;
 			for(y=0;y<field->dims[1];y++)
-			{
-				sum=sum+GRID[x][y][z];				
+			{	
+				if(y>=(min*field->dims[2]) && y<=(max*field->dims[2]))
+				{
+					sum=sum+GRID[x][y][z];				
+				}
 			}
-			
-			fprintf(fp,"%i	%i	%f	%f\n",x,z,sum,log(sum));
+
+			if(log(sum) == -INFINITY)
+			{
+				fprintf(fp,"%i	%i	%f	-4\n",x,z,sum);	
+			}
+			else {
+				fprintf(fp,"%i	%i	%f	%f\n",x,z,sum,log(sum));
+			}	
 		}
 	}
 	
@@ -126,17 +135,26 @@ void yz_data(char *filename,float ***GRID)
 	printf("File %s opened for column data write\n",filename);
 	
 	int x,y,z;
-	for (y=0;y<field->dims[1];y++)
+	for (y=0;y<field->dims[0];y++)
 	{
 		for(z=0;z<field->dims[2];z++)
 		{
 			float sum=0;
-			for(x=0;x<field->dims[0];x++)
-			{
-				sum=sum+GRID[x][y][z];				
+			for(x=0;x<field->dims[1];x++)
+			{	
+				if(x>=(min*field->dims[2]) && x<=(max*field->dims[2]))
+				{
+					sum=sum+GRID[x][y][z];				
+				}
 			}
-			
-			fprintf(fp,"%i	%i	%f	%f\n",y,z,sum,log(sum));
+
+			if(log(sum) == -INFINITY)
+			{
+				fprintf(fp,"%i	%i	%f	-4\n",y,z,sum);	
+			}
+			else {
+				fprintf(fp,"%i	%i	%f	%f\n",y,z,sum,log(sum));
+			}	
 		}
 	}
 	

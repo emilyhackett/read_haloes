@@ -38,7 +38,7 @@ void ListSegPos(NDskel *skl,char *datafile,float min,float max)
 	z2pos=malloc(2*skl->nsegs*sizeof(float));
 	 
 	// Index over all segment start/end positions and write to two columns in file
-	for(i=1;i<=skl->nsegs*2*skl->ndims;i++)
+	for(i=0;i<=skl->nsegs*2*skl->ndims;i++)
 	{
 		if((i%6)==5)
 		{
