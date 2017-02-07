@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
 		if(PLOTSEGSONLY) printf("PLOTTING SEGMENTS ONLY\n");
 		if(PLOTSEGDENSITY) printf("PLOTTING SEGMENTS ON DENSITY BACKGROUND\n");
 		if(ASCII) printf("OUTPUTTING TO ASCII FORMAT\n");
+		if(FILAMENT) printf("CALCULATING OVERALL FILAMENT FOR DIF. RADII\n");
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -127,24 +128,27 @@ int main(int argc, char *argv[])
 
 		float max_radius=0;
 		printf("	---------- FINDING FILAMENT INSIDE RADIUS  ----------\n");
+		int counter=0;
 		while(max_radius<=10)
 		{
+			max_radius=max_radius+0.15625;
 			float *fil=malloc(sizeof(float)*4);
 			fil=SkelFilament(skl,max_radius,CoM);
 			printf("Filament in radius %.2f is:\n	{%.2f,%.2f,%.2f}\n",max_radius,fil[0],fil[1],fil[2]);
 			fprintf(fp,"%.2f	%.4f	%.4f	%.4f\n",max_radius,fil[0],fil[1],fil[2]);
-			max_radius=max_radius+0.5;
+			counter++;
 		}
 	
-		FILE *line=fopen("FIL_line2Mpc.dat","w");
+		printf("Number of radi positions used is %i\n",counter);
+
+/*		FILE *line=fopen("FIL_line2Mpc.dat","w");
 		float *fil=malloc(sizeof(float)*4);
 		fil=SkelFilament(skl,2,CoM);
 		printf("Filament in radius %.2f is:\n	{%.2f,%.2f,%.2f}\n",max_radius,fil[0],fil[1],fil[2]);
 		fprintf(line,"5	2	%.4f	%.4f	%.4f	1\n",fil[0],fil[1],fil[2]);
-			max_radius=max_radius+0.5;
 		fclose(line);
-
-	//	ListSegPosRADIUS(skl,"SegPosRADIUS.dat",2,CoM);
+*/
+	//	ListSegPosRADIUS(skl,"SegPosRADIUS.dat",10,CoM);
 
 		fclose(fp);
 	}		

@@ -1,8 +1,8 @@
 #include "esys.h"
 
 #define	RADIUSPLOTS	0
-#define ELLIPSEPLOTS	1
-#define DATAFILES	0
+#define ELLIPSEPLOTS	0
+#define DATAFILES	1
 
 #define CLEAN		0
 
@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
 		fprintf(stderr,"Usage: ./esys max_radius FILE file_extension\n");
 		if(RADIUSPLOTS)	printf("CREATING RADIUS PLOTS TO MAX_RADIUS\n");
 		if(ELLIPSEPLOTS)	printf("CREATING ELLIPSE PLOTS\n");
+		if(DATAFILES)	printf("OUTPUTTING INERTIA DATA TO FILE\n");
 		exit(1);
     	}
 	if(argc<4)
@@ -203,7 +204,7 @@ int main(int argc, char *argv[])
 
 //	printf("Calculating centre of mass based on new method ...\n");
 //	new_CoM(GRID);
-
+	printf("Final CoM = {%.4f,%.4f,%.4f}\n",CoM[0],CoM[1],CoM[2]);
 
 	if(LONG)	printf("\n	---- END OF PROGRAM REACHED ----\n\n");
 }

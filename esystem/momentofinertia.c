@@ -136,10 +136,11 @@ double *reduced_inertia(float ***GRID,float *CoM,int radius)
 double *evalue_characteristics(double *evalues)
 {
 	if(LONG)	printf("Determining physical characteristics from eigenvalues:\n");
-	
-	double l1=sqrt(fabs(-evalues[0]+evalues[1]+evalues[2]))/sqrt(2);
-	double l2=sqrt(fabs(evalues[0]-evalues[1]+evalues[2]))/sqrt(2);
-	double l3=sqrt(fabs(evalues[0]+evalues[1]-evalues[2]))/sqrt(2);
+		
+	// AXES LENGTHS AS DEFINED WITH REDUCED TENSOR
+	double l1=sqrt(fabs(evalues[0]));
+	double l2=sqrt(fabs(evalues[1]));
+	double l3=sqrt(fabs(evalues[2]));
 
 	if(LONG)	printf(" {a,b,c}	= {%.2f,%.2f,%.2f}\n",l1,l2,l3);
 
@@ -150,24 +151,14 @@ double *evalue_characteristics(double *evalues)
 	// Define the triaxiality, T of the halo:
 	double T=(l1*l1-l2*l2)/(l1*l1-l3*l3);
 	if(LONG)	printf("Triaxiality, T	= %.2f\n",T);
-
-	// Define the ellipticity, E of the halo:
-	double E1=(1-l1/l2);
-	if(LONG)	printf("Ellipticity, E1 = %.2f\n",E1);
-	double E2=(1-l2/l3);
-	if(LONG)	printf("Ellipticity, E2 = %.2f\n",E2);
-	double E3=(1-l1/l3);
-	if(LONG)	printf("Ellipticity, E3 = %.2f\n",E3);
-
 	
 	// NEW ELLIPTICITY DEFINITION:
 	double a=sqrt(fabs(evalues[0]));
 	double b=sqrt(fabs(evalues[1]));
 	double c=sqrt(fabs(evalues[2]));
-	E1=(a-b)/a;
-	E2=0;
-	E3=0;
-
+	float E1=(a-b)/a;
+	float E2=0;
+	float E3=0;
 
 	double *shape;
 	shape=malloc(5*sizeof(double));
