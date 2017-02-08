@@ -1,14 +1,18 @@
 set ylabel 'theta (rad)'
 set xlabel 'radius (Mpc)'
 set xrange [0.5:5]
-xave=0.0196
-yave=0.9699
-zave=0.2427
+xave=0.0261
+yave=0.9917
+zave=0.1257
 
 # PLOT FOR AVERAGED FILAMENT DIRECTION
-set title 'Angle between filament axis and major axis of moment of inertia tensor using fil_{ave}'
-plot 'DMFILE.dat' using ($1/2):(acos($9*xave+$10*yave+$11*zave)/(sqrt($9*$9+$10*$10+$11*$11)+sqrt(xave*xave+yave*yave+zave*zave))) with lines title 'DM', 'GASFILE.dat' using ($1/2):(acos($9*xave+$10*yave+$11*zave)/(sqrt($9*$9+$10*$10+$11*$11)+sqrt(xave*xave+yave*yave+zave*zave))) with lines title 'GAS'
+set terminal postscript color
+set output 'MisalignmentAve'
+set title 'Misalignment Angle (Filament Average)'
+plot 'DM-FILE.dat' using ($1/2):(acos($9*xave+$10*yave+$11*zave)/(sqrt($9*$9+$10*$10+$11*$11)+sqrt(xave*xave+yave*yave+zave*zave))) with lines title 'DM', 'GAS-FILE.dat' using ($1/2):(acos($9*xave+$10*yave+$11*zave)/(sqrt($9*$9+$10*$10+$11*$11)+sqrt(xave*xave+yave*yave+zave*zave))) with lines title 'GAS'
 
 # PLOT FOR DIFFERENT FILAMENT DIRECTIONS (DEPENDENT ON RADIUS)
-#set title 'Angle between filament axis and major axis of moment of inertia tensor using different fil'
-#plot 'DMFILE.dat' using ($1/2):(acos($9*$2+$10*$3+$11*$4)/(sqrt($9*$9+$10*$10+$11*$11)+sqrt($2*$2+$3*$3+$4*$4))) with lines title 'DM', 'GASFILE.dat' using ($1/2):(acos($9*$2+$10*$3+$11*$4)/(sqrt($9*$9+$10*$10+$11*$11)+sqrt($2*$2+$3*$3+$4*$4))) with lines title 'GAS'
+#set terminal postscript color
+#set output 'MisalignmentConst'
+#set title 'Misalignment Angle (Radius-Dependent Filament)'
+#plot 'DM-FILE.dat' using ($1/2):(acos($9*$2+$10*$3+$11*$4)/(sqrt($9*$9+$10*$10+$11*$11)+sqrt($2*$2+$3*$3+$4*$4))) with lines title 'DM', 'GAS-FILE.dat' using ($1/2):(acos($9*$2+$10*$3+$11*$4)/(sqrt($9*$9+$10*$10+$11*$11)+sqrt($2*$2+$3*$3+$4*$4))) with lines title 'GAS'
