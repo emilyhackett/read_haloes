@@ -951,6 +951,11 @@ float *SkelFilament(NDskel *skl,float max_radius,float *CoM)
 	float ytot=0;
 	float ztot=0;
 
+	// Globals needed for METHOD 3
+	float xprev=1;
+	float yprev=0;
+	float zprev=0;
+
 	int seg_in=0;
 
 	for(i=0;i<=skl->nsegs;i++)
@@ -960,15 +965,64 @@ float *SkelFilament(NDskel *skl,float max_radius,float *CoM)
 		if((radcentre(10*x1pos[i],10*y1pos[i],10*z1pos[i],CoM[0],CoM[1],CoM[2])<max_radius)
 			&& (radcentre(10*x2pos[i],10*y2pos[i],10*z2pos[i],CoM[0],CoM[1],CoM[2])<max_radius))
 		{
+			
 			float xvector,yvector,zvector;
-			xvector=x2pos[i]-x1pos[i];
-			yvector=y2pos[i]-y1pos[i];
-			zvector=z2pos[i]-z1pos[i];
+			xvector=10*x2pos[i]-10*x1pos[i];
+			yvector=10*y2pos[i]-10*y1pos[i];
+			zvector=10*z2pos[i]-10*z1pos[i];
 
+			// NEW METHOD - CONVERT TO POLAR COORDINATES FIRST
+			float radius=sqrt(xvector*xvector+yvector*yvector+zvector*zvector);
+			double theta=atan(yvector/xvector);
+			double phi=acos(zvector/radius);
+
+			// CONVERT TO OPPOSITE DIRECTION IF NEEDED:
+		// METHOD 1
+		/*	if(xvector<0)
+			{
+				xvector=-xvector;
+			}
+			if(yvector<0)
+			{
+				yvector=-yvector;
+			}
+			if(zvector<0)
+			{
+				zvector=-zvector;
+			}
+		*/	
+		// METHOD 2	
+		/*	if(xvector<0 || yvector<0 || zvector<0)
+			{
+				zvector=-zvector;
+				yvector=-yvector;
+				xvector=-xvector;
+			}
+		*/
+		// METHOD 3
+		/*	if(anglebtwn(xvector,yvector,zvector,xprev,yprev,zprev)>1.5708)
+			{
+				xvector=-xvector;
+				yvector=-yvector;
+				zvector=-zvector;
+			}
+			xprev=xvector;
+			yprev=yvector;
+			zprev=zvector;
+		*/
+
+		// METHOD 4
+			if(yvector<0)
+			{
+				xvector=-xvector;
+				yvector=-yvector;
+				zvector=-zvector;
+			}
+			
 			xtot=xtot+xvector;
 			ytot=ytot+yvector;
 			ztot=ztot+zvector;
-		
+
 			seg_in++;
 
 		//	printf("{xtot,ytot,ztot}	= {%.2f,%.2f,%.2f}\n",xtot,ytot,ztot);
@@ -1000,6 +1054,18 @@ float radcentre(int x,int y,int z,float xCoM,float yCoM,float zCoM)
 	return radius;
 }
 
+///////// SMALL FUNCTION TO FIND ANGLE BTWN TWO VECTORS	/////////
+double anglebtwn(float x1,float y1,float z1,float x2,float y2,float z2)
+{
+	float mag1=sqrt(x1*x1+y1*y1+z1*z1);
+	float mag2=sqrt(x2*x2+y2*y2+z2*z2);
+
+	float dp=x1*x2+y1*y2+z1*z2;
+
+	double theta=acos(dp/(mag1*mag2));
+
+	return theta;
+}
 
 ///////// LIST SEGMENT POSITIONS AS DEFINED IN RADIUS	/////////
 //

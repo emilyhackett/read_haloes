@@ -108,6 +108,7 @@ extern int	Save_ASCIIskel(NDskel *,const char *);
 
 extern float	*SkelFilament(NDskel *,float,float *);
 extern float	radcentre(int,int,int,float,float,float);
+extern double	anglebtwn(float,float,float,float,float,float);
 extern void	ListSegPosRADIUS(NDskel *,char *,float,float *);
 
 ////////////////////	DEFINE FUNCTIONS IN "flattenSkel.c"	////////////////////

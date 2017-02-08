@@ -126,20 +126,36 @@ int main(int argc, char *argv[])
 	{
 		FILE *fp=fopen("FIL.dat","w");
 
-		float max_radius=0;
+		float max_radius=1;
 		printf("	---------- FINDING FILAMENT INSIDE RADIUS  ----------\n");
 		int counter=0;
+
+		float xtot=0;
+		float ytot=0;
+		float ztot=0;
+
 		while(max_radius<=10)
 		{
 			max_radius=max_radius+0.15625;
 			float *fil=malloc(sizeof(float)*4);
 			fil=SkelFilament(skl,max_radius,CoM);
-			printf("Filament in radius %.2f is:\n	{%.2f,%.2f,%.2f}\n",max_radius,fil[0],fil[1],fil[2]);
+			printf("Filament in radius %.2f is:\n	{%.4f,%.4f,%.4f}\n",max_radius,fil[0],fil[1],fil[2]);
+
+			xtot=xtot+fil[0];
+			ytot=ytot+fil[1];
+			ztot=ztot+fil[2];
+
 			fprintf(fp,"%.2f	%.4f	%.4f	%.4f\n",max_radius,fil[0],fil[1],fil[2]);
 			counter++;
 		}
+
+		float mag=sqrt(xtot*xtot+ytot*ytot+ztot*ztot);
+		float xave=xtot/mag;
+		float yave=ytot/mag;
+		float zave=ztot/mag;
 	
-		printf("Number of radi positions used is %i\n",counter);
+		printf("\nNumber of radi positions used is %i\n",counter);
+		printf("Average filament =\n	{%0.4f,%0.4f,%0.4f}\n",xave,yave,zave);
 
 /*		FILE *line=fopen("FIL_line2Mpc.dat","w");
 		float *fil=malloc(sizeof(float)*4);
