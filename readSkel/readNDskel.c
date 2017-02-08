@@ -982,11 +982,11 @@ float *SkelFilament(NDskel *skl,float max_radius,float *CoM)
 			{
 				xvector=-xvector;
 			}
-			if(yvector<0)
+			else if(yvector<0)
 			{
 				yvector=-yvector;
 			}
-			if(zvector<0)
+			else if(zvector<0)
 			{
 				zvector=-zvector;
 			}

@@ -1,7 +1,7 @@
 %!PS-Adobe-2.0
 %%Title: Filxz
 %%Creator: gnuplot 5.0 patchlevel 5
-%%CreationDate: Wed Feb  8 15:26:02 2017
+%%CreationDate: Wed Feb  8 17:04:19 2017
 %%DocumentFonts: (atend)
 %%BoundingBox: 50 50 554 770
 %%Orientation: Landscape
@@ -472,7 +472,7 @@ SDict begin [
   /Author (emilyhackett)
 %  /Producer (gnuplot)
 %  /Keywords ()
-  /CreationDate (Wed Feb  8 15:26:02 2017)
+  /CreationDate (Wed Feb  8 17:04:19 2017)
   /DOCINFO pdfmark
 end
 } ifelse
@@ -23397,700 +23397,700 @@ stroke
 LTb
 0.90 0.12 0.06 C 1.000 UL
 LTb
-0.90 0.12 0.06 C 3609 2649 M
--16 51 V
--11 -52 V
-18 -128 R
--7 180 V
+0.90 0.12 0.06 C 3594 2635 M
+-19 44 V
+-5 -48 V
+30 -111 R
+-25 159 V
 stroke
 gsave [] 0 setdash
-3609 2649 M
--16 51 V
--11 -52 V
+3594 2635 M
+-19 44 V
+-5 -48 V
 stroke
 grestore
-3609 2649 M
--16 51 V
--11 -52 V
-18 -128 R
--7 180 V
+3594 2635 M
+-19 44 V
+-5 -48 V
+30 -111 R
+-25 159 V
 stroke
 gsave [] 0 setdash
-3609 2649 M
--16 51 V
--11 -52 V
+3594 2635 M
+-19 44 V
+-5 -48 V
 stroke
 grestore
-3611 2657 M
--16 54 V
--13 -55 V
-18 -136 R
--5 191 V
+3595 2650 M
+-21 49 V
+-6 -53 V
+32 -126 R
+-26 179 V
 stroke
 gsave [] 0 setdash
-3611 2657 M
--16 54 V
--13 -55 V
+3595 2650 M
+-21 49 V
+-6 -53 V
 stroke
 grestore
-3554 2620 M
--32 32 V
-12 -44 V
-66 -88 R
--78 132 V
+3566 2625 M
+-29 35 V
+7 -45 V
+56 -95 R
+-63 140 V
 stroke
 gsave [] 0 setdash
-3554 2620 M
--32 32 V
-12 -44 V
+3566 2625 M
+-29 35 V
+7 -45 V
 stroke
 grestore
-3554 2620 M
--32 32 V
-12 -44 V
-66 -88 R
--78 132 V
+3566 2625 M
+-29 35 V
+7 -45 V
+56 -95 R
+-63 140 V
 stroke
 gsave [] 0 setdash
-3554 2620 M
--32 32 V
-12 -44 V
+3566 2625 M
+-29 35 V
+7 -45 V
 stroke
 grestore
-3585 2617 M
--20 35 V
-0 -40 V
-35 -92 R
--35 132 V
+3578 2611 M
+-22 31 V
+3 -38 V
+41 -84 R
+-44 122 V
 stroke
 gsave [] 0 setdash
-3585 2617 M
--20 35 V
-0 -40 V
+3578 2611 M
+-22 31 V
+3 -38 V
 stroke
 grestore
-3574 2625 M
--25 36 V
-3 -44 V
-48 -97 R
--51 141 V
+3552 2627 M
+-34 34 V
+12 -47 V
+70 -94 R
+-82 141 V
 stroke
 gsave [] 0 setdash
-3574 2625 M
--25 36 V
-3 -44 V
+3552 2627 M
+-34 34 V
+12 -47 V
 stroke
 grestore
-3613 2617 M
--9 40 V
--11 -39 V
-7 -98 R
-4 137 V
+3578 2626 M
+-24 38 V
+2 -45 V
+44 -99 R
+-46 144 V
 stroke
 gsave [] 0 setdash
-3613 2617 M
--9 40 V
--11 -39 V
+3578 2626 M
+-24 38 V
+2 -45 V
 stroke
 grestore
-3602 2612 M
--13 36 V
--6 -37 V
-17 -91 R
--11 128 V
+3545 2601 M
+-33 23 V
+17 -36 V
+71 -68 R
+-88 104 V
 stroke
 gsave [] 0 setdash
-3602 2612 M
--13 36 V
--6 -37 V
+3545 2601 M
+-33 23 V
+17 -36 V
 stroke
 grestore
-3637 2564 M
-7 22 V
--17 -15 V
--27 -51 R
-44 66 V
+3603 2580 M
+-7 24 V
+-5 -24 V
+9 -60 R
+-4 84 V
 stroke
 gsave [] 0 setdash
-3637 2564 M
-7 22 V
--17 -15 V
+3603 2580 M
+-7 24 V
+-5 -24 V
 stroke
 grestore
-3637 2564 M
-7 22 V
--17 -15 V
--27 -51 R
-44 66 V
+3603 2580 M
+-7 24 V
+-5 -24 V
+9 -60 R
+-4 84 V
 stroke
 gsave [] 0 setdash
-3637 2564 M
-7 22 V
--17 -15 V
+3603 2580 M
+-7 24 V
+-5 -24 V
 stroke
 grestore
-3632 2564 M
-5 21 V
--15 -15 V
--22 -50 R
-37 65 V
+3603 2580 M
+-7 24 V
+-5 -24 V
+9 -60 R
+-4 84 V
 stroke
 gsave [] 0 setdash
-3632 2564 M
-5 21 V
--15 -15 V
+3603 2580 M
+-7 24 V
+-5 -24 V
 stroke
 grestore
-3619 2577 M
-0 25 V
--11 -22 V
--8 -60 R
-19 82 V
+3593 2585 M
+-12 24 V
+-1 -27 V
+20 -62 R
+-19 89 V
 stroke
 gsave [] 0 setdash
-3619 2577 M
-0 25 V
--11 -22 V
+3593 2585 M
+-12 24 V
+-1 -27 V
 stroke
 grestore
-3611 2565 M
+3594 2571 M
+-9 18 V
+-1 -21 V
+16 -48 R
+-15 69 V
+stroke
+gsave [] 0 setdash
+3594 2571 M
+-9 18 V
+-1 -21 V
+stroke
+grestore
+3604 2551 M
+-4 18 V
+-4 -18 V
+4 -31 R
+0 49 V
+stroke
+gsave [] 0 setdash
+3604 2551 M
+-4 18 V
+-4 -18 V
+stroke
+grestore
+3607 2539 M
+-1 18 V
+-7 -17 V
+1 -20 R
+6 37 V
+stroke
+gsave [] 0 setdash
+3607 2539 M
+-1 18 V
+-7 -17 V
+stroke
+grestore
+3605 2543 M
+-3 18 V
+-5 -17 V
+3 -24 R
+2 41 V
+stroke
+gsave [] 0 setdash
+3605 2543 M
+-3 18 V
+-5 -17 V
+stroke
+grestore
+3609 2547 M
 -2 18 V
 -7 -17 V
--2 -46 R
-9 63 V
+0 -28 R
+7 45 V
 stroke
 gsave [] 0 setdash
-3611 2565 M
+3609 2547 M
 -2 18 V
 -7 -17 V
 stroke
 grestore
-3611 2568 M
--2 20 V
--7 -19 V
--2 -49 R
-9 68 V
+3608 2540 M
+-1 18 V
+-8 -17 V
+1 -21 R
+7 38 V
 stroke
 gsave [] 0 setdash
-3611 2568 M
--2 20 V
--7 -19 V
+3608 2540 M
+-1 18 V
+-8 -17 V
 stroke
 grestore
-3615 2556 M
-0 18 V
--9 -16 V
--6 -38 R
-15 54 V
+3606 2521 M
+4 18 V
+-12 -13 V
+2 -6 R
+10 19 V
 stroke
 gsave [] 0 setdash
-3615 2556 M
-0 18 V
--9 -16 V
+3606 2521 M
+4 18 V
+-12 -13 V
 stroke
 grestore
-3619 2556 M
-2 18 V
--11 -15 V
--10 -39 R
-21 54 V
+3605 2522 M
+-1 18 V
+-8 -16 V
+4 -4 R
+4 20 V
 stroke
 gsave [] 0 setdash
-3619 2556 M
-2 18 V
--11 -15 V
+3605 2522 M
+-1 18 V
+-8 -16 V
 stroke
 grestore
-3619 2558 M
+3602 2530 M
+-10 15 V
+0 -18 V
+8 -7 R
+-8 25 V
+stroke
+gsave [] 0 setdash
+3602 2530 M
+-10 15 V
+0 -18 V
+stroke
+grestore
+3606 2535 M
+-3 18 V
+-6 -17 V
+3 -16 R
+3 33 V
+stroke
+gsave [] 0 setdash
+3606 2535 M
+-3 18 V
+-6 -17 V
+stroke
+grestore
+3603 2529 M
+-6 17 V
+-2 -18 V
+5 -8 R
+-3 26 V
+stroke
+gsave [] 0 setdash
+3603 2529 M
+-6 17 V
+-2 -18 V
+stroke
+grestore
+3603 2536 M
+-6 17 V
+-3 -18 V
+6 -15 R
+-3 33 V
+stroke
+gsave [] 0 setdash
+3603 2536 M
+-6 17 V
+-3 -18 V
+stroke
+grestore
+3604 2534 M
+-4 18 V
+-4 -18 V
+4 -14 R
+0 32 V
+stroke
+gsave [] 0 setdash
+3604 2534 M
+-4 18 V
+-4 -18 V
+stroke
+grestore
+3605 2523 M
+-4 18 V
+-5 -18 V
+4 -3 R
+1 21 V
+stroke
+gsave [] 0 setdash
+3605 2523 M
+-4 18 V
+-5 -18 V
+stroke
+grestore
+3606 2521 M
 1 18 V
 -10 -15 V
--10 -41 R
-20 56 V
+3 -4 R
+7 19 V
 stroke
 gsave [] 0 setdash
-3619 2558 M
+3606 2521 M
 1 18 V
 -10 -15 V
 stroke
 grestore
-3621 2551 M
-3 18 V
--12 -14 V
--12 -35 R
-24 49 V
+3604 2515 M
+0 18 V
+-10 -16 V
+6 3 R
+4 13 V
 stroke
 gsave [] 0 setdash
-3621 2551 M
-3 18 V
--12 -14 V
+3604 2515 M
+0 18 V
+-10 -16 V
 stroke
 grestore
-3619 2534 M
-7 17 V
--15 -10 V
--11 -21 R
-26 31 V
-stroke
-gsave [] 0 setdash
-3619 2534 M
-7 17 V
--15 -10 V
-stroke
-grestore
-3615 2535 M
-4 18 V
--13 -13 V
--6 -20 R
-19 33 V
-stroke
-gsave [] 0 setdash
-3615 2535 M
-4 18 V
--13 -13 V
-stroke
-grestore
-3611 2529 M
-4 18 V
--13 -13 V
--2 -14 R
-15 27 V
-stroke
-gsave [] 0 setdash
-3611 2529 M
-4 18 V
--13 -13 V
-stroke
-grestore
-3625 2534 M
-11 15 V
--17 -7 V
--19 -22 R
-36 29 V
-stroke
-gsave [] 0 setdash
-3625 2534 M
-11 15 V
--17 -7 V
-stroke
-grestore
-3622 2531 M
-11 14 V
--17 -7 V
--16 -18 R
-33 25 V
-stroke
-gsave [] 0 setdash
-3622 2531 M
-11 14 V
--17 -7 V
-stroke
-grestore
-3621 2533 M
+3603 2517 M
 10 15 V
 -16 -8 V
--15 -20 R
-31 28 V
+3 -4 R
+13 12 V
 stroke
 gsave [] 0 setdash
-3621 2533 M
+3603 2517 M
 10 15 V
 -16 -8 V
 stroke
 grestore
-3623 2531 M
-12 14 V
--17 -6 V
--18 -19 R
-35 25 V
-stroke
-gsave [] 0 setdash
-3623 2531 M
-12 14 V
--17 -6 V
-stroke
-grestore
-3614 2522 M
-14 12 V
--18 -3 V
--10 -11 R
-28 14 V
-stroke
-gsave [] 0 setdash
-3614 2522 M
-14 12 V
--18 -3 V
-stroke
-grestore
-3609 2521 M
-9 16 V
--16 -8 V
--2 -9 R
-18 17 V
-stroke
-gsave [] 0 setdash
-3609 2521 M
-9 16 V
--16 -8 V
-stroke
-grestore
-3609 2522 M
+3608 2521 M
 9 16 V
 -16 -9 V
--2 -9 R
-18 18 V
+-1 -8 R
+17 17 V
 stroke
 gsave [] 0 setdash
-3609 2522 M
+3608 2521 M
 9 16 V
 -16 -9 V
 stroke
 grestore
-3609 2519 M
-14 11 V
--18 -2 V
--5 -8 R
-23 10 V
+3603 2516 M
+6 17 V
+-14 -12 V
+5 -1 R
+9 13 V
 stroke
 gsave [] 0 setdash
-3609 2519 M
-14 11 V
--18 -2 V
+3603 2516 M
+6 17 V
+-14 -12 V
 stroke
 grestore
-3604 2517 M
-12 13 V
--18 -5 V
-2 -5 R
-16 10 V
-stroke
-gsave [] 0 setdash
-3604 2517 M
-12 13 V
--18 -5 V
-stroke
-grestore
-3601 2515 M
-14 12 V
--18 -3 V
-3 -4 R
-15 7 V
-stroke
-gsave [] 0 setdash
-3601 2515 M
-14 12 V
--18 -3 V
-stroke
-grestore
-3604 2517 M
-12 13 V
--18 -5 V
-2 -5 R
-16 10 V
-stroke
-gsave [] 0 setdash
-3604 2517 M
-12 13 V
--18 -5 V
-stroke
-grestore
-3600 2514 M
-11 14 V
--17 -6 V
-6 -2 R
-11 8 V
-stroke
-gsave [] 0 setdash
-3600 2514 M
-11 14 V
--17 -6 V
-stroke
-grestore
-3595 2513 M
-14 11 V
--18 -2 V
-9 -2 R
-9 4 V
-stroke
-gsave [] 0 setdash
-3595 2513 M
-14 11 V
--18 -2 V
-stroke
-grestore
-3602 2516 M
-13 12 V
--18 -4 V
-3 -4 R
-15 8 V
-stroke
-gsave [] 0 setdash
-3602 2516 M
-13 12 V
--18 -4 V
-stroke
-grestore
-3601 2515 M
-12 13 V
--18 -5 V
-5 -3 R
-13 8 V
-stroke
-gsave [] 0 setdash
-3601 2515 M
-12 13 V
--18 -5 V
-stroke
-grestore
-3600 2515 M
-13 12 V
--18 -4 V
-5 -3 R
-13 7 V
-stroke
-gsave [] 0 setdash
-3600 2515 M
-13 12 V
--18 -4 V
-stroke
-grestore
-3599 2514 M
-12 13 V
--18 -5 V
-7 -2 R
-11 7 V
-stroke
-gsave [] 0 setdash
-3599 2514 M
-12 13 V
--18 -5 V
-stroke
-grestore
-3601 2514 M
-8 16 V
--15 -10 V
-6 0 R
-9 10 V
-stroke
-gsave [] 0 setdash
-3601 2514 M
-8 16 V
--15 -10 V
-stroke
-grestore
-3601 2514 M
-8 16 V
--15 -10 V
-6 0 R
-9 10 V
-stroke
-gsave [] 0 setdash
-3601 2514 M
-8 16 V
--15 -10 V
-stroke
-grestore
-3600 2513 M
-8 16 V
--15 -10 V
-7 1 R
-8 9 V
-stroke
-gsave [] 0 setdash
-3600 2513 M
-8 16 V
--15 -10 V
-stroke
-grestore
-3602 2513 M
+3605 2519 M
 5 18 V
--13 -12 V
-6 1 R
-7 11 V
+-13 -13 V
+3 -4 R
+10 17 V
 stroke
 gsave [] 0 setdash
-3602 2513 M
+3605 2519 M
 5 18 V
--13 -12 V
-stroke
-grestore
-3602 2513 M
-4 18 V
--13 -13 V
-7 2 R
-6 11 V
-stroke
-gsave [] 0 setdash
-3602 2513 M
-4 18 V
 -13 -13 V
 stroke
 grestore
-3602 2513 M
-4 18 V
--13 -13 V
-7 2 R
-6 11 V
+3604 2514 M
+-3 18 V
+-6 -17 V
+5 5 R
+1 12 V
 stroke
 gsave [] 0 setdash
-3602 2513 M
-4 18 V
--13 -13 V
+3604 2514 M
+-3 18 V
+-6 -17 V
 stroke
 grestore
-3602 2513 M
-4 18 V
--13 -13 V
-7 2 R
-6 11 V
+3612 2511 M
+-14 12 V
+6 -17 V
+-4 14 R
+-2 3 V
 stroke
 gsave [] 0 setdash
-3602 2513 M
-4 18 V
--13 -13 V
+3612 2511 M
+-14 12 V
+6 -17 V
 stroke
 grestore
-3602 2513 M
-4 18 V
--13 -13 V
-7 2 R
-6 11 V
+3598 2509 M
+6 17 V
+-14 -12 V
+10 6 R
+4 6 V
 stroke
 gsave [] 0 setdash
-3602 2513 M
-4 18 V
--13 -13 V
+3598 2509 M
+6 17 V
+-14 -12 V
 stroke
 grestore
-3602 2513 M
-4 18 V
--13 -13 V
-7 2 R
-6 11 V
+3602 2509 M
+0 18 V
+-9 -16 V
+7 9 R
+2 7 V
 stroke
 gsave [] 0 setdash
-3602 2513 M
-4 18 V
--13 -13 V
+3602 2509 M
+0 18 V
+-9 -16 V
 stroke
 grestore
-3602 2513 M
-4 18 V
--13 -13 V
-7 2 R
-6 11 V
+3602 2510 M
+0 18 V
+-9 -16 V
+7 8 R
+2 8 V
 stroke
 gsave [] 0 setdash
-3602 2513 M
-4 18 V
--13 -13 V
+3602 2510 M
+0 18 V
+-9 -16 V
 stroke
 grestore
-3602 2513 M
-4 18 V
--13 -13 V
-7 2 R
-6 11 V
+3602 2509 M
+0 18 V
+-9 -16 V
+7 9 R
+2 7 V
 stroke
 gsave [] 0 setdash
-3602 2513 M
-4 18 V
--13 -13 V
+3602 2509 M
+0 18 V
+-9 -16 V
 stroke
 grestore
-3602 2513 M
-4 18 V
--13 -13 V
-7 2 R
-6 11 V
+3593 2506 M
+9 16 V
+-16 -9 V
+14 7 R
+2 2 V
 stroke
 gsave [] 0 setdash
-3602 2513 M
-4 18 V
--13 -13 V
+3593 2506 M
+9 16 V
+-16 -9 V
 stroke
 grestore
-3602 2513 M
-4 18 V
--13 -13 V
-7 2 R
-6 11 V
+3593 2506 M
+9 16 V
+-16 -9 V
+14 7 R
+2 2 V
 stroke
 gsave [] 0 setdash
-3602 2513 M
-4 18 V
--13 -13 V
+3593 2506 M
+9 16 V
+-16 -9 V
 stroke
 grestore
-3602 2513 M
-4 18 V
--13 -13 V
-7 2 R
-6 11 V
+3596 2506 M
+6 17 V
+-14 -12 V
+12 9 R
+2 3 V
 stroke
 gsave [] 0 setdash
-3602 2513 M
-4 18 V
--13 -13 V
+3596 2506 M
+6 17 V
+-14 -12 V
 stroke
 grestore
-3602 2513 M
-4 18 V
--13 -13 V
-7 2 R
-6 11 V
+3599 2506 M
+3 18 V
+-12 -14 V
+10 10 R
+2 4 V
 stroke
 gsave [] 0 setdash
-3602 2513 M
-4 18 V
--13 -13 V
+3599 2506 M
+3 18 V
+-12 -14 V
 stroke
 grestore
-3602 2513 M
-4 18 V
--13 -13 V
-7 2 R
-6 11 V
+3599 2506 M
+3 18 V
+-12 -14 V
+10 10 R
+2 4 V
 stroke
 gsave [] 0 setdash
-3602 2513 M
-4 18 V
--13 -13 V
+3599 2506 M
+3 18 V
+-12 -14 V
 stroke
 grestore
-3602 2513 M
-4 18 V
--13 -13 V
-7 2 R
-6 11 V
+3599 2506 M
+3 18 V
+-12 -14 V
+10 10 R
+2 4 V
 stroke
 gsave [] 0 setdash
-3602 2513 M
-4 18 V
--13 -13 V
+3599 2506 M
+3 18 V
+-12 -14 V
 stroke
 grestore
-3602 2513 M
-4 18 V
--13 -13 V
-7 2 R
-6 11 V
+3599 2506 M
+3 18 V
+-12 -14 V
+10 10 R
+2 4 V
 stroke
 gsave [] 0 setdash
-3602 2513 M
-4 18 V
--13 -13 V
+3599 2506 M
+3 18 V
+-12 -14 V
 stroke
 grestore
-3602 2513 M
-4 18 V
--13 -13 V
-7 2 R
-6 11 V
+3599 2506 M
+3 18 V
+-12 -14 V
+10 10 R
+2 4 V
 stroke
 gsave [] 0 setdash
-3602 2513 M
-4 18 V
--13 -13 V
+3599 2506 M
+3 18 V
+-12 -14 V
+stroke
+grestore
+3599 2506 M
+3 18 V
+-12 -14 V
+10 10 R
+2 4 V
+stroke
+gsave [] 0 setdash
+3599 2506 M
+3 18 V
+-12 -14 V
+stroke
+grestore
+3599 2506 M
+3 18 V
+-12 -14 V
+10 10 R
+2 4 V
+stroke
+gsave [] 0 setdash
+3599 2506 M
+3 18 V
+-12 -14 V
+stroke
+grestore
+3599 2506 M
+3 18 V
+-12 -14 V
+10 10 R
+2 4 V
+stroke
+gsave [] 0 setdash
+3599 2506 M
+3 18 V
+-12 -14 V
+stroke
+grestore
+3599 2506 M
+3 18 V
+-12 -14 V
+10 10 R
+2 4 V
+stroke
+gsave [] 0 setdash
+3599 2506 M
+3 18 V
+-12 -14 V
+stroke
+grestore
+3599 2506 M
+3 18 V
+-12 -14 V
+10 10 R
+2 4 V
+stroke
+gsave [] 0 setdash
+3599 2506 M
+3 18 V
+-12 -14 V
+stroke
+grestore
+3599 2506 M
+3 18 V
+-12 -14 V
+10 10 R
+2 4 V
+stroke
+gsave [] 0 setdash
+3599 2506 M
+3 18 V
+-12 -14 V
+stroke
+grestore
+3599 2506 M
+3 18 V
+-12 -14 V
+10 10 R
+2 4 V
+stroke
+gsave [] 0 setdash
+3599 2506 M
+3 18 V
+-12 -14 V
+stroke
+grestore
+3599 2506 M
+3 18 V
+-12 -14 V
+10 10 R
+2 4 V
+stroke
+gsave [] 0 setdash
+3599 2506 M
+3 18 V
+-12 -14 V
+stroke
+grestore
+3599 2506 M
+3 18 V
+-12 -14 V
+10 10 R
+2 4 V
+stroke
+gsave [] 0 setdash
+3599 2506 M
+3 18 V
+-12 -14 V
+stroke
+grestore
+3599 2506 M
+3 18 V
+-12 -14 V
+10 10 R
+2 4 V
+stroke
+gsave [] 0 setdash
+3599 2506 M
+3 18 V
+-12 -14 V
+stroke
+grestore
+3599 2506 M
+3 18 V
+-12 -14 V
+10 10 R
+2 4 V
+stroke
+gsave [] 0 setdash
+3599 2506 M
+3 18 V
+-12 -14 V
 stroke
 grestore
 % End plot #3
@@ -24410,30 +24410,16 @@ LCb setrgbcolor
 1.000 UP
 stroke
 LTb
-0.00 0.00 0.00 C 3630 2763 M
--24 99 V
--28 -98 V
-22 -244 R
-6 342 V
+0.00 0.00 0.00 C 3601 2544 M
+-7 17 V
+-2 -18 V
+8 -23 R
+-6 41 V
 stroke
 gsave [] 0 setdash
-3630 2763 M
--24 99 V
--28 -98 V
-stroke
-grestore
-1.000 UL
-LTb
-0.00 0.00 0.00 C 3610 2580 M
--4 25 V
--8 -24 V
-2 -61 R
-6 85 V
-stroke
-gsave [] 0 setdash
-3610 2580 M
--4 25 V
--8 -24 V
+3601 2544 M
+-7 17 V
+-2 -18 V
 stroke
 grestore
 grestore % colour palette end
