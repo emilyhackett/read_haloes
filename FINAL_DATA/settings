@@ -1,6 +1,4 @@
 set view map
 set size square
 set palette rgb 36,35,34
-set xrange [0:10]
-set yrange [0:10]
 set cbrange [-4:8]

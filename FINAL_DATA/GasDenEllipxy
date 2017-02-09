@@ -1,7 +1,7 @@
 %!PS-Adobe-2.0
 %%Title: GasDenEllipxy
 %%Creator: gnuplot 5.0 patchlevel 5
-%%CreationDate: Wed Feb  8 16:26:07 2017
+%%CreationDate: Wed Feb  8 22:27:29 2017
 %%DocumentFonts: (atend)
 %%BoundingBox: 50 50 554 770
 %%Orientation: Landscape
@@ -472,7 +472,7 @@ SDict begin [
   /Author (emilyhackett)
 %  /Producer (gnuplot)
 %  /Keywords ()
-  /CreationDate (Wed Feb  8 16:26:07 2017)
+  /CreationDate (Wed Feb  8 22:27:29 2017)
   /DOCINFO pdfmark
 end
 } ifelse
@@ -17071,6 +17071,11 @@ stroke
 1.000 UL
 LTb
 LCb setrgbcolor
+LCb setrgbcolor
+3600 345 M
+[ [(Helvetica) 140.0 0.0 true true 0 (radius \(Mpc\))]
+] -46.7 MCshow
+LTb
 1.000 UL
 LTb
 LCb setrgbcolor
@@ -17173,6 +17178,13 @@ stroke
 1.000 UL
 LTb
 LCb setrgbcolor
+LCb setrgbcolor
+1421 2520 M
+currentpoint gsave translate -270 rotate 0 0 moveto
+[ [(Helvetica) 140.0 0.0 true true 0 (E)]
+] -46.7 MCshow
+grestore
+LTb
 stroke gsave	%% draw gray scale smooth box
 maxcolors 0 gt {/imax maxcolors def} {/imax 1024 def} ifelse
 5453 755 translate 177 3530 scale 0 setlinewidth

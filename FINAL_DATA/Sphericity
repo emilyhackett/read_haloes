@@ -1,7 +1,7 @@
 %!PS-Adobe-2.0
 %%Title: Sphericity
 %%Creator: gnuplot 5.0 patchlevel 5
-%%CreationDate: Wed Feb  8 14:43:42 2017
+%%CreationDate: Wed Feb  8 22:29:59 2017
 %%DocumentFonts: (atend)
 %%BoundingBox: 50 50 554 770
 %%Orientation: Landscape
@@ -472,7 +472,7 @@ SDict begin [
   /Author (emilyhackett)
 %  /Producer (gnuplot)
 %  /Keywords ()
-  /CreationDate (Wed Feb  8 14:43:42 2017)
+  /CreationDate (Wed Feb  8 22:29:59 2017)
   /DOCINFO pdfmark
 end
 } ifelse
@@ -527,84 +527,51 @@ LCb setrgbcolor
 -63 0 V
 stroke
 602 448 M
+[ [(Helvetica) 140.0 0.0 true true 0 ( 0)]
+] -46.7 MRshow
+1.000 UL
+LTb
+LCb setrgbcolor
+686 1282 M
+63 0 V
+6198 0 R
+-63 0 V
+stroke
+602 1282 M
 [ [(Helvetica) 140.0 0.0 true true 0 ( 0.2)]
 ] -46.7 MRshow
 1.000 UL
 LTb
 LCb setrgbcolor
-686 969 M
+686 2116 M
 63 0 V
 6198 0 R
 -63 0 V
 stroke
-602 969 M
-[ [(Helvetica) 140.0 0.0 true true 0 ( 0.3)]
-] -46.7 MRshow
-1.000 UL
-LTb
-LCb setrgbcolor
-686 1491 M
-63 0 V
-6198 0 R
--63 0 V
-stroke
-602 1491 M
+602 2116 M
 [ [(Helvetica) 140.0 0.0 true true 0 ( 0.4)]
 ] -46.7 MRshow
 1.000 UL
 LTb
 LCb setrgbcolor
-686 2012 M
+686 2951 M
 63 0 V
 6198 0 R
 -63 0 V
 stroke
-602 2012 M
-[ [(Helvetica) 140.0 0.0 true true 0 ( 0.5)]
-] -46.7 MRshow
-1.000 UL
-LTb
-LCb setrgbcolor
-686 2534 M
-63 0 V
-6198 0 R
--63 0 V
-stroke
-602 2534 M
+602 2951 M
 [ [(Helvetica) 140.0 0.0 true true 0 ( 0.6)]
 ] -46.7 MRshow
 1.000 UL
 LTb
 LCb setrgbcolor
-686 3055 M
+686 3785 M
 63 0 V
 6198 0 R
 -63 0 V
 stroke
-602 3055 M
-[ [(Helvetica) 140.0 0.0 true true 0 ( 0.7)]
-] -46.7 MRshow
-1.000 UL
-LTb
-LCb setrgbcolor
-686 3576 M
-63 0 V
-6198 0 R
--63 0 V
-stroke
-602 3576 M
+602 3785 M
 [ [(Helvetica) 140.0 0.0 true true 0 ( 0.8)]
-] -46.7 MRshow
-1.000 UL
-LTb
-LCb setrgbcolor
-686 4098 M
-63 0 V
-6198 0 R
--63 0 V
-stroke
-602 4098 M
-[ [(Helvetica) 140.0 0.0 true true 0 ( 0.9)]
 ] -46.7 MRshow
 1.000 UL
 LTb
@@ -631,35 +598,13 @@ stroke
 1.000 UL
 LTb
 LCb setrgbcolor
-1312 448 M
-0 63 V
-0 4108 R
-0 -63 V
-stroke
-1312 308 M
-[ [(Helvetica) 140.0 0.0 true true 0 ( 1)]
-] -46.7 MCshow
-1.000 UL
-LTb
-LCb setrgbcolor
 1938 448 M
 0 63 V
 0 4108 R
 0 -63 V
 stroke
 1938 308 M
-[ [(Helvetica) 140.0 0.0 true true 0 ( 2)]
-] -46.7 MCshow
-1.000 UL
-LTb
-LCb setrgbcolor
-2564 448 M
-0 63 V
-0 4108 R
-0 -63 V
-stroke
-2564 308 M
-[ [(Helvetica) 140.0 0.0 true true 0 ( 3)]
+[ [(Helvetica) 140.0 0.0 true true 0 ( 1)]
 ] -46.7 MCshow
 1.000 UL
 LTb
@@ -670,18 +615,7 @@ LCb setrgbcolor
 0 -63 V
 stroke
 3190 308 M
-[ [(Helvetica) 140.0 0.0 true true 0 ( 4)]
-] -46.7 MCshow
-1.000 UL
-LTb
-LCb setrgbcolor
-3817 448 M
-0 63 V
-0 4108 R
-0 -63 V
-stroke
-3817 308 M
-[ [(Helvetica) 140.0 0.0 true true 0 ( 5)]
+[ [(Helvetica) 140.0 0.0 true true 0 ( 2)]
 ] -46.7 MCshow
 1.000 UL
 LTb
@@ -692,18 +626,7 @@ LCb setrgbcolor
 0 -63 V
 stroke
 4443 308 M
-[ [(Helvetica) 140.0 0.0 true true 0 ( 6)]
-] -46.7 MCshow
-1.000 UL
-LTb
-LCb setrgbcolor
-5069 448 M
-0 63 V
-0 4108 R
-0 -63 V
-stroke
-5069 308 M
-[ [(Helvetica) 140.0 0.0 true true 0 ( 7)]
+[ [(Helvetica) 140.0 0.0 true true 0 ( 3)]
 ] -46.7 MCshow
 1.000 UL
 LTb
@@ -714,18 +637,7 @@ LCb setrgbcolor
 0 -63 V
 stroke
 5695 308 M
-[ [(Helvetica) 140.0 0.0 true true 0 ( 8)]
-] -46.7 MCshow
-1.000 UL
-LTb
-LCb setrgbcolor
-6321 448 M
-0 63 V
-0 4108 R
-0 -63 V
-stroke
-6321 308 M
-[ [(Helvetica) 140.0 0.0 true true 0 ( 9)]
+[ [(Helvetica) 140.0 0.0 true true 0 ( 4)]
 ] -46.7 MCshow
 1.000 UL
 LTb
@@ -736,7 +648,7 @@ LCb setrgbcolor
 0 -63 V
 stroke
 6947 308 M
-[ [(Helvetica) 140.0 0.0 true true 0 ( 10)]
+[ [(Helvetica) 140.0 0.0 true true 0 ( 5)]
 ] -46.7 MCshow
 1.000 UL
 LTb
@@ -781,70 +693,38 @@ LTb
 LTb
 0.58 0.00 0.83 C 6380 4486 M
 399 0 V
-784 456 M
-98 1859 V
-97 746 V
-98 78 V
-98 -66 V
-98 -110 V
-98 -54 V
-98 -19 V
-97 -21 V
-98 -17 V
-98 -20 V
-98 -23 V
-98 -23 V
-98 -36 V
-97 -41 V
-98 -34 V
-98 -31 V
-98 -35 V
-98 -25 V
-98 -27 V
-97 -20 V
-98 -17 V
-98 -23 V
-98 -21 V
-98 -27 V
-98 -15 V
-97 -6 V
-98 -14 V
-98 -19 V
-98 -33 V
-98 -40 V
-98 -40 V
-97 -35 V
-98 -19 V
-98 -13 V
-98 -13 V
-98 -11 V
-97 -11 V
-98 -4 V
-98 -1 V
-98 -1 V
-98 -2 V
-98 -6 V
-97 -10 V
-98 -2 V
-98 3 V
-98 5 V
-98 6 V
-98 11 V
-97 11 V
-98 9 V
-98 10 V
-98 14 V
-98 10 V
-98 13 V
-97 6 V
-98 4 V
-98 7 V
-98 9 V
-98 10 V
-98 8 V
-97 6 V
-98 4 V
-98 8 V
+882 1289 M
+195 1487 V
+196 596 V
+196 63 V
+195 -53 V
+196 -88 V
+196 -43 V
+195 -15 V
+196 -17 V
+196 -13 V
+195 -16 V
+196 -19 V
+196 -19 V
+195 -28 V
+196 -33 V
+196 -27 V
+195 -25 V
+196 -28 V
+195 -20 V
+196 -22 V
+196 -16 V
+195 -13 V
+196 -19 V
+196 -16 V
+195 -22 V
+196 -12 V
+196 -5 V
+195 -11 V
+196 -15 V
+196 -26 V
+195 -33 V
+196 -31 V
 % End plot #1
 % Begin plot #2
 stroke
@@ -857,70 +737,38 @@ LTb
 LTb
 0.00 0.62 0.45 C 6380 4346 M
 399 0 V
-784 4265 M
-98 -87 V
-97 -89 V
-98 -2 V
-98 37 V
-98 7 V
-98 -45 V
-98 -110 V
-97 -57 V
-98 -35 V
-98 -26 V
-98 -16 V
-98 -14 V
-98 -13 V
-97 -14 V
-98 -14 V
-98 -16 V
-98 -19 V
-98 -25 V
-98 -27 V
-97 -29 V
-98 -23 V
-98 -28 V
-98 -30 V
-98 -38 V
-98 -46 V
-97 -65 V
-98 -77 V
-98 -66 V
-98 -59 V
-98 -45 V
-98 -38 V
-97 -39 V
-98 -40 V
-98 -34 V
-98 -28 V
-98 -20 V
-97 -15 V
-98 -13 V
-98 -9 V
-98 -10 V
-98 -12 V
-98 -15 V
-97 -13 V
-98 -10 V
-98 -8 V
-98 -4 V
-98 -2 V
-98 -1 V
-97 0 V
-98 1 V
-98 3 V
-98 4 V
-98 2 V
-98 1 V
-97 2 V
-98 3 V
-98 2 V
-98 1 V
-98 0 V
-98 1 V
-97 0 V
-98 0 V
-98 2 V
+882 4336 M
+195 -70 V
+196 -71 V
+196 -2 V
+195 30 V
+196 6 V
+196 -36 V
+195 -88 V
+196 -46 V
+196 -28 V
+195 -21 V
+196 -12 V
+196 -12 V
+195 -10 V
+196 -11 V
+196 -12 V
+195 -12 V
+196 -15 V
+195 -20 V
+196 -22 V
+196 -23 V
+195 -19 V
+196 -22 V
+196 -24 V
+195 -30 V
+196 -38 V
+196 -51 V
+195 -62 V
+196 -53 V
+196 -47 V
+195 -36 V
+196 -30 V
 % End plot #2
 % Begin plot #3
 stroke
@@ -933,70 +781,38 @@ LTb
 LTb
 0.34 0.71 0.91 C 6380 4206 M
 399 0 V
-784 3546 M
-98 736 V
-97 7 V
-98 128 V
-98 26 V
-98 -158 V
-98 -36 V
-98 16 V
-97 -1 V
-98 -9 V
-98 -19 V
-98 -49 V
-98 -49 V
-98 -46 V
-97 -38 V
-98 -19 V
-98 -20 V
-98 -20 V
-98 -10 V
-98 -8 V
-97 -10 V
-98 -14 V
-98 -15 V
-98 -15 V
-98 -16 V
-98 -16 V
-97 -15 V
-98 -16 V
-98 -13 V
-98 -15 V
-98 -13 V
-98 -12 V
-97 -10 V
-98 -12 V
-98 -11 V
-98 -11 V
-98 -8 V
-97 -9 V
-98 -9 V
-98 -8 V
-98 -7 V
-98 -8 V
-98 -5 V
-97 -5 V
-98 -3 V
-98 -3 V
-98 -4 V
-98 -3 V
-98 -3 V
-97 -2 V
-98 -3 V
-98 -3 V
-98 -2 V
-98 -3 V
-98 -4 V
-97 -3 V
-98 -4 V
-98 -3 V
-98 -3 V
-98 -3 V
-98 -3 V
-97 -2 V
-98 -3 V
-98 -3 V
+882 3760 M
+195 589 V
+196 6 V
+196 102 V
+195 21 V
+196 -126 V
+196 -29 V
+195 13 V
+196 -1 V
+196 -8 V
+195 -15 V
+196 -39 V
+196 -39 V
+195 -37 V
+196 -30 V
+196 -15 V
+195 -16 V
+196 -16 V
+195 -8 V
+196 -7 V
+196 -8 V
+195 -11 V
+196 -12 V
+196 -12 V
+195 -13 V
+196 -13 V
+196 -12 V
+195 -12 V
+196 -10 V
+196 -12 V
+195 -11 V
+196 -10 V
 % End plot #3
 stroke
 2.000 UL

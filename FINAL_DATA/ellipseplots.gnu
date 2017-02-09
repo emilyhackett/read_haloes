@@ -1,6 +1,9 @@
 load 'settings'
 set terminal postscript color
 
+set xrange [0:10]
+set yrange [0:10]
+
 ### DM DENSITY/SKEL PLOT (xy,xz,yz)
 xcm=65.0776*10/128
 ycm=64.630*10/128
@@ -16,6 +19,7 @@ set object 4 ellipse center (65.0776*10/128), (64.6298*10/128) size (30.2292*10/
 set object 5 ellipse center (65.0776*10/128), (64.6298*10/128) size (16.2772*10/128),(9.3203*10/128) angle 105.10 units xy front fillstyle border lt 4
 set object 6 ellipse center (65.0776*10/128), (64.6298*10/128) size (3.4759*10/128),(2.7418*10/128) angle 95.51 units xy front fillstyle border lt 4
 splot DEN using ($1*10/128):($2*10/128):4 notitle with points ps 1 pt 7 palette
+print 'Ellipse plots for DM saved to DMDenEllipxy'
 
 #DEN='DM10G_0.00_1.00-xzgrid.dat'
 #set output 'DMDenEllipxz'
@@ -39,6 +43,7 @@ set object 4 ellipse center (63.5478*10/128), (63.4616*10/128) size (25.2057*10/
 set object 5 ellipse center (63.5478*10/128), (63.4616*10/128) size (12.9933*10/128),(9.8306*10/128) angle 96.58 units xy front fillstyle border lt 4
 set object 6 ellipse center (63.5478*10/128), (63.4616*10/128) size (2.9427*10/128),(2.6844*10/128) angle 101.09 units xy front fillstyle border lt 4
 splot DEN using ($1*10/128):($2*10/128):4 notitle with points ps 1 pt 7 palette
+print 'Ellipse plots for GAS saved to GasDenEllipxy'
 
 #DEN='GAS10G_0.00_1.00-xzgrid.dat'
 #set output 'GasDenSkelxz'
@@ -64,6 +69,7 @@ set object 4 ellipse center (63.3605*10/128), (62.7828*10/128) size (21.4011*10/
 set object 5 ellipse center (63.3605*10/128), (62.7828*10/128) size (11.8604*10/128),(10.7886*10/128) angle 81.45 units xy front fillstyle border lt 4
 set object 6 ellipse center (63.3605*10/128), (62.7828*10/128) size (2.7756*10/128),(2.6599*10/128) angle 18.76 units xy front fillstyle border lt 4
 splot DEN using ($1*10/128):($2*10/128):4 notitle with points ps 1 pt 7 palette
+print 'Ellipse plots for TEMP saved to TempDenEllipxy'
 
 #DEN='TEMP10G_0.00_1.00-xzgrid.dat'
 #set output 'TempDenEllipxz'
@@ -74,3 +80,10 @@ splot DEN using ($1*10/128):($2*10/128):4 notitle with points ps 1 pt 7 palette
 #set output 'TempDenSkelyz'
 #set title 'Temperature Density with Skeleton - yz'
 #splot DEN using ($1*10/128):($2*10/128):4 notitle with points ps 1 pt 7 palette
+
+unset object 1
+unset object 2
+unset object 3
+unset object 4
+unset object 5
+unset object 6

@@ -1,9 +1,0 @@
-set ylabel 'theta (rad)'
-set xlabel 'radius (Mpc)'
-set xrange [0:5]
-
-#set terminal postscript color
-
-#set output 'GasDMAlignment'
-set title 'Misalignment Angle between DM and Stellar matter'
-plot 'GASDM-FILE.dat' using ($1*10/128):(acos(($5*$15+$6*$16+$7*$17)/(sqrt($5*$5+$6*$6+$7*$7)*
